@@ -1,7 +1,5 @@
 # OptOne Chat
 
-
-
 ## Web-app for chating.
 
 A real-time messaging application that allows users to send and receive messages instantly. This chat app supports private and group chats, allowing users to interact with each other in a seamless and user-friendly environment. The application provides features like message notifications, media sharing, and an easy-to-navigate interface, making communication fun and efficient.
@@ -19,13 +17,11 @@ A real-time messaging application that allows users to send and receive messages
 
 ## Technologies Used
 
-* Frontend: 
-* Backend: 
-* Database: 
-* Real-time Communication: 
+* Frontend:
+* Backend:
+* Database:
+* Real-time Communication:
 
 ## Contributing
 
-Feel free to fork the repository, submit issues, or make pull requests to improve the chat application.
-
-## [Netlify link](https://super-bienenstitch-856046.netlify.app/)
+Feel free to fork the repository, submit issues, or make pull requests to improve the chat application
