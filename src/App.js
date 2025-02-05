@@ -84,6 +84,16 @@ export default class App {
           text: 'Сохранить',
         }
       });
+    } else if (this.state.currentPage === 'password_change') {
+      template = Handlebars.compile(Pages.PasswordChange);
+      this.appElement.innerHTML = template({
+        image: { image_path: "img/avatar_mock.jpg", width: 130 },
+        button: {
+          id: 'profileSaveButton',
+          className: 'profile-save-button',
+          text: 'Сохранить',
+        }
+      });
     }
     this.attachEventListeners();
   }
