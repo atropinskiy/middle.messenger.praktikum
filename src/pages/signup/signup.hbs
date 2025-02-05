@@ -1,9 +1,7 @@
 <div class="app">
   <div class="register-window">
-    <div class="w-100 align-center">
-      <h3>Регистрация</h3>
-    </div>
-    <div class="input-block">
+    <h3 class="w-100 d-flex justify-center">Регистрация</h3>
+    <div class="fields-block">
       {{> Input name="email" placeholder="Почта" }}
       {{> Input name="login" placeholder="Логин" }}
       {{> Input name="first_name" placeholder="Имя" }}
@@ -16,7 +14,7 @@
       <div class="w-100 mt-auto">
         {{> Button id=button.id className=button.className text=button.text}}
       </div>
-      <div class="w-100 align-center mt-4">
+      <div class="w-100 d-flex justify-center mt-4">
         <a id="signInButton" href="#">Войти</a>
       </div>
     </div>

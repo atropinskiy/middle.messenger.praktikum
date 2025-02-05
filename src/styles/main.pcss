@@ -7,21 +7,24 @@
 }
 
 html, body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   color: var(--text-color);
   margin: 0 auto;
   padding: 0px;
-  width: 100vh;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex; 
   justify-content: center;
   align-items: center;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 a {
   color: var(--primary-color);
   text-decoration: none;
-  font-size: 16px;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 div {
@@ -29,8 +32,13 @@ div {
   margin: 0px;
 }
 
-.app {
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 h1, h2, h3 {
@@ -46,15 +54,23 @@ h3 {
 }
 
 .m-0 {
-  padding: 0px;
+  margin: 0px;
+}
+
+.ml-1 {
+  margin-left: 0.5rem;
+}
+
+.ml-2 {
+  margin-left: 1rem;
 }
 
 .mt-2 {
-  margin-top: 0.5rem;
+  margin-top: 1rem !important;
 }
 
 .mt-4 {
-  margin-top: 1rem;
+  margin-top: 1.5rem !important;
 }
 
 .w-100 {
@@ -65,25 +81,72 @@ h3 {
   height: 100%;
 }
 
+.col-3 {
+  width: 25%;
+}
+
+.col-2 {
+  width: 16.6%;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-10 {
+  width: 83.3%;
+}
+
 .mt-auto {
   margin-top: auto;
 }
 
-.align-center {
-  display: flex;
+.justify-center {
   justify-content: center;
 }
 
+.justify-end {
+  justify-content: end;
+}
+
+.justify-top {
+  justify-content: top;
+}
+
 .valign-bottom {
-  vertical-align: bottom;
+  align-items: bottom;
+}
+
+.valign-center {
+  align-items: center;
+}
+
+.valign-top {
+  align-items: top;
 }
 
 .d-flex {
   display: flex;
 }
 
+.align-items-stretch {
+  align-items: stretch;
+}
+
 .flex-column {
-  flex-direction: column;  /* Размещение элементов по вертикали */
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;  
+}
+
+.color-gray {
+  color: rgba(153, 153, 153, 1);
+}
+
+.color-red {
+  color:#e74c3c;
 }
 
 .flex-container {
@@ -91,5 +154,6 @@ h3 {
   flex-direction: column;
   justify-content: center;
 }
+
 
 
