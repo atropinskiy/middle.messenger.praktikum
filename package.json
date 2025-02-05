@@ -10,6 +10,9 @@
     "start": "vite build && node server.cjs",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
