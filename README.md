@@ -29,3 +29,12 @@ Feel free to fork the repository, submit issues, or make pull requests to improv
 Netlify link: https://super-bienenstitch-856046.netlify.app/
 
 UI: https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1
+
+## Page links
+
+* [Login page](https://opt-one-messenger.netlify.app/#signin)
+* [Register page](https://opt-one-messenger.netlify.app/#signup)
+* [Chat page](https://opt-one-messenger.netlify.app/#chat)
+* [Profile page](https://opt-one-messenger.netlify.app/#profile)
+* [Edit Profile page](https://opt-one-messenger.netlify.app/#profile_edit)
+* [Login page](https://opt-one-messenger.netlify.app/#signin)
