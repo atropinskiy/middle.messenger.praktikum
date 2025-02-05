@@ -26,7 +26,7 @@ A real-time messaging application that allows users to send and receive messages
 
 Feel free to fork the repository, submit issues, or make pull requests to improve the chat application
 
-Netlify link: https://super-bienenstitch-856046.netlify.app/
+Netlify link: https://opt-one-messenger.netlify.app/
 
 UI: https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1
 
