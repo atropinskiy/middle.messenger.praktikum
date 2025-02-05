@@ -25,3 +25,5 @@ A real-time messaging application that allows users to send and receive messages
 ## Contributing
 
 Feel free to fork the repository, submit issues, or make pull requests to improve the chat application
+
+Netlify link: https://super-bienenstitch-856046.netlify.app/
