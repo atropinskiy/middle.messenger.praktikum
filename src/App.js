@@ -63,21 +63,21 @@ export default class App {
       template = Handlebars.compile(Pages.Chat);
       this.appElement.innerHTML = template({
         chats: [
-          { image: { image_path: "static/img/avatar_mock.jpg", width: 47 }, name: "Chat 1" },
-          { image: { image_path: "static/img/avatar_mock.jpg", width: 47 }, name: "Chat 2" },
-          { image: { image_path: "static/img/avatar_mock.jpg", width: 47 }, name: "Chat 3" }
+          { image: { image_path: "img/avatar_mock.jpg", width: 47 }, name: "Chat 1" },
+          { image: { image_path: "img/avatar_mock.jpg", width: 47 }, name: "Chat 2" },
+          { image: { image_path: "img/avatar_mock.jpg", width: 47 }, name: "Chat 3" }
         ]
       });
     } else if (this.state.currentPage === 'profile') {
       template = Handlebars.compile(Pages.Profile);
       this.appElement.innerHTML = template({
-        image: { image_path: "static/img/avatar_mock.jpg", width: 130 }
+        image: { image_path: "img/avatar_mock.jpg", width: 130 }
 
       });
     } else if (this.state.currentPage === 'profile_edit') {
       template = Handlebars.compile(Pages.ProfileEdit);
       this.appElement.innerHTML = template({
-        image: { image_path: "static/img/avatar_mock.jpg", width: 130 },
+        image: { image_path: "img/avatar_mock.jpg", width: 130 },
         button: {
           id: 'profileSaveButton',
           className: 'profile-save-button',

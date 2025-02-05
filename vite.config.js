@@ -8,8 +8,10 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
       },
     },
+    assetsDir: 'assets'
   },
   css: {
     postcss: './postcss.config.js',
   },
+  publicDir: 'static'
 });
