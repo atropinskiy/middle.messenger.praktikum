@@ -71,8 +71,18 @@ export default class App {
     } else if (this.state.currentPage === 'profile') {
       template = Handlebars.compile(Pages.Profile);
       this.appElement.innerHTML = template({
-        image: {image_path: "static/img/avatar_mock.jpg", width: 130}
+        image: { image_path: "static/img/avatar_mock.jpg", width: 130 }
 
+      });
+    } else if (this.state.currentPage === 'profile_edit') {
+      template = Handlebars.compile(Pages.ProfileEdit);
+      this.appElement.innerHTML = template({
+        image: { image_path: "static/img/avatar_mock.jpg", width: 130 },
+        button: {
+          id: 'profileSaveButton',
+          className: 'profile-save-button',
+          text: 'Сохранить',
+        }
       });
     }
     this.attachEventListeners();
@@ -80,10 +90,17 @@ export default class App {
 
   attachEventListeners() {
     const signInButton = document.getElementById('signInButton');
+    const saveProfileButton = document.getElementById('profileSaveButton');
 
     if (signInButton) {
       signInButton.addEventListener('click', () => {
         this.changePage('chat');
+      });
+    }
+
+    if (saveProfileButton) {
+      saveProfileButton.addEventListener('click', () => {
+        this.changePage('profile');
       });
     }
   }
