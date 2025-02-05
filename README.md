@@ -22,6 +22,10 @@ A real-time messaging application that allows users to send and receive messages
 * Database:
 * Real-time Communication:
 
+## UI/UX
+
+[Figma design](https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1)
+
 ## Contributing
 
 Feel free to fork the repository, submit issues, or make pull requests to improve the chat application
