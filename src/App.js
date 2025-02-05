@@ -2,7 +2,9 @@ import Handlebars from 'handlebars';
 import * as Pages from './pages';
 
 import Button from './components/button/index.js';
+import Input from './components/input/index.js';
 Handlebars.registerPartial('Button', Button);
+Handlebars.registerPartial('Input', Input);
 
 export default class App {
   constructor() {
@@ -10,6 +12,7 @@ export default class App {
       currentPage: 'signin',
     };
     this.appElement = document.getElementById('app');
+    window.addEventListener('hashchange', () => this.handleHashChange());
   }
 
   render() {
@@ -19,8 +22,17 @@ export default class App {
       this.appElement.innerHTML = template({
         button: {
           id: 'loginButton',
-          className: 'btn-primary',
+          className: '',
           text: 'Войти',
+        },
+      });
+    } else if (this.state.currentPage === 'signup') {
+      let template = Handlebars.compile(Pages.SignUp);
+      this.appElement.innerHTML = template({
+        button: {
+          id: 'registerButton',
+          className: '',
+          text: 'Зарегистрироваться',
         },
       });
     }
@@ -28,11 +40,28 @@ export default class App {
   }
   
   attachEventListeners() {
-    const button = document.getElementById('loginButton');
-    if (button) {
-      button.addEventListener('click', () => {
-        alert('Кнопка нажата!');
+    const signUpButton = document.getElementById('signUpButton');
+    const signInButton = document.getElementById('signInButton');
+    if (signUpButton) {
+      signUpButton.addEventListener('click', () => {
+        this.changePage('signup')
+      });
+    } else if (signInButton) {
+      signInButton.addEventListener('click', () => {
+        this.changePage('signin')
       });
     }
+  }
+
+  handleHashChange() {
+    const page = window.location.hash.slice(1) || 'signin'; 
+    window.location.hash = 'signup';
+    this.changePage(page);
+  }
+
+  changePage(page) {
+    this.state.currentPage = page;
+    window.location.hash = 'signin';
+    this.render();
   }
 }

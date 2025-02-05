@@ -1,44 +1,95 @@
 :root {
-  --primary-color: #3498db;
+  --primary-color: #007bff;
   --secondary-color: #2c3e50;
   --background-color: #f4f4f4;
   --text-color: #333;
   --error-color: #e74c3c;
 }
 
-body {
+html, body {
   font-family: Arial, sans-serif;
-  line-height: 1.6;
   color: var(--text-color);
-  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0px;
+  width: 100vh;
+  height: 100vh;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 16px;
+}
+
+div {
+  padding: 0px;
+  margin: 0px;
 }
 
 .app {
-  background-color: var(--background-color);
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 0px;
 }
 
 h1, h2, h3 {
   color: var(--secondary-color);
 }
 
-.button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: color-mix(in srgb, var(--primary-color) 80%, black);
-  }
-
-  &:disabled {
-    background-color: #bdc3c7;
-    cursor: not-allowed;
-  }
+h3 {
+  font-size: 20px;
 }
+
+.p-0 {
+  padding: 0px;
+}
+
+.m-0 {
+  padding: 0px;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+}
+
+.valign-bottom {
+  vertical-align: bottom;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;  /* Размещение элементов по вертикали */
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
