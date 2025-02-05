@@ -1,22 +1,22 @@
 <div class="app">
   <div class="register-window">
     <h3 class="w-100 d-flex justify-center">Регистрация</h3>
-    <div class="fields-block">
-      {{> Input name="email" placeholder="Почта" }}
-      {{> Input name="login" placeholder="Логин" }}
-      {{> Input name="first_name" placeholder="Имя" }}
-      {{> Input name="second_name" placeholder="Фамилия" }}
-      {{> Input name="phone" placeholder="Телефон" }}
-      {{> Input name="password" placeholder="Пароль" }}
-      {{> Input name="password_confirm" placeholder="Пароль (еще раз)" }}
-    </div>
-    <div class=" h-100 d-flex flex-column">
-      <div class="w-100 mt-auto">
-        {{> Button id=button.id className=button.className text=button.text}}
+    <form action="">
+      <div class="fields-block">
+        {{> Input name="email" placeholder="Почта" }}
+        {{> Input name="login" placeholder="Логин" }}
+        {{> Input name="first_name" placeholder="Имя" }}
+        {{> Input name="second_name" placeholder="Фамилия" }}
+        {{> Input name="phone" placeholder="Телефон" }}
+        {{> Input name="password" placeholder="Пароль" }}
+        {{> Input name="password_confirm" placeholder="Пароль (еще раз)" }}
       </div>
-      <div class="w-100 d-flex justify-center mt-4">
-        <a id="signInButton" href="#">Войти</a>
+      <div class=" h-100 d-flex flex-column">
+        <div class="w-100 mt-auto">{{> Button id=button.id className=button.className text=button.text}}</div>
+        <div class="w-100 d-flex justify-center mt-4">
+          <a id="signInButton" href="#">Войти</a>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
