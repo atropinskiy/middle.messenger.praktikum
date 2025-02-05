@@ -37,4 +37,5 @@ UI: https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id
 * [Chat page](https://opt-one-messenger.netlify.app/#chat)
 * [Profile page](https://opt-one-messenger.netlify.app/#profile)
 * [Edit Profile page](https://opt-one-messenger.netlify.app/#profile_edit)
-* [Login page](https://opt-one-messenger.netlify.app/#signin)
+* [Error404 page](https://opt-one-messenger.netlify.app/#error404)
+* [Error500 page](https://opt-one-messenger.netlify.app/#error500)
