@@ -1,51 +1,53 @@
-<div class="d-flex flex-column">
-  <div class="d-flex flex-grow justify-center">{{> Avatar src=image.image_path width=image.width }}</div>
-  <div class="w-100 d-flex justify-center name-label">Иван</div>
-  <form action="">
-    <table class="profile-table flex-grow">
-      <tr>
-        <td>Почта</td>
-        <td class="d-flex justify-end valign-center color-gray">
-          {{> Input name="email" placeholder="pochta@yandex.ru" className="profile-input"}}
-        </td>
-      </tr>
-      <tr>
-        <td>Логин</td>
-        <td class="d-flex justify-end  valign-center color-gray">
-          {{> Input name="login" placeholder="ivanivanov" className="profile-input"}}
-        </td>
-      </tr>
-      <tr>
-        <td>Имя</td>
-        <td class="d-flex justify-end  valign-center color-gray">
-          {{> Input name="first_name" placeholder="Иван" className="profile-input"}}
-        </td>
-      </tr>
-      <tr>
-        <td>Фамилия</td>
-        <td class="d-flex justify-end  valign-center color-gray">
-          {{> Input name="second_name" placeholder="Иванов" className="profile-input"}}
-        </td>
-      </tr>
-      <tr>
-        <td>Имя в чате</td>
-        <td class="d-flex justify-end  valign-center color-gray">
-          {{> Input name="display_name" placeholder="Иван" className="profile-input"}}
-        </td>
-      </tr>
-      <tr>
-        <td>Телефон</td>
-        <td class="d-flex justify-end  valign-center color-gray">
-          {{> Input name="phone" placeholder="+7 (909) 967 30 30" className="profile-input"}}
-        </td>
-      </tr>
-      <tr>
-        <td>Аватар</td>
-        <td class="d-flex justify-end  valign-center color-gray">
-          {{> Input name="avatar" placeholder="img/avatar_mock.jpg" className="profile-input"}}
-        </td>
-      </tr>
-    </table>
-    <div class="d-flex justify-center">{{> Button id=button.id className=button.className text=button.text}}</div>
-  </form>
-</div>
+<main>
+  <div class="d-flex flex-column">
+    <div class="d-flex flex-grow justify-center">{{> Avatar src=image.image_path width=image.width }}</div>
+    <div class="w-100 d-flex justify-center name-label">Иван</div>
+    <form action="">
+      <table class="profile-table flex-grow">
+        <tr>
+          <td>Почта</td>
+          <td class="d-flex justify-end valign-center color-gray">
+            {{> Input name="email" placeholder="pochta@yandex.ru" className="profile-input"}}
+          </td>
+        </tr>
+        <tr>
+          <td>Логин</td>
+          <td class="d-flex justify-end  valign-center color-gray">
+            {{> Input name="login" placeholder="ivanivanov" className="profile-input"}}
+          </td>
+        </tr>
+        <tr>
+          <td>Имя</td>
+          <td class="d-flex justify-end  valign-center color-gray">
+            {{> Input name="first_name" placeholder="Иван" className="profile-input"}}
+          </td>
+        </tr>
+        <tr>
+          <td>Фамилия</td>
+          <td class="d-flex justify-end  valign-center color-gray">
+            {{> Input name="second_name" placeholder="Иванов" className="profile-input"}}
+          </td>
+        </tr>
+        <tr>
+          <td>Имя в чате</td>
+          <td class="d-flex justify-end  valign-center color-gray">
+            {{> Input name="display_name" placeholder="Иван" className="profile-input"}}
+          </td>
+        </tr>
+        <tr>
+          <td>Телефон</td>
+          <td class="d-flex justify-end  valign-center color-gray">
+            {{> Input name="phone" placeholder="+7 (909) 967 30 30" className="profile-input"}}
+          </td>
+        </tr>
+        <tr>
+          <td>Аватар</td>
+          <td class="d-flex justify-end  valign-center color-gray">
+            {{> Input name="avatar" placeholder="img/avatar_mock.jpg" className="profile-input"}}
+          </td>
+        </tr>
+      </table>
+      <div class="d-flex justify-center">{{> Button id=button.id className=button.className text=button.text}}</div>
+    </form>
+  </div>
+</main>
