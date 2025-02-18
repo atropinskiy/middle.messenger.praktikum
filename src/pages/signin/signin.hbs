@@ -1,0 +1,19 @@
+<main>
+  <div class="login-window">
+    <div class="w-100 d-flex justify-center">
+      <h3>Вход</h3>
+    </div>
+    <form action="">
+      <div class="input-block">
+        {{> Input name="login" placeholder="Логин"}}
+        {{> Input name="password" className="mt-4" placeholder="Пароль" }}
+      </div>
+      <div class=" h-100 d-flex flex-column">
+        <div class="w-100 mt-auto">{{> Button id=button.id className=button.className text=button.text}}</div>
+        <div class="w-100 d-flex justify-center mt-4">
+          <a id="signUpButton" href="#signup">Зарегистрироваться</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

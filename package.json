@@ -1,0 +1,30 @@
+{
+  "name": "middle.messenger.praktikum",
+  "version": "1.0.0",
+  "description": "A real-time messaging application that allows users to send and receive messages instantly. This chat app supports private and group chats, allowing users to interact with each other in a seamless and user-friendly environment. The application provides features like message notifications, media sharing, and an easy-to-navigate interface, making communication fun and efficient.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite build && node server.cjs",
+    "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "postcss-cli": "^11.0.0",
+    "postcss-preset-env": "^9.6.0",
+    "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "handlebars": "^4.7.8"
+  }
+}

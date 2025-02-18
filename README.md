@@ -1,7 +1,5 @@
 # OptOne Chat
 
-
-
 ## Web-app for chating.
 
 A real-time messaging application that allows users to send and receive messages instantly. This chat app supports private and group chats, allowing users to interact with each other in a seamless and user-friendly environment. The application provides features like message notifications, media sharing, and an easy-to-navigate interface, making communication fun and efficient.
@@ -19,13 +17,30 @@ A real-time messaging application that allows users to send and receive messages
 
 ## Technologies Used
 
-* Frontend: 
-* Backend: 
-* Database: 
-* Real-time Communication: 
+* Frontend:
+* Backend:
+* Database:
+* Real-time Communication:
+
+## UI/UX
+
+[Figma design](https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1)
 
 ## Contributing
 
-Feel free to fork the repository, submit issues, or make pull requests to improve the chat application.
+Feel free to fork the repository, submit issues, or make pull requests to improve the chat application
 
-## [Netlify link](https://super-bienenstitch-856046.netlify.app/)
+Netlify link: https://opt-one-messenger.netlify.app/
+
+UI: https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1
+
+## Page links
+
+* [Login page](https://opt-one-messenger.netlify.app/#signin)
+* [Register page](https://opt-one-messenger.netlify.app/#signup)
+* [Chat page](https://opt-one-messenger.netlify.app/#chat)
+* [Profile page](https://opt-one-messenger.netlify.app/#profile)
+* [Edit Profile page](https://opt-one-messenger.netlify.app/#profile_edit)
+* [Password Change page](https://opt-one-messenger.netlify.app/#password_change)
+* [Error404 page](https://opt-one-messenger.netlify.app/#error404)
+* [Error500 page](https://opt-one-messenger.netlify.app/#error500)
