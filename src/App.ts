@@ -77,7 +77,7 @@ export default class App {
           button: { id: 'profileSaveButton', className: 'profile-save-button', text: 'Сохранить' },
         });
         break;
-        
+
       default:
         template = Handlebars.compile(Pages.SignIn);
         this.appElement.innerHTML = template({ button: { id: 'signInButton', className: '', text: 'Войти' } });
