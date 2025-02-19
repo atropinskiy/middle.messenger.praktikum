@@ -1,11 +1,11 @@
-export type PageName = 
-  | 'signin' 
-  | 'signup' 
-  | 'error404' 
-  | 'error500' 
-  | 'chat' 
-  | 'profile' 
-  | 'profile_edit' 
+export type PageName =
+  | 'signin'
+  | 'signup'
+  | 'error404'
+  | 'error500'
+  | 'chat'
+  | 'profile'
+  | 'profile_edit'
   | 'password_change';
 
 export interface AppState {

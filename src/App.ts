@@ -16,6 +16,7 @@ Handlebars.registerPartial('Avatar', Avatar);
 
 export default class App {
   private state: AppState;
+
   private appElement: HTMLElement | null;
 
   constructor() {
@@ -30,16 +31,11 @@ export default class App {
 
     let template;
     switch (this.state.currentPage) {
-      case 'signin':
-        template = Handlebars.compile(Pages.SignIn);
-        this.appElement.innerHTML = template({ button: { id: 'signInButton', className: '', text: 'Войти' } });
-        break;
-      
       case 'signup':
         template = Handlebars.compile(Pages.SignUp);
         this.appElement.innerHTML = template({ button: { id: 'registerButton', className: '', text: 'Зарегистрироваться' } });
         break;
-      
+
       case 'error404':
         template = Handlebars.compile(Pages.Error);
         this.appElement.innerHTML = template({ error: { number: '404', text: 'Не туда попали' } });
@@ -80,6 +76,11 @@ export default class App {
           image: { image_path: 'img/avatar_mock.jpg', width: 130 },
           button: { id: 'profileSaveButton', className: 'profile-save-button', text: 'Сохранить' },
         });
+        break;
+        
+      default:
+        template = Handlebars.compile(Pages.SignIn);
+        this.appElement.innerHTML = template({ button: { id: 'signInButton', className: '', text: 'Войти' } });
         break;
     }
     this.attachEventListeners();
