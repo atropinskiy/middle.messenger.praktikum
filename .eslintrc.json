@@ -1,12 +1,18 @@
 {
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "env": {
-    "browser": true,  // Указывает, что код выполняется в браузере
-    "es2021": true    // Указывает на поддержку ES2021
+    "browser": true,
+    "es2021": true
   },
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
-    "eol-last": ["error", "always"]
+    "eol-last": ["error", "always"],
+    "@typescript-eslint/ban-ts-comment": "warn"
   }
 }
