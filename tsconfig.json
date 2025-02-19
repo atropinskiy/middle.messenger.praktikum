@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "allowJs": true,
+    "target": "es5",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "moduleResolution": "Bundler",
     "strict": true,
+    "strictFunctionTypes": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -18,7 +20,6 @@
     "sourceMap": true,
     "strictNullChecks": true
   },
-  "include": ["src"],
   "exclude": [
     "node_modules",
     "dist",

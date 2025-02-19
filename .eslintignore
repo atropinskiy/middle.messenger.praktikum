@@ -7,4 +7,3 @@ vite.config.js
 server.cjs
 *.hbs
 *.hbs?raw
-
