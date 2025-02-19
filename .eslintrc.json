@@ -1,18 +1,36 @@
 {
   "extends": [
-    "airbnb",
+    "google", 
     "plugin:@typescript-eslint/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",  // Используем парсер TypeScript
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "env": {
     "browser": true,
-    "es2021": true
+    "node": true
   },
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "eol-last": ["error", "always"]
-  }
+    "eol-last": ["error", "always"],
+    "@typescript-eslint/no-unused-vars": "warn",  // Пример правила для TypeScript
+    "@typescript-eslint/explicit-module-boundary-types": "off",  // Пример правила для TypeScript
+    "max-len": ["error", { "code": 100 }],
+    "require-jsdoc": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],  // Применяем только к TypeScript файлам
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
 }

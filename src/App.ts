@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 import * as Pages from './pages';
-import { PageName, AppState } from './types/index';
+import {PageName, AppState} from './types/index';
 
 import Button from './components/button/index';
 import Input from './components/input/index';
@@ -20,7 +20,7 @@ export default class App {
   private appElement: HTMLElement | null;
 
   constructor() {
-    this.state = { currentPage: 'signin' };
+    this.state = {currentPage: 'signin'};
     this.appElement = document.getElementById('app');
     window.addEventListener('hashchange', () => this.handleHashChange());
     this.handleHashChange();
@@ -33,54 +33,60 @@ export default class App {
     switch (this.state.currentPage) {
       case 'signup':
         template = Handlebars.compile(Pages.SignUp);
-        this.appElement.innerHTML = template({ button: { id: 'registerButton', className: '', text: 'Зарегистрироваться' } });
+        this.appElement.innerHTML = template(
+            {button: {id: 'registerButton', className: '', text: 'Зарегистрироваться'}},
+        );
         break;
 
       case 'error404':
         template = Handlebars.compile(Pages.Error);
-        this.appElement.innerHTML = template({ error: { number: '404', text: 'Не туда попали' } });
+        this.appElement.innerHTML = template({error: {number: '404', text: 'Не туда попали'}});
         break;
 
       case 'error500':
         template = Handlebars.compile(Pages.Error);
-        this.appElement.innerHTML = template({ error: { number: '500', text: 'Мы уже фиксим' } });
+        this.appElement.innerHTML = template({error: {number: '500', text: 'Мы уже фиксим'}});
         break;
 
       case 'chat':
         template = Handlebars.compile(Pages.Chat);
         this.appElement.innerHTML = template({
           chats: [
-            { image: { image_path: 'img/avatar_mock.jpg', width: 47 }, name: 'Chat 1' },
-            { image: { image_path: 'img/avatar_mock.jpg', width: 47 }, name: 'Chat 2' },
-            { image: { image_path: 'img/avatar_mock.jpg', width: 47 }, name: 'Chat 3' },
+            {image: {image_path: 'img/avatar_mock.jpg', width: 47}, name: 'Chat 1'},
+            {image: {image_path: 'img/avatar_mock.jpg', width: 47}, name: 'Chat 2'},
+            {image: {image_path: 'img/avatar_mock.jpg', width: 47}, name: 'Chat 3'},
           ],
         });
         break;
 
       case 'profile':
         template = Handlebars.compile(Pages.Profile);
-        this.appElement.innerHTML = template({ image: { image_path: 'img/avatar_mock.jpg', width: 130 } });
+        this.appElement.innerHTML = template(
+            {image: {image_path: 'img/avatar_mock.jpg', width: 130}},
+        );
         break;
 
       case 'profile_edit':
         template = Handlebars.compile(Pages.ProfileEdit);
         this.appElement.innerHTML = template({
-          image: { image_path: 'img/avatar_mock.jpg', width: 130 },
-          button: { id: 'profileSaveButton', className: 'profile-save-button', text: 'Сохранить' },
+          image: {image_path: 'img/avatar_mock.jpg', width: 130},
+          button: {id: 'profileSaveButton', className: 'profile-save-button', text: 'Сохранить'},
         });
         break;
 
       case 'password_change':
         template = Handlebars.compile(Pages.PasswordChange);
         this.appElement.innerHTML = template({
-          image: { image_path: 'img/avatar_mock.jpg', width: 130 },
-          button: { id: 'profileSaveButton', className: 'profile-save-button', text: 'Сохранить' },
+          image: {image_path: 'img/avatar_mock.jpg', width: 130},
+          button: {id: 'profileSaveButton', className: 'profile-save-button', text: 'Сохранить'},
         });
         break;
 
       default:
         template = Handlebars.compile(Pages.SignIn);
-        this.appElement.innerHTML = template({ button: { id: 'signInButton', className: '', text: 'Войти' } });
+        this.appElement.innerHTML = template(
+            {button: {id: 'signInButton', className: '', text: 'Войти'}},
+        );
         break;
     }
     this.attachEventListeners();
