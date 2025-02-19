@@ -1,9 +1,10 @@
 {
   "extends": [
     "google", 
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/stylistic"
   ],
-  "parser": "@typescript-eslint/parser",  // Используем парсер TypeScript
+  "parser": "@typescript-eslint/parser", 
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
@@ -20,15 +21,15 @@
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "eol-last": ["error", "always"],
-    "@typescript-eslint/no-unused-vars": "warn",  // Пример правила для TypeScript
-    "@typescript-eslint/explicit-module-boundary-types": "off",  // Пример правила для TypeScript
+    "@typescript-eslint/no-unused-vars": "warn", 
+    "@typescript-eslint/explicit-module-boundary-types": "off", 
     "max-len": ["error", { "code": 100 }],
     "require-jsdoc": "off",
     "@typescript-eslint/ban-ts-comment": "off"
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],  // Применяем только к TypeScript файлам
+      "files": ["*.ts", "*.tsx"], 
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off"
       }
