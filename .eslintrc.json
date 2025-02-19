@@ -1,38 +1,22 @@
 {
+  "parser": "@typescript-eslint/parser",  // Используем парсер TypeScript
   "extends": [
-    "eslint:recommended", 
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/stylistic"
+    "eslint:recommended",  // Базовые правила ESLint
+    "plugin:@typescript-eslint/recommended"  // Рекомендуемые правила для TypeScript
   ],
-  "parser": "@typescript-eslint/parser", 
   "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "ecmaVersion": 2020,  // Поддержка новых версий ECMAScript
+    "sourceType": "module"  // Используем модули ES
   },
   "env": {
-    "browser": true,
-    "node": true
+    "browser": true,  // Для работы в браузере
+    "node": true  // Для работы в Node.js
   },
   "rules": {
-    "import/prefer-default-export": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "eol-last": ["error", "always"],
-    "@typescript-eslint/no-unused-vars": "warn", 
-    "@typescript-eslint/explicit-module-boundary-types": "off", 
-    "max-len": ["error", { "code": 100 }],
-    "require-jsdoc": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"], 
-      "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off"
-      }
-    }
-  ]
+    "max-len": ["error", { "code": 100 }],  // Максимальная длина строки
+    "no-unused-vars": "warn",  // Предупреждения для неиспользуемых переменных
+    "@typescript-eslint/no-unused-vars": "warn",  // Аналогичное правило для TypeScript
+    "eol-last": ["error", "always"],  // Требование пустой строки в конце файлов
+    "no-console": "off"  // Отключаем правило, которое запрещает использование console
+  }
 }

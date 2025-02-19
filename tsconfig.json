@@ -3,7 +3,7 @@
     "allowJs": true,
     "target": "es5",
     "useDefineForClassFields": true,
-    "module": "ESNext",
+    "module": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "moduleResolution": "Bundler",
     "strict": true,
