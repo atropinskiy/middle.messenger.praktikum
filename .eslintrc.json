@@ -23,7 +23,8 @@
     "@typescript-eslint/no-unused-vars": "warn",  // Пример правила для TypeScript
     "@typescript-eslint/explicit-module-boundary-types": "off",  // Пример правила для TypeScript
     "max-len": ["error", { "code": 100 }],
-    "require-jsdoc": "off"
+    "require-jsdoc": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   "overrides": [
     {
