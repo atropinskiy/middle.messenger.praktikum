@@ -1,11 +1,11 @@
 import Handlebars from 'handlebars';
 import * as Pages from './pages';
 
-import Button from './components/button/index.js';
-import Input from './components/input/index.js';
-import SearchField from './components/searchfield/index.js';
-import ChatRow from './components/chatrow/index.js';
-import Avatar from './components/avatar/index.js';
+import Button from './components/button/index';
+import Input from './components/input/index';
+import SearchField from './components/searchfield/index';
+import ChatRow from './components/chatrow/index';
+import Avatar from './components/avatar/index';
 
 Handlebars.registerPartial('Button', Button);
 Handlebars.registerPartial('Input', Input);
@@ -35,7 +35,7 @@ export default class App {
         },
       });
     } else if (this.state.currentPage === 'signup') {
-      template = Handlebars.compile(Pages.SignUp);  // Убираем повторное объявление переменной template
+      template = Handlebars.compile(Pages.SignUp);
       this.appElement.innerHTML = template({
         button: {
           id: 'registerButton',
@@ -63,36 +63,36 @@ export default class App {
       template = Handlebars.compile(Pages.Chat);
       this.appElement.innerHTML = template({
         chats: [
-          { image: { image_path: "img/avatar_mock.jpg", width: 47 }, name: "Chat 1" },
-          { image: { image_path: "img/avatar_mock.jpg", width: 47 }, name: "Chat 2" },
-          { image: { image_path: "img/avatar_mock.jpg", width: 47 }, name: "Chat 3" }
-        ]
+          { image: { image_path: 'img/avatar_mock.jpg', width: 47 }, name: 'Chat 1' },
+          { image: { image_path: 'img/avatar_mock.jpg', width: 47 }, name: 'Chat 2' },
+          { image: { image_path: 'img/avatar_mock.jpg', width: 47 }, name: 'Chat 3' },
+        ],
       });
     } else if (this.state.currentPage === 'profile') {
       template = Handlebars.compile(Pages.Profile);
       this.appElement.innerHTML = template({
-        image: { image_path: "img/avatar_mock.jpg", width: 130 }
+        image: { image_path: 'img/avatar_mock.jpg', width: 130 },
 
       });
     } else if (this.state.currentPage === 'profile_edit') {
       template = Handlebars.compile(Pages.ProfileEdit);
       this.appElement.innerHTML = template({
-        image: { image_path: "img/avatar_mock.jpg", width: 130 },
+        image: { image_path: 'img/avatar_mock.jpg', width: 130 },
         button: {
           id: 'profileSaveButton',
           className: 'profile-save-button',
           text: 'Сохранить',
-        }
+        },
       });
     } else if (this.state.currentPage === 'password_change') {
       template = Handlebars.compile(Pages.PasswordChange);
       this.appElement.innerHTML = template({
-        image: { image_path: "img/avatar_mock.jpg", width: 130 },
+        image: { image_path: 'img/avatar_mock.jpg', width: 130 },
         button: {
           id: 'profileSaveButton',
           className: 'profile-save-button',
           text: 'Сохранить',
-        }
+        },
       });
     }
     this.attachEventListeners();

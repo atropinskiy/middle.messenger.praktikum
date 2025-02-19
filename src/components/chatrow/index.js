@@ -1,3 +1,4 @@
-import "./chatrow.pcss";
-import chatRow from './chatrow.hbs?raw'; 
+import './chatrow.pcss';
+import chatRow from './chatrow.hbs?raw';
+
 export default chatRow;

@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true,  // Указывает, что код выполняется в браузере
+    "es2021": true    // Указывает на поддержку ES2021
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off"
+  }
+}
