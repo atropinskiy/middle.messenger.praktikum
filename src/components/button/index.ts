@@ -1,4 +1,1 @@
-import './button.pcss';
-import buttonTemplate from './button.hbs?raw';
-
-export default buttonTemplate;
+export { Button as default } from './button';

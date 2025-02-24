@@ -1,10 +1,17 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "es5",
+    "baseUrl": "./src",
+    "paths": {
+      "@types/*": ["types/*"], // алиас для типов
+      "@core/*": ["core/*"],
+      "@components/*": ["components/*"]
+    },
+    "typeRoots": ["node_modules/@types", "typings/index.d.ts"], // добавьте src/types
+    "target": "ES2020",
     "useDefineForClassFields": true,
-    "module": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "moduleResolution": "Bundler",
     "strict": true,
     "strictFunctionTypes": true,
@@ -26,5 +33,4 @@
     ".eslintignore",
     ".git"
   ]
-  
 }

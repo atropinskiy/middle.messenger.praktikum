@@ -1,3 +1,11 @@
-import './signin.pcss';
+import { renderDOM } from '@core/renderDom';
+import { registerComponent } from '@core/registerComponent';
 
-export {default as SignIn} from './signin.hbs?raw';
+import SigninPage from './signin';
+import Button from 'components/button';
+
+
+document.addEventListener('DOMContentLoaded', () => {
+	registerComponent(Button);
+  
+});
