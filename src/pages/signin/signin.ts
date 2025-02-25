@@ -1,23 +1,49 @@
-import Block from "@core/block";
+import Block from '@core/block';
 
-interface SignInProps {}
+interface SigninPageProps {}
+export default class SigninPage extends Block<SigninPageProps> {
+	constructor() {
+		super();
 
-export default class SignIn extends Block<SignInProps> {
-  static componentName = "SignIn";
+		this.setProps({
+			onClick: () => {
+				const formData: any = {};
 
-  constructor(props: SignInProps) {
-    super({
-      ...props,
-      onLoginClick: () => console.log("Кнопка нажата!"),
-    });
-  }
+				Object.values(this.refs).forEach((ref: any) => {
+					const inputEl = ref.refs.inputRef.getContent() as HTMLInputElement;
 
-  render() {
-    return `
-      <div class="signin">
-        <h1>Вход</h1>
-        {{{ Button label="Пукнуть" onClick=onLoginClick }}}
-      </div>
-    `;
-  }
+					formData[inputEl.name] = inputEl.value;
+
+
+				});
+
+				console.log(formData);
+			},
+		});
+	}
+
+	render() {
+		return `
+			<main class='form-page signin'>
+				<div class='form-page__container'>
+					<h1 class='form-page__title'>Вход</h1>
+					<form class='form-page__form'>
+						<div class="form-page__inputs">
+
+						</div>
+						<div class='form-page__btns'>
+							{{{Button
+								buttonClass="button-wrapper"
+								textClass="button"
+								type="submit"
+								text='Авторизоваться'
+								onClick=onClick
+							}}}
+							<a href='signup.html' class='form-page__link'>Нет аккаунта?</a>
+						</div>
+					</form>
+				</div>
+			</main>
+		`;
+	}
 }

@@ -1,12 +1,12 @@
 import Block from './block';
 import Handlebars, { HelperOptions } from 'handlebars';
 
-interface BlockConstructable<Props extends Record<string, any> = any> {
-	new (props: Props): Block<Props>; // ✅ Ограничиваем Props
+interface BlockConstructable<Props = any> {
+	new (props: Props): Block<any>;
 	componentName: string;
 }
 
-export default function registerComponent<Props extends Record<string, any>>(Component: BlockConstructable<Props>) {
+export function registerComponent<Props extends any>(Component: BlockConstructable<Props>) {
 	Handlebars.registerHelper(
 		Component.componentName || Component.name,
 		function (this: Props, { hash: { ref, ...hash }, data }: HelperOptions) {
@@ -20,6 +20,10 @@ export default function registerComponent<Props extends Record<string, any>>(Com
 
 			const { children, refs } = data.root;
 
+			/**
+			 * Костыль для того, чтобы передавать переменные
+			 * внутрь блоков вручную подменяя значение
+			 */
 			(Object.keys(hash) as any).forEach((key: keyof Props) => {
 				if (this[key] && typeof this[key] === 'string') {
 					hash[key] = hash[key].replace(new RegExp(`{{${String(key)}}}`, 'i'), this[key]);

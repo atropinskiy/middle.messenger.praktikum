@@ -1,27 +1,25 @@
-import Handlebars from 'handlebars';
 import Block from '@core/block';
-import template from './button.hbs?raw';
 
 interface ButtonProps {
-  label: string;
-  onClick: () => void;
-  events?: Record<string, (event: Event) => void>;
+	buttonClass?: string;
+	textClass?: string;
+	text: string;
+	type?: 'submit' | 'button';
+	onClick?: () => void;
+  events?: { click?: () => void };
 }
+export class Button extends Block<ButtonProps> {
+	static componentName = 'Button';
 
-export default class Button extends Block<ButtonProps> {
-  static componentName = 'Button';
+	constructor({ onClick, ...props }: ButtonProps) {
+		super({ ...props, events: { click: onClick } });
+	}
 
-  constructor(props: ButtonProps) {
-    super({
-      ...props,
-      events: {
-        click: props.onClick,
-      },
-    });
-  }
-
-  render() {
-    const compiled = Handlebars.compile(template);
-    return compiled(this.props); // Рендерим с переданными props
-  }
+	render() {
+		return `
+		<button class="{{buttonClass}}" type={{type}}>
+			<div class="{{textClass}}">{{text}}</div>
+		</button>
+		`;
+	}
 }

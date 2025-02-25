@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import handlebars from "vite-plugin-handlebars";
+import handlebars from 'vite-plugin-handlebars';
 
 export default defineConfig({
   plugins: [
     handlebars({
-      partialDirectory: "src/components",
+      partialDirectory: [
+        resolve(__dirname, 'src/components'), // Путь к компонентам
+        resolve(__dirname, 'src/pages'), // Путь к страницам
+        resolve(__dirname, 'src'), // Путь к основным файлам, включая main.ts
+      ],
     }),
   ],
   assetsInclude: ['**/*.hbs'],
@@ -15,7 +19,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
       },
     },
-    assetsDir: 'assets'
+    assetsDir: 'assets',
   },
   css: {
     postcss: './postcss.config.js',
@@ -27,7 +31,7 @@ export default defineConfig({
       '@pages': resolve(__dirname, 'src/pages'),
       '@utils': resolve(__dirname, 'src/utils'),
       '@types': resolve(__dirname, 'src/types'),
-      '@core': resolve(__dirname, 'src/core')
+      '@core': resolve(__dirname, 'src/core'),
     },
   },
 });
