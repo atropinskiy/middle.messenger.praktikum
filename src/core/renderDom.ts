@@ -1,8 +1,12 @@
-import { Block } from '../core/block';
+import Block from './block';
 
-export function renderDOM(block: Block) {
+export default function renderDOM(block: Block<any>) {
 	const root = document.querySelector('#app');
 
-	root!.innerHTML = '';
-	root!.appendChild(block.getContent());
+	if (!root) {
+		throw new Error('Root element not found');
+	}
+
+	root.innerHTML = '';
+	root.appendChild(block.getContent());
 }

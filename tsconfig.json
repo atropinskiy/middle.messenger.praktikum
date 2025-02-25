@@ -7,7 +7,7 @@
       "@core/*": ["core/*"],
       "@components/*": ["components/*"]
     },
-    "typeRoots": ["node_modules/@types", "typings/index.d.ts"], // добавьте src/types
+    "typeRoots": ["node_modules/@types", "typings"],
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -27,6 +27,7 @@
     "sourceMap": true,
     "strictNullChecks": true
   },
+  "include": ["src", "src/types", "src/types/hbs.d.ts"],
   "exclude": [
     "node_modules",
     "dist",

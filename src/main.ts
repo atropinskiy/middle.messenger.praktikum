@@ -1,10 +1,34 @@
-import SignIn from './pages/signin/signin';  // импорт страницы
+import registerComponent from "./core/registerComponent";
+import renderDOM from "./core/renderDom";
 
-document.addEventListener('DOMContentLoaded', () => {
-  const signInPage = new SignIn({});  // создаем экземпляр компонента страницы
-  const appContainer = document.getElementById('app');  // находим контейнер с id="app"
-  
-  if (appContainer) {
-    appContainer.append(signInPage.getContent());  // добавляем страницу в контейнер
+// Импортируем компоненты
+import { Button } from "./components/";
+import { SignIn } from "./pages/";
+
+// Регистрируем компоненты
+registerComponent(Button);
+
+// Настраиваем маршрутизацию страниц
+const pages: Record<string, any> = {
+  signin: SignIn,
+};
+
+function navigate(page: string) {
+  const PageComponent = pages[page];
+
+  if (PageComponent) {
+    renderDOM(new PageComponent({}));
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => navigate("signin"));
+
+document.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  const page = target.getAttribute("page");
+
+  if (page) {
+    navigate(page);
+    e.preventDefault();
   }
 });

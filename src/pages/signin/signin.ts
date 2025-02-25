@@ -1,29 +1,23 @@
-import Button from '@components/button';
-import Block from '@core/block';
+import Block from "@core/block";
 
-interface SignInProps {
-  // Здесь можно добавить другие свойства, если необходимо
-}
+interface SignInProps {}
 
-class SignIn extends Block<SignInProps> {
-  protected render(): string {
+export default class SignIn extends Block<SignInProps> {
+  static componentName = "SignIn";
+
+  constructor(props: SignInProps) {
+    super({
+      ...props,
+      onLoginClick: () => console.log("Кнопка нажата!"),
+    });
+  }
+
+  render() {
     return `
-      <div>
-        <h1>Sign In</h1>
-        <div class="button-container">
-          ${new Button({
-            text: 'Sign In', // Текст кнопки
-            buttonClass: 'btn-signin', // Класс для кнопки
-            onClick: () => this.handleSignInClick(), // Обработчик события click
-          }).getContent().outerHTML}
-        </div>
+      <div class="signin">
+        <h1>Вход</h1>
+        {{{ Button label="Пукнуть" onClick=onLoginClick }}}
       </div>
     `;
   }
-
-  handleSignInClick() {
-    alert('Sign In clicked!');
-  }
 }
-
-export default SignIn;
