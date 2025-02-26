@@ -1,49 +1,63 @@
-import Block from '@core/block';
+import Block from "../../core/block";
+import Handlebars from "handlebars";
+import template from "./signin.hbs?raw";
+import { Button } from "@components/index";
 
-interface SigninPageProps {}
-export default class SigninPage extends Block<SigninPageProps> {
-	constructor() {
-		super();
+interface LoginPageProps {
+  formState?: {
+    login: string;
+    password: string;
+  };
+  errors?: {
+    login: string;
+    password: string;
+  };
+  className?: string;
+  button?: string;
+}
 
-		this.setProps({
-			onClick: () => {
-				const formData: any = {};
+export default class LoginPage extends Block<LoginPageProps> {
+  constructor(props: LoginPageProps = {}) {
+    const button = new Button({
+      label: "Войти",
+      className: "123",
+      onClick: (e) => {
+        e.preventDefault();
+        console.log("Клик по кнопке Войти");
+      },
+    });
+    
+    console.log("Созданная кнопка:", button); // 🔍 Проверяем объект кнопки
+    console.log("Код кнопки после render():", button.render()); // 🔍 Проверяем разметку кнопки
+    
 
-				Object.values(this.refs).forEach((ref: any) => {
-					const inputEl = ref.refs.inputRef.getContent() as HTMLInputElement;
+    super("div", {
+      ...props,
+      formState: {
+        login: "",
+        password: "",
+      },
+      errors: {
+        login: "",
+        password: "",
+      },
+      className: "container",
+      button: button.render(),
+    });
+    console.log("this.props после super:", this.props);
+  }
 
-					formData[inputEl.name] = inputEl.value;
+  public render(): string {
+    console.log("Передаем в шаблон:", this.props);
+  
+    return Handlebars.compile(template)({
+      ...this.props,
+      button: this.props.button
+    });
 
+    
+  }
 
-				});
+  
 
-				console.log(formData);
-			},
-		});
-	}
-
-	render() {
-		return `
-			<main class='form-page signin'>
-				<div class='form-page__container'>
-					<h1 class='form-page__title'>Вход</h1>
-					<form class='form-page__form'>
-						<div class="form-page__inputs">
-
-						</div>
-						<div class='form-page__btns'>
-							{{{Button
-								buttonClass="button-wrapper"
-								textClass="button"
-								type="submit"
-								text='Авторизоваться'
-								onClick=onClick
-							}}}
-							<a href='signup.html' class='form-page__link'>Нет аккаунта?</a>
-						</div>
-					</form>
-				</div>
-			</main>
-		`;
-	}
 }

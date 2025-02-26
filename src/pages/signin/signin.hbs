@@ -2,12 +2,17 @@
   <div class="login-window">
     <div class="w-100 d-flex justify-center">
       <h3>Вход</h3>
-      {{{button}}}
+
     </div>
     <form action="">
-      <div class="input-block"></div>
+      <div class="input-block">
+            <input type="text" name="login" placeholder="Login" value="{{formState.login}}" />
+            <input type="password" name="password" placeholder="Password" value="{{formState.password}}" /> 
+      </div>
       <div class=" h-100 d-flex flex-column">
-        <div class="w-100 mt-auto">{{{button}}}</div>
+        <div class="w-100 mt-auto">
+          		{{{button}}}
+          </div>
         <div class="w-100 d-flex justify-center mt-4">
           <a id="signUpButton" href="#signup">Зарегистрироваться</a>
         </div>

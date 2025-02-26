@@ -1,10 +1,3 @@
-import { renderDOM } from '@core/renderDom';
-import { registerComponent } from 'core/registerComponent';
-
-import SigninPage from './signin';
-import { Button } from '@components/index';
-
-document.addEventListener('DOMContentLoaded', () => {
-	registerComponent(Button);
-	renderDOM(new SigninPage());
-});
+import "./signin.pcss";
+// export { default as LoginPage } from './login.hbs?raw';
+export { default as SignIn } from "./signin";

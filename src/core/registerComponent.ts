@@ -1,44 +1,51 @@
-import Block from './block';
-import Handlebars, { HelperOptions } from 'handlebars';
+import Block from "./block";
+import Handlebars, { HelperOptions } from "handlebars";
 
-interface BlockConstructable<Props = any> {
-	new (props: Props): Block<any>;
-	componentName: string;
+interface BlockConstructable<P = Record<string, any>> {
+  new (props: P): Block;
+  componentName: string;
 }
 
-export function registerComponent<Props extends any>(Component: BlockConstructable<Props>) {
-	Handlebars.registerHelper(
-		Component.componentName || Component.name,
-		function (this: Props, { hash: { ref, ...hash }, data }: HelperOptions) {
-			if (!data.root.children) {
-				data.root.children = {};
-			}
+export default function registerComponent<P extends Record<string, any>>(
+  Component: BlockConstructable<P>,
+) {
+  Handlebars.registerHelper(
+    Component.componentName || Component.name,
+    function (this: P, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
+      if (!data.root.children) {
+        data.root.children = {};
+      }
 
-			if (!data.root.refs) {
-				data.root.refs = {};
-			}
+      if (!data.root.refs) {
+        data.root.refs = {};
+      }
 
-			const { children, refs } = data.root;
+      const { children, refs } = data.root;
 
-			/**
-			 * Костыль для того, чтобы передавать переменные
-			 * внутрь блоков вручную подменяя значение
-			 */
-			(Object.keys(hash) as any).forEach((key: keyof Props) => {
-				if (this[key] && typeof this[key] === 'string') {
-					hash[key] = hash[key].replace(new RegExp(`{{${String(key)}}}`, 'i'), this[key]);
-				}
-			});
+      (Object.keys(hash) as (keyof P)[]).forEach((key) => {
+        if (
+          typeof this[key] === "string" &&
+          typeof hash[key] === "string"
+        ) {
+          hash[key] = (hash[key] as string).replace(
+            new RegExp(`{{${String(key)}}}`, "gi"),
+            this[key] as string,
+          );
+        }
+      });
 
-			const component = new Component(hash);
+      const component = new Component(hash);
+      children[component.id] = component;
 
-			children[component.id] = component;
+      if (ref) {
+        refs[ref] = component;
+      }
 
-			if (ref) {
-				refs[ref] = component;
-			}
+      const contents = fn ? fn(this) : "";
 
-			return `<div data-id="id-${component.id}"></div>`;
-		}
-	);
+      return new Handlebars.SafeString(
+        `<div data-id="${component.id}">${contents}</div>`
+      );
+    },
+  );
 }

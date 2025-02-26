@@ -1,2 +1,2 @@
-// export { default as Button } from "./button.hbs?raw";
-export { Button as default } from "./button";
+import "./button.pcss";
+export { default as Button } from "./button";
