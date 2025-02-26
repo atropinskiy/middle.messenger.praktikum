@@ -1,63 +1,42 @@
+import { Button } from "../../components";
 import Block from "../../core/block";
-import Handlebars from "handlebars";
-import template from "./signin.hbs?raw";
-import { Button } from "@components/index";
 
 interface LoginPageProps {
-  formState?: {
-    login: string;
-    password: string;
-  };
-  errors?: {
-    login: string;
-    password: string;
-  };
   className?: string;
-  button?: string;
+  SignInButton?: Button;
+  SignUpButton?: Button;
 }
 
 export default class LoginPage extends Block<LoginPageProps> {
-  constructor(props: LoginPageProps = {}) {
-    const button = new Button({
-      label: "Войти",
-      className: "123",
-      onClick: (e) => {
-        e.preventDefault();
-        console.log("Клик по кнопке Войти");
-      },
-    });
-    
-    console.log("Созданная кнопка:", button); // 🔍 Проверяем объект кнопки
-    console.log("Код кнопки после render():", button.render()); // 🔍 Проверяем разметку кнопки
-    
-
+  constructor(props: LoginPageProps) {
     super("div", {
       ...props,
-      formState: {
-        login: "",
-        password: "",
-      },
-      errors: {
-        login: "",
-        password: "",
-      },
       className: "container",
-      button: button.render(),
+      SignInButton: new Button({
+        label: "Sign in",
+        type: "button", // Убедитесь, что это 'button', а не 'submit'
+        onClick: (e) => {
+          e.preventDefault();
+          console.log("Клик по кнопке Sign in");
+        },
+      }),
+      SignUpButton: new Button({
+        label: "Sign up",
+        type: "button", // Убедитесь, что это 'button', а не 'submit'
+        onClick: (e) => {
+          e.preventDefault();
+          console.log("Клик по кнопке Sign up");
+        },
+      }),
     });
-    console.log("this.props после super:", this.props);
   }
 
   public render(): string {
-    console.log("Передаем в шаблон:", this.props);
-  
-    return Handlebars.compile(template)({
-      ...this.props,
-      button: this.props.button
-    });
-
-    
+    return `
+      <form class="login-form">
+        {{{ SignInButton }}}
+        {{{ SignUpButton }}}
+      </form>
+    `;
   }
-
-  
-
 }
