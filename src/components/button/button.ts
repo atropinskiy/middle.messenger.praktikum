@@ -1,30 +1,23 @@
-import Block from "../../core/block";
-import Handlebars from "handlebars";
-import template from "./button.hbs?raw";  // Подключаем шаблон
+import Block from '@core/block';
+
+import template from './button.hbs?raw';
 
 interface ButtonProps {
-  id?: string;
-  label: string;
-  className?: string;
-  type?: string;
-  onClick?: (e: Event) => void;
-  events?: {
-    click?: (e: Event) => void;
-  };
+  type: string;
+  name: string;
+  text?: string;
+  classes?: string;
+  block?: Block;
 }
 
-export default class Button extends Block<ButtonProps> {
+export class Button extends Block {
   constructor(props: ButtonProps) {
-    super("button", {
-      ...props,
-      events: {
-        click: props.onClick,
-      },
-    });
+    super(props);
   }
 
-  public render(): string {
-    const compiledTemplate = Handlebars.compile(template); 
-    return compiledTemplate(this.props);
+  render() {
+    return this.compile(template, { ...this.props });
   }
 }
+
+export default Button;

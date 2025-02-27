@@ -1,29 +1,34 @@
-import renderDOM from "@core/renderDom";
-import { SignIn } from "./pages/signin"; // Подключаем страницу SignIn
+import renderDOM from '@core/renderDom';
+import * as Pages from "./pages";
+import Handlebars from "handlebars";
 
-const pages: Record<string, typeof SignIn> = {
-  signin: SignIn, // Явно указываем доступные страницы
+const pages = {
+  login: [Pages.SignIn],
 };
 
-function navigate(page: keyof typeof pages) {
-  const PageComponent = pages[page];
-
-  if (!PageComponent) {
-    console.error(`Страница "${page}" не найдена`);
+function navigate(page: string) {
+  //@ts-ignore
+  const [source, context] = pages[page];
+  if (typeof source === "function") {
+    renderDOM("page", new source({}));
     return;
   }
 
-  renderDOM(new PageComponent({}));
+  const container = document.getElementById("app")!;
+
+  const temlpatingFunction = Handlebars.compile(source);
+  container.innerHTML = temlpatingFunction(context);
 }
 
-document.addEventListener("DOMContentLoaded", () => navigate("signin"));
+document.addEventListener("DOMContentLoaded", () => navigate("login"));
+
 
 document.addEventListener("click", (e) => {
-  const target = e.target as HTMLElement;
-  const page = target.getAttribute("data-page");
+  //@ts-ignore
+  const page = e.target.getAttribute("page");
+  if (page) {
+    navigate(page);
 
-  if (page && pages[page]) {
-    navigate(page as keyof typeof pages);
     e.preventDefault();
     e.stopImmediatePropagation();
   }
