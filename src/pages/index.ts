@@ -1,2 +1,2 @@
-export { SignIn } from "./signin/index";
-// export { SignUp} from "./signup/signup";
+export { SignIn } from "./signin";
+export { SignUp} from "./signup";

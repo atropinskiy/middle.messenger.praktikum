@@ -1,34 +1,37 @@
 import renderDOM from '@core/renderDom';
 import * as Pages from "./pages";
 import Handlebars from "handlebars";
-import "@styles/main.pcss"
+import "@styles/main.pcss";
 
 const pages = {
-  login: [Pages.SignIn],
+  signin: [Pages.SignIn],
+  signup: [Pages.SignUp]
 };
 
 function navigate(page: string) {
-  //@ts-ignore
-  const [source, context] = pages[page];
-  if (typeof source === "function") {
-    renderDOM("#app", new source({}));
+  const route = pages[page as keyof typeof pages];
+
+  if (!route) {
+    console.error(`Страница "${page}" не найдена`);
     return;
   }
-  const container = document.getElementById("app")!;
-  const temlpatingFunction = Handlebars.compile(source);
-  container.innerHTML = temlpatingFunction(context);
+
+  //@ts-ignore
+  const [source, context] = route;
+
+  if (typeof source === "function") {
+    renderDOM("#app", new source());
+  } else {
+    const container = document.getElementById("app")!;
+    const temlpatingFunction = Handlebars.compile(source);
+    container.innerHTML = temlpatingFunction(context);
+  }
 }
 
-document.addEventListener("DOMContentLoaded", () => navigate("login"));
+function handleRouteChange() {
+  const page = window.location.hash.slice(1) || "signin";
+  navigate(page);
+}
 
-
-document.addEventListener("click", (e) => {
-  //@ts-ignore
-  const page = e.target.getAttribute("page");
-  if (page) {
-    navigate(page);
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-});
+document.addEventListener("DOMContentLoaded", () => handleRouteChange());
+window.addEventListener("hashchange", () => handleRouteChange());
