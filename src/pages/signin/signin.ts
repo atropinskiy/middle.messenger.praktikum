@@ -11,15 +11,27 @@ export default class SignIn extends Block {
   protected initChildren() {
     this.childrens.button = new Button({
       type: 'button',
-      name: "1123",
-      label: 'lksdjf',
+      name: "login",
+      label: 'Логин',
       className: 'button w-100',
       onClick() {
         console.log(123)
       },
     });
     this.childrens.input = new Input({
-      placeholder: 'sdfa',
+      placeholder: 'Login',
+      name: 'login',
+      autocomplete: 'login',
+      className:'w-100',
+      type: 'text',
+      onChange: () => {console.log(123)}
+    });
+    this.childrens.input_password = new Input({
+      placeholder: 'Password',
+      name: 'password',
+      autocomplete: 'password',
+      className:'w-100 mt-2',
+      type: 'text',
       onChange: () => {console.log(123)}
     })
   }

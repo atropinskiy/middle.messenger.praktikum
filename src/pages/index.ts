@@ -1,3 +1,2 @@
-import SignIn from "./signin/signin";
-
-export { SignIn }
+export { SignIn } from "./signin/index";
+// export { SignUp} from "./signup/signup";

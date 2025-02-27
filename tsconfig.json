@@ -5,7 +5,8 @@
     "paths": {
       "@types/*": ["types/*"], // алиас для типов
       "@core/*": ["core/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
     },
     "typeRoots": ["node_modules/@types", "typings"],
     "target": "ES2020",

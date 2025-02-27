@@ -4,7 +4,11 @@ import template from './input.hbs?raw';
 
 export interface InputProps {
   onChange?: () => void,
-  placeholder: string
+  name: string,
+  type?: string,
+  placeholder: string,
+  className?: string,
+  autocomplete?: string;
 }
 
 export class Input extends Block {
