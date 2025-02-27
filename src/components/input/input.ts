@@ -2,23 +2,19 @@ import Block from '@core/block';
 
 import template from './input.hbs?raw';
 
-export interface IInput {
-  type: string;
-  name: string;
-  value?: string;
-  classes?: string;
-  placeholder?: string;
-  required?: boolean;
-  minlength?: number;
-  maxlength?: number;
-  pattern?: string;
-  validate?: boolean;
-  autocomplete?: 'on' | 'off';
+export interface InputProps {
+  onChange?: () => void,
+  placeholder: string
 }
 
-class Input extends Block {
-  constructor(props: IInput) {
-    super(props);
+export class Input extends Block {
+  constructor(props: InputProps) {
+    super({
+      ...props,
+      events: {
+        change: props.onChange
+      }
+    });
   }
 
   render() {

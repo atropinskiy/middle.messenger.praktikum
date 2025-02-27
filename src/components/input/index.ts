@@ -1,3 +1,2 @@
 import "./input.pcss";
-
-export { InputField } from "./inputField";
+export { Input as Input } from "./input";

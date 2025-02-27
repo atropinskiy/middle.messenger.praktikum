@@ -5,14 +5,21 @@ import template from './button.hbs?raw';
 interface ButtonProps {
   type: string;
   name: string;
-  text?: string;
-  classes?: string;
-  block?: Block;
+  label: string;
+  className?: string;
+  onClick?: () => void;
 }
 
 export class Button extends Block {
   constructor(props: ButtonProps) {
-    super(props);
+    super({
+      ...props,
+      className: props.className,
+      events: {
+        click: props.onClick,
+      },
+    }
+    );
   }
 
   render() {
