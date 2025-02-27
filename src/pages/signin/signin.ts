@@ -22,7 +22,7 @@ export default class SignIn extends Block {
       placeholder: 'Login',
       name: 'login',
       autocomplete: 'login',
-      className:'w-100',
+      className:'w-100 input__element',
       type: 'text',
       onChange: () => {console.log(123)}
     });
