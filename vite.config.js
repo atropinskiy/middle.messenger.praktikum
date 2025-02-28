@@ -33,6 +33,7 @@ export default defineConfig({
       '@utils': resolve(__dirname, 'src/utils'),
       '@types': resolve(__dirname, 'src/types'),
       '@core': resolve(__dirname, 'src/core'),
+      '@models': resolve(__dirname, 'src/models'),
     },
   },
 });

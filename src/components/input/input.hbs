@@ -1,2 +1,4 @@
-<input class="{{ className }}" name="{{ name }}" autocomplete="{{ autocomplete }}" placeholder="{{ placeholder }}">
-
+<div class="input-wrapper position-relative">
+  <input class="{{ className }}" type="{{ type }}" name="{{ name }}" value="{{ value }}" autocomplete="{{ autocomplete }}" placeholder="{{ placeholder }}">
+  <div class="input_error">{{#if error}}{{error}}{{else}}&nbsp;{{/if}}</div>
+</div>

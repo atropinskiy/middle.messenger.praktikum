@@ -1,39 +1,67 @@
 import Block from '@core/block';
 import renderDOM from '@core/renderDom';
 import template from './signup.hbs?raw';
-import {Button, Input} from '@components/index'
+import { Button, Input } from '@components/index'
+import { RegisterModel } from '@models/register';
+import * as Validators from "@utils/validators"
 
 
-export default class SignUp extends Block {
+export default class SignIn extends Block<{}, RegisterModel> {
   constructor() {
     super();
+    this.state = { email: "", login: "", first_name: "", password: "", password_confirm: "", phone: "", second_name: "", isFormValid: false };
   }
   protected initChildren() {
-    this.childrens.button = new Button({
+    this.childrens.register_button = new Button({
       type: 'button',
-      name: "login",
-      label: 'Логин111111',
+      name: "email",
+      label: 'Зарегистрироваться',
       className: 'button w-100',
-      onClick() {
-        console.log(123)
-      },
+      onClick: () => {
+        if (this.state.isFormValid) {
+          console.log('Отправка данных:', this.state);
+        } else {
+          console.log('Форма заполнена неверно');
+        }
+      }
     });
-    this.childrens.input = new Input({
-      placeholder: 'Loginфываыва',
+    this.childrens.email_input = new Input({
+      placeholder: 'Email',
+      name: 'email',
+      autocomplete: 'email',
+      className: 'w-100 input__element',
+      type: 'text',
+      value: '',
+      onChange: (e) => {
+        const input = e.target as HTMLInputElement;
+        const error = Validators.validateLogin(input.value);
+        this.childrens.email_input.setProps({ error, value: input.value });
+
+        this.setState({
+          email: input.value,
+          isFormValid: !error && !Validators.validatePassword(this.state.password)
+        });
+        console.log(this.state)
+      }
+    });
+    this.childrens.login_input = new Input({
+      placeholder: 'Логин',
       name: 'login',
       autocomplete: 'login',
-      className:'w-100',
+      className: 'w-100 input__element',
       type: 'text',
-      onChange: () => {console.log(123)}
+      value: '',
+      onChange: (e) => {
+        const input = e.target as HTMLInputElement;
+        const error = Validators.validateLogin(input.value);
+        this.childrens.login_input.setProps({ error, value: input.value });
+
+        this.setState({
+          email: input.value,
+          isFormValid: !error && !Validators.validatePassword(this.state.password)
+        });
+      }
     });
-    this.childrens.input_password = new Input({
-      placeholder: 'Password',
-      name: 'password',
-      autocomplete: 'password',
-      className:'w-100 mt-2',
-      type: 'text',
-      onChange: () => {console.log(123)}
-    })
   }
 
   render() {
@@ -42,6 +70,6 @@ export default class SignUp extends Block {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const page = new SignUp();
+  const page = new SignIn();
   renderDOM('#app', page);
 });

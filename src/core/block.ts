@@ -2,7 +2,7 @@ import EventBus from './eventBus';
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 
-class Block {
+class Block<TProps extends Record<string, any> = {}, TState extends Record<string, any> = {}> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -10,33 +10,35 @@ class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  public id = nanoid(6);
+  _id = nanoid(6);
 
   private _element: HTMLElement | null = null;
 
-  protected props: any;
+  protected props: TProps
   protected childrens: Record<string, Block>;
   private eventBus: () => EventBus;
+  protected state: TState
 
   /** JSDoc
    * @param {Object} props
    *
    * @returns {void}
    */
+
   constructor(propsAndChildrens: any = {}) {
     const eventBus = new EventBus();
+    this.eventBus = () => eventBus;
 
     const { props, childrens } = this.getChildren(propsAndChildrens);
 
     this.childrens = childrens;
 
     this.props = this._makePropsProxy(props);
+    this.state = this._makeStateProxy({} as TState);
 
     this.initChildren();
 
-    this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
-
     eventBus.emit(Block.EVENTS.INIT);
   }
 
@@ -83,6 +85,11 @@ class Block {
     Object.assign(this.props, nextProps);
   };
 
+  public setState(newState: Partial<TState>) {
+    Object.assign(this.state, newState);
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  }
+
   get element(): HTMLElement | null {
     return this._element;
   }
@@ -110,21 +117,26 @@ class Block {
     return this.element;
   }
 
-  private _makePropsProxy(props: any) {
-    return new Proxy(props as unknown as object, {
-      get(target: Record<string, unknown>, prop: string) {
-        const value = target[prop];
-        return typeof value === 'function' ? value.bind(target) : value;
-      },
-      set: (target: Record<string, unknown>, prop: string, value: unknown) => {
+  private _makePropsProxy(props: TProps) {
+    return new Proxy(props, {
+      get: (target, prop) => target[prop as keyof TProps],
+      set: (target, prop, value) => {
         const oldProps = { ...target };
-        target[prop] = value;
-
+        target[prop as keyof TProps] = value;
         this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
         return true;
       },
-      deleteProperty() {
-        throw new Error('Нет доступа');
+    });
+  }
+
+  private _makeStateProxy(state: TState) {
+    return new Proxy(state, {
+      get: (target, prop) => target[prop as keyof TState],
+      set: (target, prop, value) => {
+        const oldState = { ...target };
+        target[prop as keyof TState] = value;
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldState, target);
+        return true;
       },
     });
   }
@@ -188,7 +200,7 @@ class Block {
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
   
     Object.entries(this.childrens).forEach(([key, child]) => {
-      context[key] = `<div data-id="id-${child.id}"></div>`;
+      context[key] = `<div data-id="id-${child._id}"></div>`;
     });
   
     // Компилируем строку шаблона в функцию
@@ -200,7 +212,7 @@ class Block {
     fragment.innerHTML = htmlString;
   
     Object.entries(this.childrens).forEach(([, child]) => {
-      const stub = fragment.content.querySelector(`[data-id="id-${child.id}"]`);
+      const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
       if (!stub) return;
       stub.replaceWith(child.getContent() as HTMLElement);
     });

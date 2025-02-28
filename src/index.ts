@@ -1,11 +1,18 @@
 import renderDOM from '@core/renderDom';
 import * as Pages from "./pages";
 import Handlebars from "handlebars";
+
 import "@styles/main.pcss";
+
+Handlebars.registerHelper('eq', function (a, b) {
+  return a === b;
+});
 
 const pages = {
   signin: [Pages.SignIn],
-  signup: [Pages.SignUp]
+  signup: [Pages.SignUp],
+  chat: [Pages.Chat],
+  profile: [Pages.Profile]
 };
 
 function navigate(page: string) {

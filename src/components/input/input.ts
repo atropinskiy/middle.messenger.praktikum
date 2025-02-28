@@ -3,15 +3,17 @@ import Block from '@core/block';
 import template from './input.hbs?raw';
 
 export interface InputProps {
-  onChange?: () => void,
+  onChange?: (e: Event) => void,
   name: string,
   type?: string,
   placeholder: string,
   className?: string,
   autocomplete?: string;
+  value?: string;
+  error?: string | null;
 }
 
-export class Input extends Block {
+export class Input extends Block<InputProps> {
   constructor(props: InputProps) {
     super({
       ...props,
@@ -20,6 +22,11 @@ export class Input extends Block {
       }
     });
   }
+
+  public hasError(): boolean {
+    return Boolean(this.props.error);
+  }
+
 
   render() {
     return this.compile(template, { ...this.props });

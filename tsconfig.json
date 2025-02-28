@@ -7,6 +7,8 @@
       "@core/*": ["core/*"],
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"],
     },
     "typeRoots": ["node_modules/@types", "typings"],
     "target": "ES2020",
