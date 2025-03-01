@@ -1,3 +1,5 @@
+import { UserModel } from "@models/chat";
+
 // Валидация поля логин
 export const validateLogin = (value: string): string | null => {
   const trimmedValue = value.trim();
@@ -35,3 +37,57 @@ export const validatePassword = (value: string): string | null => {
 
   return null;
 };
+
+// Валидатор
+export class Validator {
+  static validate(fields: Record<string, string>, fieldLabels: UserModel): string[] {
+    const errors: string[] = [];
+    Object.entries(fields).forEach(([key, value]) => {
+      const label = fieldLabels[key];
+      
+      if (!label) return; // Если для ключа нет метки, пропускаем
+
+      // Валидация для каждого поля
+      switch (key) {
+        case 'email':
+          if (!Validator.validateEmail(value)) {
+            errors.push(`${label} должен быть валидным email.`);
+          }
+          break;
+        case 'login':
+          if (value.trim() === '') {
+            errors.push(`${label} не может быть пустым.`);
+          }
+          break;
+        case 'password':
+          if (value.length < 6) {
+            errors.push(`${label} должен быть не менее 6 символов.`);
+          }
+          break;
+        case 'phone':
+          if (!Validator.validatePhone(value)) {
+            errors.push(`${label} должен быть валидным номером телефона.`);
+          }
+          break;
+        default:
+          if (value.trim() === '') {
+            errors.push(`${label} не может быть пустым.`);
+          }
+      }
+    });
+
+    return errors;
+  }
+
+  // Валидация email
+  static validateEmail(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  }
+
+  // Валидация телефона
+  static validatePhone(phone: string): boolean {
+    const regex = /^\+?\d{1,4}?[\s-]?\(?\d{1,3}?\)?[\s-]?\d{1,4}[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
+    return regex.test(phone);
+  }
+}

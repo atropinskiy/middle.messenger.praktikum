@@ -13,6 +13,7 @@ const pages = {
   signup: [Pages.SignUp],
   chat: [Pages.Chat],
   profile: [Pages.Profile],
+  profile_edit: [Pages.ProfileEdit]
 };
 
 function navigate(page: string) {

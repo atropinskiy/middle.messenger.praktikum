@@ -1,11 +1,12 @@
 export interface UserModel {
   login: string;
-  avatar_url: string;
+  avatar_url?: string;
   email?: string;
   first_name?: string;
   second_name?: string;
   chat_name?: string;
   phone?: string;
+  [key: string]: string | undefined;
 }
 
 export interface MessageModel {

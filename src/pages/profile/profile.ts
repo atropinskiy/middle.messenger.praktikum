@@ -3,7 +3,7 @@ import renderDOM from '@core/renderDom';
 import template from './profile.hbs?raw';
 import { CurrentUserMock } from '../../mock-data/current-user';
 
-export default class SignIn extends Block<Record<string, unknown>> {
+export default class Profile extends Block<Record<string, unknown>> {
   constructor() {
     super();
     this.state = { login: '', password: '', isFormValid: false };
@@ -15,6 +15,6 @@ export default class SignIn extends Block<Record<string, unknown>> {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const page = new SignIn();
+  const page = new Profile();
   renderDOM('#app', page);
 });

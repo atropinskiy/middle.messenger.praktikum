@@ -6,3 +6,4 @@ export { ChatList } from './chatlist';
 export { ChatDialog } from './chat-dialog';
 export { ChatHeader } from './chat-header';
 export { Avatar } from './avatar';
+export { ProfileEditCell } from './profile-edit-cell'

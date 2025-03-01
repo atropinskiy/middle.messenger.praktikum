@@ -6,11 +6,12 @@ export interface InputProps {
   onChange?: (e: Event) => void;
   name: string;
   type?: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   autocomplete?: string;
   value?: string;
   error?: string | null;
+  parentClasses?: string
 }
 
 export class Input extends Block<InputProps> {
