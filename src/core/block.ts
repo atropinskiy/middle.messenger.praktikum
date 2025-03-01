@@ -197,29 +197,37 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
     return;
   }
 
-  protected compile(templateString: string, context: any) {
-    const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+protected compile(templateString: string, context: any, additionalData: any = {}) {
+  const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
 
-    Object.entries(this.childrens).forEach(([key, child]) => {
-      context[key] = `<div data-id="id-${child._id}"></div>`;
-    });
+  // Сначала добавляем данные из this.childrens
+  Object.entries(this.childrens).forEach(([key, child]) => {
+    context[key] = `<div data-id="id-${child._id}"></div>`;
+  });
 
-    // Компилируем строку шаблона в функцию
-    const template = Handlebars.compile(templateString);
+  // Добавляем дополнительные данные в контекст
+  Object.entries(additionalData).forEach(([key, value]) => {
+    context[key] = value;
+  });
 
-    // Генерируем HTML строку
-    const htmlString = template(context);
+  // Компилируем строку шаблона в функцию
+  const template = Handlebars.compile(templateString);
 
-    fragment.innerHTML = htmlString;
+  // Генерируем HTML строку с учетом всех данных
+  const htmlString = template(context);
 
-    Object.entries(this.childrens).forEach(([, child]) => {
-      const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
-      if (!stub) return;
-      stub.replaceWith(child.getContent() as HTMLElement);
-    });
+  fragment.innerHTML = htmlString;
 
-    return fragment.content;
-  }
+  // Заменяем placeholders на реальные элементы
+  Object.entries(this.childrens).forEach(([, child]) => {
+    const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
+    if (!stub) return;
+    stub.replaceWith(child.getContent() as HTMLElement);
+  });
+
+  return fragment.content;
+}
+
 }
 
 export default Block;
