@@ -25,7 +25,7 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
    * @returns {void}
    */
 
-  constructor(propsAndChildrens: any = {}) {
+  constructor(propsAndChildrens: any = {} , initialState?: TState) {
     const eventBus = new EventBus();
     this.eventBus = () => eventBus;
 
@@ -34,7 +34,7 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
     this.childrens = childrens;
 
     this.props = this._makePropsProxy(props);
-    this.state = this._makeStateProxy({} as TState);
+    this.state = this._makeStateProxy(initialState || ({} as TState));
 
     this.initChildren();
 

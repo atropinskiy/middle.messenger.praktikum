@@ -1,12 +1,11 @@
 import Block from '@core/block';
-import Handlebars from 'handlebars';
 import template from './chatrow.hbs?raw';
+import { Avatar } from '@components/avatar';
 
-
-Handlebars.registerPartial('chatRow', template);
 interface ChatRowProps {
   id: string;
-  onClick?: () => void
+  onClick?: (chatId: string) => void;
+  messagesCount: number;
 }
 
 export class ChatRow extends Block {
@@ -14,10 +13,19 @@ export class ChatRow extends Block {
     super({
       ...props,
       events: {
-        click: props.onClick 
-      }
-    }
-    );
+        click: () => props.onClick?.(props.id),
+      },
+    });
+    this.initChildren();
+  }
+
+  protected initChildren() {
+    this.childrens.avatar = new Avatar({
+      src: "img/avatar_mock.jpg",
+      className: "avatar",
+      width: 47,
+      label: "123",
+    });
   }
 
   render() {

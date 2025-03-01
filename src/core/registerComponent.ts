@@ -35,7 +35,7 @@ export default function registerComponent<P extends Record<string, any>>(
       });
 
       const component = new Component(hash);
-      children[component.id] = component;
+      children[component._id] = component;
 
       if (ref) {
         refs[ref] = component;
@@ -44,7 +44,7 @@ export default function registerComponent<P extends Record<string, any>>(
       const contents = fn ? fn(this) : "";
 
       return new Handlebars.SafeString(
-        `<div data-id="${component.id}">${contents}</div>`
+        `<div data-id="${component._id}">${contents}</div>`
       );
     },
   );
