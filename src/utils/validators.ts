@@ -1,7 +1,6 @@
 // Валидация поля логин
 export const validateLogin = (value: string): string | null => {
   const trimmedValue = value.trim();
-
   if (!trimmedValue) {
     return 'Поле не может быть пустым';
   }
@@ -37,23 +36,4 @@ export const validatePassword = (value: string): string | null => {
   return null;
 };
 
-export const validateFormFields = (
-  formData: Record<string, string>,
-  fieldValidators: Record<string, (val: string) => string | null>
-) => {
-  const errors: Record<string, string | null> = {};
-  let isValid = true;
 
-  Object.entries(formData).forEach(([field, value]) => {
-    const validator = fieldValidators[field];
-    if (validator) {
-      const error = validator(value);
-      errors[field] = error;
-      if (error) {
-        isValid = false;
-      }
-    }
-  });
-
-  return { errors, isValid };
-};

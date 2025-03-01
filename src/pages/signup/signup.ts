@@ -6,10 +6,13 @@ import { RegisterModel } from '@models/register';
 import * as Validators from "@utils/validators"
 
 
-export default class SignIn extends Block<{}, RegisterModel> {
+export default class SignIn extends Block<Record<string, unknown>, RegisterModel> {
   constructor() {
     super();
-    this.state = { email: "", login: "", first_name: "", password: "", password_confirm: "", phone: "", second_name: "", isFormValid: false };
+    this.state = { email: "", login: "", 
+      first_name: "", password: "", 
+      password_confirm: "", phone: "", 
+      second_name: "", isFormValid: false };
   }
   protected initChildren() {
     this.childrens.register_button = new Button({

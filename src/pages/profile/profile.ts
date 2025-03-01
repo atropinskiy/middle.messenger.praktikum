@@ -3,7 +3,7 @@ import renderDOM from '@core/renderDom';
 import template from './profile.hbs?raw';
 import { CurrentUserMock } from '../../mock-data/current-user';
 
-export default class SignIn extends Block<{}> {
+export default class SignIn extends Block<Record<string, unknown>> {
   constructor() {
     super();
     this.state = { login: '', password: '', isFormValid: false };

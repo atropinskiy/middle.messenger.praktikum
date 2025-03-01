@@ -23,7 +23,6 @@ function navigate(page: string) {
     return;
   }
 
-  //@ts-ignore
   const [source, context] = route;
 
   if (typeof source === "function") {

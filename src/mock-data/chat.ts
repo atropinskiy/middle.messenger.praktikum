@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ChatModel } from "@models/chat";
 
 export const MockChats: ChatModel[] = [

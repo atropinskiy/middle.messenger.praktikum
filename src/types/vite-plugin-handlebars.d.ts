@@ -3,10 +3,10 @@ declare module "vite-plugin-handlebars" {
 
   interface HandlebarsPluginOptions {
     partialDirectory?: string;
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
   }
 
-  function handlebars(options?: HandlebarsPluginOptions): Plugin;
+  function handlebars(): Plugin;
 
   export default handlebars;
 }

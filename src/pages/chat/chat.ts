@@ -3,7 +3,7 @@ import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
 import { ChatList, ChatDialog, ChatHeader } from '@components/index';
 
-export default class Chat extends Block<{}, { currentDialog: string; currentUser: string }> {
+export default class Chat extends Block<Record<string, unknown>, { currentDialog: string; currentUser: string }> {
   constructor() {
     const initialChat = "chat_1";
     const initialCompanion = Chat.getCompanion(initialChat, "ivanivanov");

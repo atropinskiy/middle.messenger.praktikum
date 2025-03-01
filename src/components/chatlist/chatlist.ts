@@ -5,7 +5,7 @@ import { ChatRow } from '@components/chatrow';
 
 interface ChatListProps {
   chats: ChatModel[];
-  onClick: (chatId: string) => void;
+  onClick: (_chatId: string) => void;
 }
 
 export class ChatList extends Block<ChatListProps> {

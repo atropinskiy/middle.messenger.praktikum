@@ -6,7 +6,7 @@ import { validateLogin, validatePassword } from '@utils/validators';
 import { AuthModel } from '@models/auth';
 
 
-export default class SignIn extends Block<{}, AuthModel> {
+export default class SignIn extends Block<object, AuthModel> {
   constructor() {
     super();
     this.state = { login: '', password: '', isFormValid: false };
