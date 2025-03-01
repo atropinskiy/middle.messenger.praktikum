@@ -5,10 +5,11 @@
     <form>
       <div>
         <ul class="flex-grow editList">
-        {{#each childrens}}
+        {{#each this}}
         {{{this}}}
         {{/each}}
         </ul>
+        {{errors}}
       </div>
     </form>
   </div>

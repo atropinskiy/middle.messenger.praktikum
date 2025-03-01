@@ -76,6 +76,17 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
   
 
   render() {
-    return this.compile(template, { childrens: this.childrens }, {errors:"123"});
+    const childrensArray = Object.values(this.childrens);
+    const context = {
+      childrens: childrensArray,
+    };
+  
+    // Передаем ошибки как дополнительный параметр
+    const additionalData = {
+      errors: ["123"]
+    };
+  
+    return this.compile(template, {}, additionalData);
   }
+  
 }
