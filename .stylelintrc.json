@@ -1,9 +1,6 @@
 {
   "extends": "stylelint-config-standard",
-  "plugins": [
-    "stylelint-order"
-  ],
   "rules": {
-    "no-missing-end-of-source-newline": true
-  }
+		"selector-class-pattern": null
+	}
 }
