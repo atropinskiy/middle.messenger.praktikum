@@ -20,4 +20,3 @@ export interface ChatModel {
   participants: UserModel[];
   messages: MessageModel[];
 }
-

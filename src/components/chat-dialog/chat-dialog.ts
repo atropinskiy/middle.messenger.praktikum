@@ -3,15 +3,14 @@ import template from './chat-dialog.hbs?raw';
 import { MessageModel } from '@models/chat';
 
 interface ChatDialogProps {
-  messages: MessageModel[]
+  messages: MessageModel[];
 }
 
 export class ChatDialog extends Block {
   constructor(props: ChatDialogProps) {
     super({
       ...props,
-    }
-    );
+    });
   }
 
   render() {

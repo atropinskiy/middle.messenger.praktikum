@@ -1,2 +1,2 @@
-import "./signup.pcss";
-export { default as SignUp } from "./signup";
+import './signup.pcss';
+export { default as SignUp } from './signup';

@@ -8,7 +8,7 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
-      "@models/*": ["models/*"],
+      "@models/*": ["models/*"]
     },
     "typeRoots": ["node_modules/@types", "typings"],
     "target": "ES2020",
@@ -31,10 +31,5 @@
     "strictNullChecks": true
   },
   "include": ["src", "src/types", "src/types/hbs.d.ts"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".eslintignore",
-    ".git"
-  ]
+  "exclude": ["node_modules", "dist", ".eslintignore", ".git"]
 }

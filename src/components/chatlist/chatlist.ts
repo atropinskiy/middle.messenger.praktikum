@@ -9,7 +9,7 @@ interface ChatListProps {
 }
 
 export class ChatList extends Block<ChatListProps> {
-  private static readonly currentUser = "ivanivanov";
+  private static readonly currentUser = 'ivanivanov';
 
   constructor(props: ChatListProps) {
     super(props);
@@ -18,12 +18,14 @@ export class ChatList extends Block<ChatListProps> {
 
   protected initChildren() {
     this.props.chats.forEach((chat) => {
-      const filteredMessages = chat.messages.filter(msg => msg.from.login !== ChatList.currentUser);
+      const filteredMessages = chat.messages.filter(
+        (msg) => msg.from.login !== ChatList.currentUser
+      );
 
       this.childrens[chat.id] = new ChatRow({
         id: chat.id,
         onClick: this.props.onClick,
-        messagesCount: filteredMessages.length
+        messagesCount: filteredMessages.length,
       });
     });
   }

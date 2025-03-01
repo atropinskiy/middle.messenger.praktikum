@@ -1,26 +1,26 @@
-<div class="w-100 mb-2 d-flex justify-end flex-grow flex-column">
+<div class='w-100 mb-2 d-flex justify-end flex-grow flex-column'>
   {{#each messages}}
-    {{#if (eq from.login "ivanivanov")}}
-      <div class="w-40 dialog-to-me justify-end">
+    {{#if (eq from.login 'ivanivanov')}}
+      <div class='w-40 dialog-to-me justify-end'>
         <div>
-        {{from.login}}
+          {{from.login}}
         </div>
         <div>
           {{message}}
         </div>
-        <div class="date-dialog w-100 d-flex justify-end">
+        <div class='date-dialog w-100 d-flex justify-end'>
           <div>12:43</div>
         </div>
       </div>
     {{else}}
-      <div class="w-40 dialog-from-me justify-end">
+      <div class='w-40 dialog-from-me justify-end'>
         <div>
-        {{from.login}}
+          {{from.login}}
         </div>
         <div>
           {{message}}
         </div>
-        <div class="date-dialog w-100 d-flex justify-end">
+        <div class='date-dialog w-100 d-flex justify-end'>
           <div>12:43</div>
         </div>
       </div>

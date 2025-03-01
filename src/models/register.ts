@@ -3,7 +3,7 @@ export interface RegisterModel {
   login: string;
   first_name: string;
   second_name: string;
-  phone:string
+  phone: string;
   password: string;
   password_confirm: string;
   isFormValid?: boolean;

@@ -1,5 +1,5 @@
-declare module "vite-plugin-handlebars" {
-  import { Plugin } from "vite";
+declare module 'vite-plugin-handlebars' {
+  import { Plugin } from 'vite';
 
   interface HandlebarsPluginOptions {
     partialDirectory?: string;

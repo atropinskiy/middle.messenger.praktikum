@@ -15,10 +15,10 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
 
   private _element: HTMLElement | null = null;
 
-  protected props: TProps
+  protected props: TProps;
   protected childrens: Record<string, Block>;
   private eventBus: () => EventBus;
-  protected state: TState
+  protected state: TState;
 
   /** JSDoc
    * @param {Object} props
@@ -26,7 +26,7 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
    * @returns {void}
    */
 
-  constructor(propsAndChildrens: any = {} , initialState?: TState) {
+  constructor(propsAndChildrens: any = {}, initialState?: TState) {
     const eventBus = new EventBus();
     this.eventBus = () => eventBus;
 
@@ -199,25 +199,25 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
 
   protected compile(templateString: string, context: any) {
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
-  
+
     Object.entries(this.childrens).forEach(([key, child]) => {
       context[key] = `<div data-id="id-${child._id}"></div>`;
     });
-  
+
     // Компилируем строку шаблона в функцию
     const template = Handlebars.compile(templateString);
-  
+
     // Генерируем HTML строку
     const htmlString = template(context);
-  
+
     fragment.innerHTML = htmlString;
-  
+
     Object.entries(this.childrens).forEach(([, child]) => {
       const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
       if (!stub) return;
       stub.replaceWith(child.getContent() as HTMLElement);
     });
-  
+
     return fragment.content;
   }
 }

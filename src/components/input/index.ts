@@ -1,2 +1,2 @@
-import "./input.pcss";
-export { Input as Input } from "./input";
+import './input.pcss';
+export { Input as Input } from './input';

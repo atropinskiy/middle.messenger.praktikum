@@ -1,23 +1,23 @@
 input {
+  height: 25px;
   border: none;
   border-bottom: 1px solid blue;
-  height: 25px;
 
   &:focus-visible {
     outline: none;
   }
-  
+
   &::placeholder {
-    color: #888;
-    font-family: Inter, sans-serif; 
-    font-size: 13px; 
+    color: #888888;
     font-weight: 500;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
   }
 }
 
 .input-error {
+  margin-top: 3px;
+  margin-left: 2px;
   color: red;
   font-size: 10px;
-  margin-left: 2px;
-  margin-top: 3px;
 }

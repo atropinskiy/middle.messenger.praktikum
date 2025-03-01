@@ -1,2 +1,2 @@
-import "./chat.pcss";
-export { default as Chat } from "./chat";
+import './chat.pcss';
+export { default as Chat } from './chat';

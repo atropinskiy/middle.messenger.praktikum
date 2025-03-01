@@ -21,10 +21,10 @@ export class ChatRow extends Block {
 
   protected initChildren() {
     this.childrens.avatar = new Avatar({
-      src: "img/avatar_mock.jpg",
-      className: "avatar",
+      src: 'img/avatar_mock.jpg',
+      className: 'avatar',
       width: 47,
-      label: "123",
+      label: '123',
     });
   }
 

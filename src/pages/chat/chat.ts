@@ -3,15 +3,21 @@ import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
 import { ChatList, ChatDialog, ChatHeader } from '@components/index';
 
-export default class Chat extends Block<Record<string, unknown>, { currentDialog: string; currentUser: string }> {
+export default class Chat extends Block<
+  Record<string, unknown>,
+  { currentDialog: string; currentUser: string }
+> {
   constructor() {
-    const initialChat = "chat_1";
-    const initialCompanion = Chat.getCompanion(initialChat, "ivanivanov");
+    const initialChat = 'chat_1';
+    const initialCompanion = Chat.getCompanion(initialChat, 'ivanivanov');
 
-    super({}, { 
-      currentDialog: initialChat, 
-      currentUser: initialCompanion?.login || "Неизвестный"
-    });
+    super(
+      {},
+      {
+        currentDialog: initialChat,
+        currentUser: initialCompanion?.login || 'Неизвестный',
+      }
+    );
   }
 
   protected initChildren() {
@@ -31,13 +37,13 @@ export default class Chat extends Block<Record<string, unknown>, { currentDialog
   }
 
   private getCurrentMessages() {
-    const currentChat = MockChats.find(chat => chat.id === this.state.currentDialog);
+    const currentChat = MockChats.find((chat) => chat.id === this.state.currentDialog);
     return currentChat ? currentChat.messages : [];
   }
 
   private static getCompanion(chatId: string, currentUser: string) {
-    const currentChat = MockChats.find(chat => chat.id === chatId);
-    return currentChat?.participants.find(user => user.login !== currentUser);
+    const currentChat = MockChats.find((chat) => chat.id === chatId);
+    return currentChat?.participants.find((user) => user.login !== currentUser);
   }
 
   private getCompanion() {
@@ -48,9 +54,9 @@ export default class Chat extends Block<Record<string, unknown>, { currentDialog
     const companion = Chat.getCompanion(chatId, this.state.currentUser);
     if (!companion) return;
 
-    this.setState({ 
-      currentDialog: chatId, 
-      currentUser: companion.login 
+    this.setState({
+      currentDialog: chatId,
+      currentUser: companion.login,
     });
 
     this.childrens.chatdialog.setProps({ messages: this.getCurrentMessages() });

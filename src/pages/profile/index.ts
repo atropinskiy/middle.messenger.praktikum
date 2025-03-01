@@ -1,2 +1,2 @@
-import "./profile.pcss";
-export { default as Profile } from "./profile";
+import './profile.pcss';
+export { default as Profile } from './profile';

@@ -2,34 +2,34 @@
   --primary-color: #007bff;
   --secondary-color: #2c3e50;
   --background-color: #f4f4f4;
-  --text-color: #333;
+  --text-color: #333333;
   --error-color: #e74c3c;
 }
 
 html,
 body {
+  display: flex;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  color: var(--text-color);
-  display: flex;
-  font-family: Inter, sans-serif;
+  width: 100%;
   height: 100%;
-  justify-content: center;
   margin: 0 auto;
   margin: 0;
   padding: 0;
-  width: 100%;
+  color: var(--text-color);
+  font-family: "Inter", sans-serif;
 }
 
 main {
+  display: flex;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  display: flex;
+  width: 100%;
   height: 100%;
-  justify-content: center;
   margin: 0;
   padding: 0;
-  width: 100%;
 }
 
 *,
@@ -40,8 +40,8 @@ main {
 
 a {
   color: var(--primary-color);
-  font-size: 11px;
   font-weight: 500;
+  font-size: 11px;
   text-decoration: none;
 }
 
@@ -51,12 +51,12 @@ div {
 }
 
 #app {
-  align-items: center;
   display: flex;
-  height: 100%;
   justify-content: center;
-  padding: 0;
+  align-items: center;
   width: 100%;
+  height: 100%;
+  padding: 0;
 }
 
 h1,

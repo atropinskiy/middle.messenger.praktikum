@@ -5,7 +5,7 @@ import Handlebars from 'handlebars';
 Handlebars.registerPartial('Avatar', template);
 
 interface AvatarProps {
-  src: string
+  src: string;
   className?: string;
   width: number;
   label?: string;
@@ -15,9 +15,8 @@ export class Avatar extends Block {
   constructor(props: AvatarProps) {
     super({
       ...props,
-      className: props.className || ''
-    }
-    );
+      className: props.className || '',
+    });
   }
 
   render() {

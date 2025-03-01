@@ -35,5 +35,3 @@ export const validatePassword = (value: string): string | null => {
 
   return null;
 };
-
-

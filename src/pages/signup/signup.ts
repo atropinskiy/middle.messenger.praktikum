@@ -1,23 +1,28 @@
 import Block from '@core/block';
 import renderDOM from '@core/renderDom';
 import template from './signup.hbs?raw';
-import { Button, Input } from '@components/index'
+import { Button, Input } from '@components/index';
 import { RegisterModel } from '@models/register';
-import * as Validators from "@utils/validators"
-
+import * as Validators from '@utils/validators';
 
 export default class SignIn extends Block<Record<string, unknown>, RegisterModel> {
   constructor() {
     super();
-    this.state = { email: "", login: "", 
-      first_name: "", password: "", 
-      password_confirm: "", phone: "", 
-      second_name: "", isFormValid: false };
+    this.state = {
+      email: '',
+      login: '',
+      first_name: '',
+      password: '',
+      password_confirm: '',
+      phone: '',
+      second_name: '',
+      isFormValid: false,
+    };
   }
   protected initChildren() {
     this.childrens.register_button = new Button({
       type: 'button',
-      name: "email",
+      name: 'email',
       label: 'Зарегистрироваться',
       className: 'button w-100',
       onClick: () => {
@@ -26,7 +31,7 @@ export default class SignIn extends Block<Record<string, unknown>, RegisterModel
         } else {
           console.log('Форма заполнена неверно');
         }
-      }
+      },
     });
     this.childrens.email_input = new Input({
       placeholder: 'Email',
@@ -42,10 +47,10 @@ export default class SignIn extends Block<Record<string, unknown>, RegisterModel
 
         this.setState({
           email: input.value,
-          isFormValid: !error && !Validators.validatePassword(this.state.password)
+          isFormValid: !error && !Validators.validatePassword(this.state.password),
         });
-        console.log(this.state)
-      }
+        console.log(this.state);
+      },
     });
     this.childrens.login_input = new Input({
       placeholder: 'Логин',
@@ -61,9 +66,9 @@ export default class SignIn extends Block<Record<string, unknown>, RegisterModel
 
         this.setState({
           email: input.value,
-          isFormValid: !error && !Validators.validatePassword(this.state.password)
+          isFormValid: !error && !Validators.validatePassword(this.state.password),
         });
-      }
+      },
     });
   }
 

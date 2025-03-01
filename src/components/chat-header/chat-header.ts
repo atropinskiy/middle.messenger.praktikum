@@ -10,8 +10,7 @@ export class ChatHeader extends Block {
   constructor(props: ChatHeaderProps) {
     super({
       ...props,
-    }
-    );
+    });
   }
 
   render() {

@@ -8,7 +8,7 @@ export default class SignIn extends Block<Record<string, unknown>> {
     super();
     this.state = { login: '', password: '', isFormValid: false };
   }
-  
+
   render() {
     return this.compile(template, { current_user: CurrentUserMock });
   }

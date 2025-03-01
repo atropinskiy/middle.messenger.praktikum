@@ -13,8 +13,7 @@ export class Link extends Block {
     super({
       ...props,
       className: props.className,
-    }
-    );
+    });
   }
 
   render() {
