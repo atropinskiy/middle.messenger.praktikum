@@ -1,5 +1,5 @@
 import Block from '@core/block';
-import { Input, InputField } from '@components/index';
+import { InputField } from '@components/index';
 import template from './profile-edit-cell.hbs?raw';
 
 interface ProfilEditCellProps {

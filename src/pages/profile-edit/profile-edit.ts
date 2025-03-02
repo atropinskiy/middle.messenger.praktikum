@@ -25,7 +25,7 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
       chat_name: CurrentUserMock.chat_name || '',
       phone: CurrentUserMock.phone || '',
       isFormValid: false,
-      errors: []
+      errors: {} 
     };
   }
   protected initChildren() {
@@ -38,7 +38,16 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
             name: key,
             placeholder: value,
             value: value,
-            inputClasses: "text-right"
+            inputClasses: "text-right",
+            onBlur: (e: Event) => {
+               console.log(e);
+            },
+            onChange: (e: Event) => {
+              const input = e.target as HTMLInputElement;
+              this.setState({ [key]: input.value });
+  
+              console.log(`onChange для ${key}:`, input.value);
+            }
           })
         });
       });

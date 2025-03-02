@@ -8,20 +8,23 @@ interface InputFieldProps {
   error?: string;
   placeholder?: string;
   inputClasses?: string;
-  onChange?: () => void;
-  onBlur?: () => void
+  onChange?: (e: Event) => void;
+  onBlur?: (e: Event) => void
 }
 
 export class InputField extends Block<InputFieldProps> {
   constructor(props: InputFieldProps) {
     super(props);
+    console.log("Создан InputField с onBlur:", props.onBlur);
   }
   protected initChildren() {
     this.childrens.InputField = new Input({
       name: this.props.name,
       placeholder: this.props.placeholder,
       value: this.props.value,
-      className: this.props.inputClasses
+      className: this.props.inputClasses,
+      onChange: this.props.onChange,
+      onBlur: this.props.onBlur
     })
   }
   render() {
