@@ -2,7 +2,7 @@ import { ChangeProfileModel } from '@models/change_profile';
 
 export const CurrentUserMock: ChangeProfileModel = {
   email: 'pochta@yandex.ru',
-  avatar_url: 'sdf',
+  avatar_url: 'img/avatar_mock.jpg',
   login: 'ivanivanov',
   first_name: 'Иван',
   second_name: 'Иванов',

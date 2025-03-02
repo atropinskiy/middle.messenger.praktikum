@@ -1,6 +1,10 @@
 <main>
   <div class='d-flex flex-column'>
-    {{!-- <div class="d-flex flex-grow justify-center">{{> Avatar src=image.image_path width=image.width }}</div> --}}
+    <div class="d-flex flex-grow justify-center">
+      <image class="avatar" src="{{ current_user.avatar_url }}" aria-hidden="true"></image>
+      
+
+    </div>
     <div class='w-100 d-flex justify-center name-label'>{{current_user.login}}</div>
     <table class='profile-table flex-grow'>
       <tr>

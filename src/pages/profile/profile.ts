@@ -4,9 +4,11 @@ import template from './profile.hbs?raw';
 import { CurrentUserMock } from '../../mock-data/current-user';
 
 export default class Profile extends Block<Record<string, unknown>> {
+  
   constructor() {
-    super();
+    super({avatar_url: CurrentUserMock.avatar_url});
     this.state = { login: '', password: '', isFormValid: false };
+    
   }
 
   render() {
