@@ -4,10 +4,12 @@ import { Input } from '@components/index';
 
 interface InputFieldProps {
   name: string;
-  value?: string;
-  error?: string;
+  value: string;
+  error: string;
   placeholder?: string;
   inputClasses?: string;
+  parentClasses?: string;
+  type?: string;
   onChange?: (e: Event) => void;
   onBlur?: (e: Event) => void
 }
@@ -15,7 +17,6 @@ interface InputFieldProps {
 export class InputField extends Block<InputFieldProps> {
   constructor(props: InputFieldProps) {
     super(props);
-    console.log("Создан InputField с onBlur:", props.onBlur);
   }
   protected initChildren() {
     this.childrens.InputField = new Input({
@@ -23,10 +24,13 @@ export class InputField extends Block<InputFieldProps> {
       placeholder: this.props.placeholder,
       value: this.props.value,
       className: this.props.inputClasses,
+      type: this.props.type,
       onChange: this.props.onChange,
       onBlur: this.props.onBlur
     })
   }
+
+
   render() {
     return this.compile(template, { ...this.props });
   }

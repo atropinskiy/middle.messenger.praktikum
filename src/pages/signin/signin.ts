@@ -1,7 +1,7 @@
 import Block from '@core/block';
 import renderDOM from '@core/renderDom';
 import template from './signin.hbs?raw';
-import { Button, Input, Link } from '@components/index';
+import { Button, InputField, Link } from '@components/index';
 import { validateLogin, validatePassword } from '@utils/validators';
 import { AuthModel } from '@models/auth';
 
@@ -10,7 +10,6 @@ export default class SignIn extends Block<object, AuthModel> {
     super();
     this.state = { login: '', password: '', isFormValid: false };
   }
-
   protected initChildren() {
     this.childrens.button = new Button({
       type: 'button',
@@ -20,20 +19,20 @@ export default class SignIn extends Block<object, AuthModel> {
       onClick: () => {
         if (this.state.isFormValid) {
           console.log('Отправка данных:', this.state);
-          window.location.href = '/#signup';
+          window.location.href = '/#chat';
         } else {
           console.log('Форма заполнена неверно');
         }
       },
     });
-    this.childrens.input = new Input({
-      placeholder: 'Логин',
+    this.childrens.input = new InputField({
+      placeholder: 'Login',
       name: 'login',
-      autocomplete: 'login',
-      className: 'w-100 input__element',
-      type: 'text',
+      error: '',
       value: '',
+      parentClasses: 'signin-login-input',
       onChange: (e) => {
+        
         const input = e.target as HTMLInputElement;
         const error = validateLogin(input.value);
 
@@ -45,13 +44,13 @@ export default class SignIn extends Block<object, AuthModel> {
         });
       },
     });
-    this.childrens.input_password = new Input({
+    this.childrens.input_password = new InputField({
       placeholder: 'Password',
       name: 'password',
-      autocomplete: 'password',
-      className: 'w-100',
-      type: 'password',
       value: '',
+      error: '',
+      parentClasses: 'signin-login-input',
+      type: 'password',
       onChange: (e) => {
         const input = e.target as HTMLInputElement;
         const error = validatePassword(input.value);
@@ -70,6 +69,7 @@ export default class SignIn extends Block<object, AuthModel> {
   }
 
   render() {
+    
     return this.compile(template, {});
   }
 }

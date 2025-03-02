@@ -67,6 +67,7 @@ export default class Chat extends Block<
   }
 
   render() {
+    console.log(this.childrens)
     return this.compile(template, {});
   }
 }

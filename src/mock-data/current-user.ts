@@ -1,6 +1,6 @@
-import { UserModel } from '@models/chat';
+import { ChangeProfileModel } from '@models/change_profile';
 
-export const CurrentUserMock: UserModel = {
+export const CurrentUserMock: ChangeProfileModel = {
   email: 'pochta@yandex.ru',
   avatar_url: 'sdf',
   login: 'ivanivanov',

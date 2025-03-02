@@ -18,6 +18,7 @@ export class ChatList extends Block<ChatListProps> {
 
   protected initChildren() {
     this.props.chats.forEach((chat) => {
+      console.log(chat)
       const filteredMessages = chat.messages.filter(
         (msg) => msg.from.login !== ChatList.currentUser
       );

@@ -83,10 +83,12 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
   };
   
 
-  public setState(newState: Partial<TState>) {
+  public setState(update: Partial<TState> | ((prevState: TState) => Partial<TState>)) {
+    const newState = typeof update === "function" ? update(this.state) : update;
     Object.assign(this.state, newState);
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
+  
 
   get element(): HTMLElement | null {
     return this._element;

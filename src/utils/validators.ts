@@ -18,10 +18,10 @@ export const validateLogin = (value: string): string | null => {
 
   return null;
 };
+
 // Валидация пароля
 export const validatePassword = (value: string): string | null => {
   const trimmedValue = value.trim();
-
   if (!trimmedValue) {
     return 'Поле не может быть пустым';
   }
@@ -38,41 +38,46 @@ export const validatePassword = (value: string): string | null => {
   return null;
 };
 
-// Валидатор
+// Главный валидатор
 export class Validator {
-  static validate(fields: Record<string, string>, fieldLabels: UserModel): string[] {
-    const errors: string[] = [];
+  static validate(fields: Record<string, string>, fieldLabels: UserModel): Record<string, string[]> {
+    const errors: Record<string, string[]> = {};
+
     Object.entries(fields).forEach(([key, value]) => {
       const label = fieldLabels[key];
-      
-      if (!label) return; // Если для ключа нет метки, пропускаем
+      if (!label) return;
 
-      // Валидация для каждого поля
+      let fieldErrors: string[] = [];
+
       switch (key) {
         case 'email':
           if (!Validator.validateEmail(value)) {
-            errors.push(`${label} должен быть валидным email.`);
+            fieldErrors.push(`${label} должен быть валидным email.`);
           }
           break;
-        case 'login':
-          if (value.trim() === '') {
-            errors.push(`${label} не может быть пустым.`);
-          }
+        case 'login': {
+          const error = validateLogin(value);
+          if (error) fieldErrors.push(error);
           break;
-        case 'password':
-          if (value.length < 6) {
-            errors.push(`${label} должен быть не менее 6 символов.`);
-          }
+        }
+        case 'password': {
+          const error = validatePassword(value);
+          if (error) fieldErrors.push(error);
           break;
+        }
         case 'phone':
           if (!Validator.validatePhone(value)) {
-            errors.push(`${label} должен быть валидным номером телефона.`);
+            fieldErrors.push(`${label} должен быть валидным номером телефона.`);
           }
           break;
         default:
           if (value.trim() === '') {
-            errors.push(`${label} не может быть пустым.`);
+            fieldErrors.push(`${label} не может быть пустым.`);
           }
+      }
+
+      if (fieldErrors.length > 0) {
+        errors[key] = fieldErrors; // Сохраняем ошибки для каждого поля отдельно
       }
     });
 
