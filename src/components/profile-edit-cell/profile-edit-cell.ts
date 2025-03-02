@@ -1,10 +1,10 @@
 import Block from '@core/block';
-import { Input } from '@components/index';
+import { Input, InputField } from '@components/index';
 import template from './profile-edit-cell.hbs?raw';
 
 interface ProfilEditCellProps {
   label: string;
-  input: Input;
+  input: InputField;
 }
 
 export class ProfileEditCell extends Block {

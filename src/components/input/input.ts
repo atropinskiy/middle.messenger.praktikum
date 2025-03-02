@@ -4,6 +4,7 @@ import template from './input.hbs?raw';
 
 export interface InputProps {
   onChange?: (e: Event) => void;
+  onBlur?: (e: Event) => void;
   name: string;
   type?: string;
   placeholder?: string;
@@ -13,19 +14,15 @@ export interface InputProps {
   error?: string | null;
   parentClasses?: string
 }
-
 export class Input extends Block<InputProps> {
   constructor(props: InputProps) {
     super({
       ...props,
       events: {
         change: props.onChange,
+        blur: props.onBlur,
       },
     });
-  }
-
-  public hasError(): boolean {
-    return Boolean(this.props.error);
   }
 
   render() {

@@ -72,19 +72,16 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
   }
 
   protected componentDidUpdate(oldProps: any, newProps: any) {
-    // TODO: переделать на глубокое сравнение в 3 спринте
-    if (oldProps !== newProps) return true;
-
-    return;
+    return JSON.stringify(oldProps) !== JSON.stringify(newProps);
   }
 
   public setProps = (nextProps: any) => {
-    if (!nextProps) {
-      return;
-    }
-
+    if (!nextProps) return;
+  
     Object.assign(this.props, nextProps);
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
   };
+  
 
   public setState(newState: Partial<TState>) {
     Object.assign(this.state, newState);

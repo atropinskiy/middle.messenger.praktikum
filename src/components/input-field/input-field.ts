@@ -1,28 +1,30 @@
 import Block from '@core/block';
-import template from './chatlist.hbs?raw';
+import template from './input-field.hbs?raw';
 import { Input } from '@components/index';
 
-interface ChatListProps {
+interface InputFieldProps {
   name: string;
-  input: Input;
-  onChange?: () => void
+  value?: string;
+  error?: string;
+  placeholder?: string;
+  inputClasses?: string;
+  onChange?: () => void;
+  onBlur?: () => void
 }
 
-export class ChatList extends Block<ChatListProps> {
-
-  constructor(props: ChatListProps) {
+export class InputField extends Block<InputFieldProps> {
+  constructor(props: InputFieldProps) {
     super(props);
-    this.initChildren();
   }
-
   protected initChildren() {
-      this.childrens.input = new Input({
-        name: this.props.name
-      });
-      
+    this.childrens.InputField = new Input({
+      name: this.props.name,
+      placeholder: this.props.placeholder,
+      value: this.props.value,
+      className: this.props.inputClasses
+    })
   }
-
   render() {
-    return this.compile(template, {});
+    return this.compile(template, { ...this.props });
   }
 }

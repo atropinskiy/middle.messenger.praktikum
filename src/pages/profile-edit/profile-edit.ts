@@ -1,7 +1,7 @@
 import Block from '@core/block';
 import template from './profile-edit.hbs?raw';
 import { CurrentUserMock } from '../../mock-data/current-user';
-import { Input, ProfileEditCell, Button } from '@components/index';
+import { ProfileEditCell, Button, InputField } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
 
@@ -17,7 +17,7 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
 
   constructor() {
     super();
-    this.state = { 
+    this.state = {
       login: CurrentUserMock.login || '',
       email: CurrentUserMock.email || '',
       first_name: CurrentUserMock.first_name || '',
@@ -34,19 +34,11 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
       .forEach(([key, value]) => {
         this.childrens[key] = new ProfileEditCell({
           label: key,
-          input: new Input({
+          input: new InputField({
             name: key,
             placeholder: value,
             value: value,
-            className: "text-right",
-            parentClasses: "d-flex justify-end",
-            onChange: (e) => {
-              const input = e.target as HTMLInputElement;
-              this.setState({
-                [key]: input.value
-              });
-              
-            }
+            inputClasses: "text-right"
           })
         });
       });
@@ -58,11 +50,11 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
       onClick: () => {
         this.handleSave();
       }
-    })
+    });
   }
 
   handleSave() {
-    const errors = Validator.validate(this.state, this.fieldLabels); 
+    const errors = Validator.validate(this.state, this.fieldLabels);
     if (errors.length > 0) {
       this.setState({
         errors: errors
@@ -73,20 +65,8 @@ export default class ProfileEdit extends Block<Record<string, UserModel>> {
     }
   }
 
-  
-
   render() {
-    const childrensArray = Object.values(this.childrens);
-    const context = {
-      childrens: childrensArray,
-    };
-  
-    // Передаем ошибки как дополнительный параметр
-    const additionalData = {
-      errors: ["123"]
-    };
-  
-    return this.compile(template, {}, additionalData);
+    return this.compile(template, {});
   }
-  
+
 }
