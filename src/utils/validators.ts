@@ -10,7 +10,7 @@ export const validateLogin = (value: string): string | null => {
     return 'Логин должен содержать от 3 до 20 символов';
   }
   if (!/^[a-zA-Z0-9_-]+$/.test(trimmedValue)) {
-    return 'Логин может содержать только латиницу';
+    return 'Логин может содержать только латиницу, дефис и нижнее подчеркивание';
   }
   if (/^\d+$/.test(trimmedValue)) {
     return 'Логин не может состоять только из цифр';
@@ -38,6 +38,52 @@ export const validatePassword = (value: string): string | null => {
   return null;
 };
 
+// Валидация совпадения паролей
+export const validatePasswordConfirm = (password: string, confirmPassword: string): string | null => {
+  if (password !== confirmPassword) {
+    return 'Пароли не совпадают';
+  }
+  return null;
+};
+
+// Валидация имени (first_name и second_name)
+export const validateName = (value: string, field: string): string | null => {
+  const trimmedValue = value.trim();
+  if (!/^[A-Za-zА-Яа-яЁё]+([-]?[A-Za-zА-Яа-яЁё]+)?$/.test(trimmedValue)) {
+    return `${field} должен содержать только латиницу или кириллицу, первая буква заглавная, без цифр и спецсимволов (кроме дефиса).`;
+  }
+  return null;
+};
+
+// Валидация email
+export const validateEmail = (value: string): string | null => {
+  const trimmedValue = value.trim();
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!regex.test(trimmedValue)) {
+    return 'Email должен быть валидным.';
+  }
+  return null;
+};
+
+// Валидация телефона
+export const validatePhone = (value: string): string | null => {
+  const trimmedValue = value.trim();
+  const regex = /^\+?\d{10,15}$/;
+  if (!regex.test(trimmedValue)) {
+    return 'Номер телефона должен содержать от 10 до 15 цифр и может начинаться с плюса.';
+  }
+  return null;
+};
+
+// Валидация сообщения (message)
+export const validateMessage = (value: string): string | null => {
+  const trimmedValue = value.trim();
+  if (!trimmedValue) {
+    return 'Сообщение не может быть пустым.';
+  }
+  return null;
+};
+
 // Главный валидатор
 export class Validator {
   static validate(fields: Record<string, string>, fieldLabels: UserModel): Record<string, string[]> {
@@ -51,25 +97,40 @@ export class Validator {
 
       switch (key) {
         case 'email':
-          if (!Validator.validateEmail(value)) {
-            fieldErrors.push(`${label} должен быть валидным email.`);
-          }
+          const emailError = validateEmail(value);
+          if (emailError) fieldErrors.push(emailError);
           break;
         case 'login': {
-          const error = validateLogin(value);
-          if (error) fieldErrors.push(error);
+          const loginError = validateLogin(value);
+          if (loginError) fieldErrors.push(loginError);
           break;
         }
         case 'password': {
-          const error = validatePassword(value);
-          if (error) fieldErrors.push(error);
+          const passwordError = validatePassword(value);
+          if (passwordError) fieldErrors.push(passwordError);
           break;
         }
-        case 'phone':
-          if (!Validator.validatePhone(value)) {
-            fieldErrors.push(`${label} должен быть валидным номером телефона.`);
-          }
+        case 'password_confirm': {
+          const passwordConfirmError = validatePasswordConfirm(fields['password'], value);
+          if (passwordConfirmError) fieldErrors.push(passwordConfirmError);
           break;
+        }
+        case 'first_name':
+        case 'second_name': {
+          const nameError = validateName(value, key === 'first_name' ? 'Имя' : 'Фамилия');
+          if (nameError) fieldErrors.push(nameError);
+          break;
+        }
+        case 'phone': {
+          const phoneError = validatePhone(value);
+          if (phoneError) fieldErrors.push(phoneError);
+          break;
+        }
+        case 'message': {
+          const messageError = validateMessage(value);
+          if (messageError) fieldErrors.push(messageError);
+          break;
+        }
         default:
           if (value.trim() === '') {
             fieldErrors.push(`${label} не может быть пустым.`);
@@ -77,22 +138,10 @@ export class Validator {
       }
 
       if (fieldErrors.length > 0) {
-        errors[key] = fieldErrors; // Сохраняем ошибки для каждого поля отдельно
+        errors[key] = fieldErrors;
       }
     });
 
     return errors;
-  }
-
-  // Валидация email
-  static validateEmail(email: string): boolean {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
-  }
-
-  // Валидация телефона
-  static validatePhone(phone: string): boolean {
-    const regex = /^\+?\d{1,4}?[\s-]?\(?\d{1,3}?\)?[\s-]?\d{1,4}[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
-    return regex.test(phone);
   }
 }

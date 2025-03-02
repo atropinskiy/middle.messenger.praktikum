@@ -2,6 +2,7 @@ import Block from '@core/block';
 import template from './signup.hbs?raw';
 import { Button, InputField } from '@components/index';
 import { UserModel } from '@models/chat';
+import { Validator } from '@utils/validators';
 
 const fields: UserModel = {
   email: '',
@@ -14,18 +15,23 @@ const fields: UserModel = {
 };
 
 export default class SignUp extends Block<Record<string, unknown>, UserModel> {
+  private fieldLabels: UserModel = {
+    email: 'Email',
+    login: 'Логин',
+    first_name: 'Имя',
+    second_name: 'Фамилия',
+    phone: 'Телефон',
+    password: 'Пароль',
+    password_confirm: 'Подтверждение пароля',
+  };
+
   constructor() {
     super();
-
-    // Инициализация состояния значениями из fields
     this.state = { ...fields };
-    this.initChildren(); // Вызываем initChildren для инициализации полей формы
   }
 
   protected initChildren() {
-    // Перебираем поля в состоянии и создаем компоненты InputField
-    Object.entries(this.state).forEach(([name, value]) => {
-      // Задаем типы по умолчанию
+    Object.entries(fields).forEach(([name, value]) => {
       let type = 'text';
       if (name === 'password' || name === 'password_confirm') {
         type = 'password';
@@ -35,24 +41,22 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
         type = 'tel';
       }
 
-      // Инициализация компонента InputField для каждого поля
       this.childrens[name] = new InputField({
         error: '',
         name,
         type,
-        value: value ?? '',  // Значение из состояния или пустая строка
-        placeholder: `Enter ${name}`,
-        parentClasses: 'mt-2',
-        onChange: (e: Event) => this.handleInputChange(e, name), // Обработчик изменения
+        value: value ?? '',
+        placeholder: `Введите ${name}`,
+        parentClasses: 'mt-2 signin-login-input',
+        onChange: (e: Event) => this.handleInputChange(e, name),
       });
     });
 
-    // Добавление кнопки submit в форму
     this.childrens.submitButton = new Button({
       label: 'Sign Up',
       name: 'submit',
       type: 'button',
-      className: 'button w-100 signup-button ',
+      className: 'button w-100 signup-button',
       onClick: () => this.handleSubmit(),
     });
   }
@@ -60,23 +64,87 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
   private handleInputChange(e: Event, name: string) {
     const input = e.target as HTMLInputElement;
     const { value } = input;
-    
-    // Обновляем состояние при изменении значения в инпуте
+
     this.setState({
       [name]: value,
     });
-    console.log(this.state);
+
+    if (name === 'password') {
+      if (this.state.password_confirm && this.state.password_confirm !== value) {
+        this.childrens.password_confirm?.setProps({
+          error: 'Пароли не совпадают',
+        });
+      } else {
+        this.childrens.password_confirm?.setProps({
+          error: '',
+        });
+      }
+    }
+
+    if (name === 'password_confirm') {
+      if (this.state.password && this.state.password !== value) {
+        this.childrens.password_confirm?.setProps({
+          error: 'Пароли не совпадают',
+        });
+      } else {
+        this.childrens.password_confirm?.setProps({
+          error: '',
+        });
+      }
+    }
+
+    const fieldErrors = this.validateField(name, value);
+
+    this.childrens[name]?.setProps({ error: fieldErrors.join(', ') });
+  }
+
+  private validateField(name: string, value: string) {
+    const errors = Validator.validate({ [name]: value }, this.fieldLabels);
+    const fieldErrors = errors[name] || [];
+
+    if (name === 'password_confirm') {
+      if (this.state.password && this.state.password !== value) {
+        fieldErrors.push('Пароли не совпадают');
+      } else if (this.state.password === value) {
+        fieldErrors.length = 0;
+      }
+    }
+
+    return fieldErrors;
+  }
+
+  private validateFields() {
+    const sanitizedState = Object.fromEntries(
+      Object.entries(this.state).map(([key, value]) => [key, value ?? ''])
+    );
+
+    const errors = Validator.validate(sanitizedState as Record<string, string>, this.fieldLabels);
+
+    Object.entries(errors).forEach(([key, errorMessages]) => {
+      const inputField = this.childrens[key] as InputField;
+      const errorMessage = errorMessages.join(', ');
+      inputField.setProps({ error: errorMessage }); 
+    });
+
+    return errors;
   }
 
   private handleSubmit() {
-    // Логика отправки формы
-    console.log("Form submitted with state:", this.state);
+    const sanitizedState = Object.fromEntries(
+      Object.entries(this.state).map(([key, value]) => [key, value ?? ''])
+    );
+
+    const errors = this.validateFields();
+
+    if (Object.values(errors).some((errorMessages) => errorMessages.length > 0)) {
+      console.log("Ошибки при отправке формы:", errors);
+
+    } else {
+      console.log("Форма успешно отправлена:", sanitizedState);
+    }
   }
 
   render() {
-    // Рендерим шаблон
-    return this.compile(template, {
-      // передаем данные для рендеринга
-    });
+    return this.compile(template, {});
   }
 }
