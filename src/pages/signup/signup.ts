@@ -1,83 +1,82 @@
 import Block from '@core/block';
-import renderDOM from '@core/renderDom';
 import template from './signup.hbs?raw';
-import { Button, Input } from '@components/index';
-import { RegisterModel } from '@models/register';
-import * as Validators from '@utils/validators';
+import { Button, InputField } from '@components/index';
+import { UserModel } from '@models/chat';
 
-export default class SignIn extends Block<Record<string, unknown>, RegisterModel> {
+const fields: UserModel = {
+  email: '',
+  login: '',
+  first_name: '',
+  second_name: '',
+  phone: '',
+  password: '',
+  password_confirm: ''
+};
+
+export default class SignUp extends Block<Record<string, unknown>, UserModel> {
   constructor() {
     super();
-    this.state = {
-      email: '',
-      login: '',
-      first_name: '',
-      password: '',
-      password_confirm: '',
-      phone: '',
-      second_name: '',
-      isFormValid: false,
-    };
+
+    // Инициализация состояния значениями из fields
+    this.state = { ...fields };
+    this.initChildren(); // Вызываем initChildren для инициализации полей формы
   }
+
   protected initChildren() {
-    this.childrens.register_button = new Button({
+    // Перебираем поля в состоянии и создаем компоненты InputField
+    Object.entries(this.state).forEach(([name, value]) => {
+      // Задаем типы по умолчанию
+      let type = 'text';
+      if (name === 'password' || name === 'password_confirm') {
+        type = 'password';
+      } else if (name === 'email') {
+        type = 'email';
+      } else if (name === 'phone') {
+        type = 'tel';
+      }
+
+      // Инициализация компонента InputField для каждого поля
+      this.childrens[name] = new InputField({
+        error: '',
+        name,
+        type,
+        value: value ?? '',  // Значение из состояния или пустая строка
+        placeholder: `Enter ${name}`,
+        parentClasses: 'mt-2',
+        onChange: (e: Event) => this.handleInputChange(e, name), // Обработчик изменения
+      });
+    });
+
+    // Добавление кнопки submit в форму
+    this.childrens.submitButton = new Button({
+      label: 'Sign Up',
+      name: 'submit',
       type: 'button',
-      name: 'email',
-      label: 'Зарегистрироваться',
-      className: 'button w-100',
-      onClick: () => {
-        if (this.state.isFormValid) {
-          console.log('Отправка данных:', this.state);
-        } else {
-          console.log('Форма заполнена неверно');
-        }
-      },
+      className: 'button w-100 signup-button ',
+      onClick: () => this.handleSubmit(),
     });
-    this.childrens.email_input = new Input({
-      placeholder: 'Email',
-      name: 'email',
-      autocomplete: 'email',
-      className: 'w-100 input__element',
-      type: 'text',
-      value: '',
-      onChange: (e) => {
-        const input = e.target as HTMLInputElement;
-        const error = Validators.validateLogin(input.value);
-        this.childrens.email_input.setProps({ error, value: input.value });
+  }
 
-        this.setState({
-          email: input.value,
-          isFormValid: !error && !Validators.validatePassword(this.state.password),
-        });
-        console.log(this.state);
-      },
+  private handleInputChange(e: Event, name: string) {
+    const input = e.target as HTMLInputElement;
+    const { value } = input;
+    
+    // Обновляем состояние при изменении значения в инпуте
+    this.setState({
+      [name]: value,
     });
-    this.childrens.login_input = new Input({
-      placeholder: 'Логин',
-      name: 'login',
-      autocomplete: 'login',
-      className: 'w-100 input__element',
-      type: 'text',
-      value: '',
-      onChange: (e) => {
-        const input = e.target as HTMLInputElement;
-        const error = Validators.validateLogin(input.value);
-        this.childrens.login_input.setProps({ error, value: input.value });
+    console.log(this.state);
+  }
 
-        this.setState({
-          email: input.value,
-          isFormValid: !error && !Validators.validatePassword(this.state.password),
-        });
-      },
-    });
+  private handleSubmit() {
+    // Логика отправки формы
+    console.log("Form submitted with state:", this.state);
   }
 
   render() {
-    return this.compile(template, {});
+    // Рендерим шаблон
+    return this.compile(template, {
+      // передаем данные для рендеринга
+    });
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  const page = new SignIn();
-  renderDOM('#app', page);
-});

@@ -6,6 +6,8 @@ export interface UserModel {
   second_name?: string;
   chat_name?: string;
   phone?: string;
+  password?: string;
+  password_confirm?: string;
   [key: string]: string | undefined;
 }
 

@@ -1,7 +1,7 @@
 import Block from '@core/block';
 import template from './profile-edit.hbs?raw';
 import { CurrentUserMock } from '../../mock-data/current-user';
-import { ProfileEditCell, Button, InputField, Avatar } from '@components/index';
+import { ProfileEditCell, Button, InputField } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
 
