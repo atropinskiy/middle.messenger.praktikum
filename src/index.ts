@@ -14,8 +14,10 @@ const pages = {
   signup: [Pages.SignUp],
   chat: [Pages.Chat],
   profile: [Pages.Profile],
-  profile_edit: [Pages.ProfileEdit]
-};
+  profile_edit: [Pages.ProfileEdit],
+  error404: [Pages.ErrorPage],
+  error500: [Pages.ErrorPage],
+}
 
 function navigate(page: string) {
   const route = pages[page as keyof typeof pages];
