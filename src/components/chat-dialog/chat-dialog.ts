@@ -13,9 +13,16 @@ export class ChatDialog extends Block {
     });
   }
 
+  protected componentDidUpdate(oldProps: ChatDialogProps, newProps: ChatDialogProps) {
+    console.log("Перерисовк")
+    return oldProps.messages !== newProps.messages; 
+    
+  }
+
   render() {
     return this.compile(template, { ...this.props });
   }
 }
 
 export default ChatDialog;
+

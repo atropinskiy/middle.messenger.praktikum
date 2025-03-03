@@ -1,6 +1,7 @@
 .dialog-to-me {
   max-width: 40%;
   margin-left: auto;
+  margin-top:1.5rem;
   padding: 8px;
   color: black;
   background-color: rgb(232 232 232);
@@ -20,4 +21,10 @@
   margin-top: 5px;
   margin-left: auto;
   font-size: 10px;
+}
+
+.chat-dialog {
+  flex-direction: column;
+  flex: 1; /* Растягивается, занимая всё доступное пространство */
+  overflow-y: auto; /* Если контента много, будет скролл */
 }

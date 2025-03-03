@@ -85,9 +85,28 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
 
   public setState(update: Partial<TState> | ((prevState: TState) => Partial<TState>)) {
     const newState = typeof update === "function" ? update(this.state) : update;
-    Object.assign(this.state, newState);
+  
+    const updatedState = Object.keys(newState).reduce((acc, key) => {
+      const value = newState[key as keyof TState];
+  
+      if (Array.isArray(value)) {
+        acc[key as keyof TState] = [...value] as TState[keyof TState]; // Клонируем массив
+      } else if (typeof value === "object" && value !== null) {
+        acc[key as keyof TState] = { ...value } as TState[keyof TState]; // Клонируем объект
+      } else {
+        acc[key as keyof TState] = value;
+      }
+  
+      return acc;
+    }, {} as Partial<TState>);
+  
+    // Теперь безопасно обновляем state
+    Object.assign(this.state, updatedState);
+    
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
+  
+  
   
 
   get element(): HTMLElement | null {
@@ -176,6 +195,7 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
 
     if (el) el.style.display = 'none';
   }
+
 
   protected getChildren(propsAndChildrens: any) {
     const childrens: any = {};
