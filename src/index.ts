@@ -17,6 +17,7 @@ const pages = {
   profile_edit: [Pages.ProfileEdit],
   error404: [Pages.ErrorPage],
   error500: [Pages.ErrorPage],
+  password_change: [Pages.PasswordChange]
 }
 
 function navigate(page: string) {
