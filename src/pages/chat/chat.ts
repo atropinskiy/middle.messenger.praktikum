@@ -1,7 +1,7 @@
 import Block from '@core/block';
 import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
-import { ChatList, ChatDialog, ChatHeader, MessageInput } from '@components/index';
+import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub } from '@components/index';
 
 export default class Chat extends Block<
   Record<string, unknown>,
@@ -39,6 +39,10 @@ export default class Chat extends Block<
       onSendMessage: (message: string) => this.handleSendMessage(message),
       message: ''
     });
+
+    this.childrens.stub = new Stub({
+      label: "Выберите чат"
+    })
   }
 
   private getCurrentMessages() {

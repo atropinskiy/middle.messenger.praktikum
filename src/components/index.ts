@@ -9,3 +9,4 @@ export { Avatar } from './avatar';
 export { ProfileEditCell } from './profile-edit-cell'
 export { InputField } from './input-field'
 export { MessageInput } from './message-input'
+export { Stub } from './stub'
