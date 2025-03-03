@@ -2,10 +2,11 @@ import Block from '@core/block';
 import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
 import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub } from '@components/index';
+import { MessageModel } from '@models/chat';
 
 export default class Chat extends Block<
   Record<string, unknown>,
-  { currentDialog: string; currentUser: string; messages: any[] }
+  { currentDialog: string; currentUser: string; messages: MessageModel[] }
 > {
   constructor() {
     const initialChat = 'chat_1';

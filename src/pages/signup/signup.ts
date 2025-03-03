@@ -56,7 +56,7 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
       label: 'Sign Up',
       name: 'submit',
       type: 'button',
-      className: 'button w-100 signup-button',
+      className: 'button w-100 signup-button mt-auto',
       onClick: () => this.handleSubmit(),
     });
   }

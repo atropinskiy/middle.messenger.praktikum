@@ -93,13 +93,14 @@ export class Validator {
       const label = fieldLabels[key];
       if (!label) return;
 
-      let fieldErrors: string[] = [];
+      const fieldErrors: string[] = [];
 
       switch (key) {
-        case 'email':
+        case 'email': {
           const emailError = validateEmail(value);
           if (emailError) fieldErrors.push(emailError);
           break;
+        }
         case 'login': {
           const loginError = validateLogin(value);
           if (loginError) fieldErrors.push(loginError);
@@ -131,11 +132,13 @@ export class Validator {
           if (messageError) fieldErrors.push(messageError);
           break;
         }
-        default:
+        default: {
           if (value.trim() === '') {
             fieldErrors.push(`${label} не может быть пустым.`);
           }
+        }
       }
+
 
       if (fieldErrors.length > 0) {
         errors[key] = fieldErrors;

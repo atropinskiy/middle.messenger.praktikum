@@ -2,17 +2,15 @@
   <form action=''>
     <div class='register-window'>
       <h3 class='w-100 d-flex justify-center'>Регистрация</h3>
-      <div class='fields-block'>
-        {{#each this}}
-        {{{this}}}
-        {{/each}}
+      <div class='fields-block h-100'>
+      {{#each this}}
+        {{#if (neq @key "submitButton")}}
+          {{{this}}}
+        {{/if}}
+      {{/each}}
       </div>
-      <div class='d-flex flex-column valign-bottom h-100'>
-        <div class='w-100 mt-auto'>
-          {{{register_button}}}
-        </div>
-        <div class='w-100 d-flex justify-center mt-4'>
-        </div>
+      <div>
+        {{{submitButton}}}
       </div>
     </div>
   </form>

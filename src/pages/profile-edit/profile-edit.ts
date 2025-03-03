@@ -1,9 +1,10 @@
 import Block from '@core/block';
 import template from './profile-edit.hbs?raw';
 import { CurrentUserMock } from '../../mock-data/current-user';
-import { ProfileEditCell, Button, InputField } from '@components/index';
+import { ProfileEditCell, Button, InputField, Avatar } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
+
 
 interface ProfileEditState {
   login: string;
@@ -13,7 +14,7 @@ interface ProfileEditState {
   chat_name: string;
   phone: string;
 }
-export default class ProfileEdit extends Block<object, ProfileEditState> {
+export class ProfileEdit extends Block<object, ProfileEditState> {
 
   private fieldLabels: UserModel = {
     login: "Логин",
@@ -67,6 +68,7 @@ export default class ProfileEdit extends Block<object, ProfileEditState> {
             },
           })
         });
+
       });
     this.childrens.resultButton = new Button({
       label: "Сохранить",
@@ -77,6 +79,11 @@ export default class ProfileEdit extends Block<object, ProfileEditState> {
         this.handleSave()
       }
     });
+    this.childrens.avatar = new Avatar ({
+      src: 'img/avatar_mock.jpg',
+      className: 'avatar mb-2',
+      width: 130
+    })
   }
 
   private handleSave() {

@@ -7,6 +7,7 @@ import '@styles/main.pcss';
 Handlebars.registerHelper('eq', function (a, b) {
   return a === b;
 });
+Handlebars.registerHelper("neq", (a, b) => a !== b);
 
 const pages = {
   signin: [Pages.SignIn],
