@@ -7,9 +7,9 @@ interface MessageInputProps {
   message: string; // добавляем свойство message
 }
 
-export class MessageInput extends Block<MessageInputProps> { // Указываем тип props в классе
+export class MessageInput extends Block<MessageInputProps> {
   constructor(props: MessageInputProps) {
-    super(props); // Передаем props в родительский конструктор
+    super(props); 
   }
 
   protected initChildren(): void {
@@ -33,8 +33,8 @@ export class MessageInput extends Block<MessageInputProps> { // Указывае
       onClick: () => {
         const message = this.props.message;
         if (message) {
-          this.props.onSendMessage(message); // Вызываем onSendMessage, переданный как пропс
-          this.setProps({ message: '' }); // Очистить поле ввода после отправки
+          this.props.onSendMessage(message); 
+          this.setProps({ message: '' }); 
           console.log(message)
         }
       },

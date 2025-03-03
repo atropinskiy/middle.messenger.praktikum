@@ -15,7 +15,7 @@ export default class Chat extends Block<
       {
         currentDialog: initialChat,
         currentUser: 'ivanivanov',
-        messages: []// Инициализация с текущими сообщениями
+        messages: []
       }
     );
   }
@@ -27,7 +27,7 @@ export default class Chat extends Block<
     });
 
     this.childrens.chatdialog = new ChatDialog({
-      messages: this.state.messages, // Используем обновленное состояние сообщений
+      messages: this.state.messages, 
     });
 
     this.childrens.chatheader = new ChatHeader({
@@ -81,16 +81,11 @@ export default class Chat extends Block<
       message: message,
     });
   
-    // Создаём новый массив (иначе Block не увидит изменений)
     const updatedMessages = [...currentChat.messages];
-  
-    // Обновляем состояние
     this.setState({ messages: updatedMessages });
   
-    // Явно перерисовываем ChatDialog (это важно!)
     this.childrens.chatdialog.setProps({ messages: updatedMessages });
   
-    // Логируем состояние, чтобы проверить обновление
     console.log("Updated messages:", updatedMessages);
   }
   
@@ -102,18 +97,14 @@ export default class Chat extends Block<
   }
 
   private handleChatClick(chatId: string) {
-    // Ищем собеседника
     const companion = Chat.getCompanion(chatId, this.state.currentUser);
     console.log(companion)
     if (!companion) return;
   
-    // Обновляем только собеседника
     this.setState({
-      currentDialog: chatId,  // Меняем только текущий чат
-      // currentUser не меняем, он остаётся тот же
+      currentDialog: chatId,
     });
   
-    // Обновляем данные чата и собеседника
     this.childrens.chatdialog.setProps({ messages: this.getCurrentMessages() });
     this.childrens.chatheader.setProps({
       avatar_url: companion.avatar_url || '',
