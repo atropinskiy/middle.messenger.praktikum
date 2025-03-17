@@ -1,16 +1,21 @@
 input {
   border: none;
-  border-bottom: 1px solid blue;
-  height: 25px;
 
   &:focus-visible {
     outline: none;
   }
-  
+
   &::placeholder {
-    color: #888; /* Цвет плейсхолдера */
-    font-size: 13px; /* Размер шрифта */
-    font-weight: 500; /* Толщина шрифта */
-    font-family: 'Inter', sans-serif;
+    color: #888888;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
   }
+}
+
+.input-error {
+  margin-top: 3px;
+  margin-left: 2px;
+  color: red;
+  font-size: 10px;
 }

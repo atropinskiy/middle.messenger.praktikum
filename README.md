@@ -6,21 +6,21 @@ A real-time messaging application that allows users to send and receive messages
 
 ## Features
 
-* Real-time Messaging: Users can send and receive messages in real-time.
-* Private and Group Chats: Chat with one user or create a group to talk to * multiple users at once.
-* Message Notifications: Get notified when you receive a new message.
-* Media Sharing: Share images, videos, and files in your chats.
-* User Authentication: Secure login and registration process.
-* Typing Indicators: See when someone is typing.
-* Emoji Support: Add some fun to your messages with emojis.
-* Responsive Design: Works well on both desktop and mobile devices.
+- Real-time Messaging: Users can send and receive messages in real-time.
+- Private and Group Chats: Chat with one user or create a group to talk to \* multiple users at once.
+- Message Notifications: Get notified when you receive a new message.
+- Media Sharing: Share images, videos, and files in your chats.
+- User Authentication: Secure login and registration process.
+- Typing Indicators: See when someone is typing.
+- Emoji Support: Add some fun to your messages with emojis.
+- Responsive Design: Works well on both desktop and mobile devices.
 
 ## Technologies Used
 
-* Frontend:
-* Backend:
-* Database:
-* Real-time Communication:
+- Frontend:
+- Backend:
+- Database:
+- Real-time Communication:
 
 ## UI/UX
 
@@ -36,11 +36,11 @@ UI: https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id
 
 ## Page links
 
-* [Login page](https://opt-one-messenger.netlify.app/#signin)
-* [Register page](https://opt-one-messenger.netlify.app/#signup)
-* [Chat page](https://opt-one-messenger.netlify.app/#chat)
-* [Profile page](https://opt-one-messenger.netlify.app/#profile)
-* [Edit Profile page](https://opt-one-messenger.netlify.app/#profile_edit)
-* [Password Change page](https://opt-one-messenger.netlify.app/#password_change)
-* [Error404 page](https://opt-one-messenger.netlify.app/#error404)
-* [Error500 page](https://opt-one-messenger.netlify.app/#error500)
+- [Login page](https://opt-one-messenger.netlify.app/#signin)
+- [Register page](https://opt-one-messenger.netlify.app/#signup)
+- [Chat page](https://opt-one-messenger.netlify.app/#chat)
+- [Profile page](https://opt-one-messenger.netlify.app/#profile)
+- [Edit Profile page](https://opt-one-messenger.netlify.app/#profile_edit)
+- [Password Change page](https://opt-one-messenger.netlify.app/#password_change)
+- [Error404 page](https://opt-one-messenger.netlify.app/#error404)
+- [Error500 page](https://opt-one-messenger.netlify.app/#error500)
