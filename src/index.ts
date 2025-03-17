@@ -1,7 +1,7 @@
 import renderDOM from '@core/renderDom';
 import * as Pages from './pages';
 import Handlebars from 'handlebars';
-
+import { Router } from '@core/router/Router';
 import '@styles/main.pcss';
 
 Handlebars.registerHelper('eq', function (a, b) {
@@ -9,40 +9,20 @@ Handlebars.registerHelper('eq', function (a, b) {
 });
 Handlebars.registerHelper("neq", (a, b) => a !== b);
 
-const pages = {
-  signin: [Pages.SignIn],
-  signup: [Pages.SignUp],
-  chat: [Pages.Chat],
-  profile: [Pages.Profile],
-  profile_edit: [Pages.ProfileEdit],
-  error404: [Pages.ErrorPage],
-  error500: [Pages.ErrorPage],
-  password_change: [Pages.PasswordChange]
-}
+const router = new Router();
+Object.keys(Pages).forEach(pageKey => {
+  const PageComponent = Pages[pageKey as keyof typeof Pages];
 
-function navigate(page: string) {
-  const route = pages[page as keyof typeof pages];
+  console.log(`Регистрируем маршрут: ${pageKey}`);
+  router.use(`/${pageKey.toLowerCase()}`, () => {
+    console.log(`Рендерим страницу: ${pageKey}`);
+    renderDOM('#app', new PageComponent());
+  });
+});
 
-  if (!route) {
-    console.error(`Страница "${page}" не найдена`);
-    return;
-  }
-
-  const [source, context] = route;
-
-  if (typeof source === 'function') {
-    renderDOM('#app', new source());
-  } else {
-    const container = document.getElementById('app')!;
-    const temlpatingFunction = Handlebars.compile(source);
-    container.innerHTML = temlpatingFunction(context);
-  }
-}
-
-function handleRouteChange() {
-  const page = window.location.hash.slice(1) || 'signin';
-  navigate(page);
-}
-
-document.addEventListener('DOMContentLoaded', () => handleRouteChange());
-window.addEventListener('hashchange', () => handleRouteChange());
+document.addEventListener('DOMContentLoaded', () => {
+  const initialPage = window.location.pathname.slice(1) || 'signin';
+  console.log(`Инициализация с маршрута: ${initialPage}`);
+  router.start();
+  router.go(initialPage);
+});

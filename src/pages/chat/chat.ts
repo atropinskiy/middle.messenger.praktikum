@@ -55,11 +55,7 @@ export default class Chat extends Block<
     const currentChat = MockChats.find((chat) => chat.id === chatId);
   
     if (!currentChat) return null;
-  
-    console.log("currentChat:", currentChat);
-    console.log("Participants:", currentChat.participants);
-    console.log("currentUser:", currentUser);
-  
+ 
     const companion = currentChat.participants.find(
       (user) => user.login !== currentUser
     );
