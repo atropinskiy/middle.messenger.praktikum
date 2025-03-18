@@ -1,7 +1,6 @@
-import renderDOM from '@core/renderDom';
 import * as Pages from './pages';
 import Handlebars from 'handlebars';
-import { Router } from '@core/router/Router';
+import { Router } from '@core/Router';
 import '@styles/main.pcss';
 
 Handlebars.registerHelper('eq', function (a, b) {
@@ -10,19 +9,20 @@ Handlebars.registerHelper('eq', function (a, b) {
 Handlebars.registerHelper("neq", (a, b) => a !== b);
 
 const router = new Router();
-Object.keys(Pages).forEach(pageKey => {
-  const PageComponent = Pages[pageKey as keyof typeof Pages];
 
-  console.log(`Регистрируем маршрут: ${pageKey}`);
-  router.use(`/${pageKey.toLowerCase()}`, () => {
-    console.log(`Рендерим страницу: ${pageKey}`);
-    renderDOM('#app', new PageComponent());
-  });
-});
+// Логирование при добавлении маршрута
+console.log('Добавляем маршрут: /signin');
+router.use('signin', Pages.SignIn);
 
 document.addEventListener('DOMContentLoaded', () => {
   const initialPage = window.location.pathname.slice(1) || 'signin';
   console.log(`Инициализация с маршрута: ${initialPage}`);
+
+  // Логируем старт роутера
   router.start();
+  console.log('Роутер стартовал');
+
+  // Логируем переход на начальную страницу
   router.go(initialPage);
+  console.log(`Переход на маршрут: ${initialPage}`);
 });

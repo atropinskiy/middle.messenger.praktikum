@@ -3,7 +3,10 @@ import EventBus from './eventBus';
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 
-class Block<TProps extends Record<string, any> = {}, TState extends Record<string, any> = {}> {
+class Block<
+  TProps extends Record<string, any> = {},
+  TState extends Record<string, any> = {}
+> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -77,18 +80,18 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
 
   public setProps = (nextProps: any) => {
     if (!nextProps) return;
-  
+
     Object.assign(this.props, nextProps);
     this.eventBus().emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
   };
-  
+
 
   public setState(update: Partial<TState> | ((prevState: TState) => Partial<TState>)) {
     const newState = typeof update === "function" ? update(this.state) : update;
-  
+
     const updatedState = Object.keys(newState).reduce((acc, key) => {
       const value = newState[key as keyof TState];
-  
+
       if (Array.isArray(value)) {
         acc[key as keyof TState] = [...value] as TState[keyof TState]; // Клонируем массив
       } else if (typeof value === "object" && value !== null) {
@@ -96,18 +99,18 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
       } else {
         acc[key as keyof TState] = value;
       }
-  
+
       return acc;
     }, {} as Partial<TState>);
-  
+
     // Теперь безопасно обновляем state
     Object.assign(this.state, updatedState);
-    
+
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
-  
-  
-  
+
+
+
 
   get element(): HTMLElement | null {
     return this._element;
@@ -216,36 +219,36 @@ class Block<TProps extends Record<string, any> = {}, TState extends Record<strin
     return;
   }
 
-protected compile(templateString: string, context: any, additionalData: any = {}) {
-  const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+  protected compile(templateString: string, context: any, additionalData: any = {}) {
+    const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
 
-  // Сначала добавляем данные из this.childrens
-  Object.entries(this.childrens).forEach(([key, child]) => {
-    context[key] = `<div data-id="id-${child._id}"></div>`;
-  });
+    // Сначала добавляем данные из this.childrens
+    Object.entries(this.childrens).forEach(([key, child]) => {
+      context[key] = `<div data-id="id-${child._id}"></div>`;
+    });
 
-  // Добавляем дополнительные данные в контекст
-  Object.entries(additionalData).forEach(([key, value]) => {
-    context[key] = value;
-  });
+    // Добавляем дополнительные данные в контекст
+    Object.entries(additionalData).forEach(([key, value]) => {
+      context[key] = value;
+    });
 
-  // Компилируем строку шаблона в функцию
-  const template = Handlebars.compile(templateString);
+    // Компилируем строку шаблона в функцию
+    const template = Handlebars.compile(templateString);
 
-  // Генерируем HTML строку с учетом всех данных
-  const htmlString = template(context);
+    // Генерируем HTML строку с учетом всех данных
+    const htmlString = template(context);
 
-  fragment.innerHTML = htmlString;
+    fragment.innerHTML = htmlString;
 
-  // Заменяем placeholders на реальные элементы
-  Object.entries(this.childrens).forEach(([, child]) => {
-    const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
-    if (!stub) return;
-    stub.replaceWith(child.getContent() as HTMLElement);
-  });
+    // Заменяем placeholders на реальные элементы
+    Object.entries(this.childrens).forEach(([, child]) => {
+      const stub = fragment.content.querySelector(`[data-id="id-${child._id}"]`);
+      if (!stub) return;
+      stub.replaceWith(child.getContent() as HTMLElement);
+    });
 
-  return fragment.content;
-}
+    return fragment.content;
+  }
 
 }
 

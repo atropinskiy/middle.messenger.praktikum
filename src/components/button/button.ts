@@ -7,6 +7,7 @@ interface ButtonProps {
   name: string;
   label: string;
   className?: string;
+  id?: string;
   onClick?: () => void;
 }
 

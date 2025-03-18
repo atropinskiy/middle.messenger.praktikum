@@ -3,8 +3,7 @@ import renderDOM from '@core/renderDom';
 import template from './signin.hbs?raw';
 import { Button, InputField, Link } from '@components/index';
 import { validateLogin, validatePassword } from '@utils/validators';
-import { AuthModel } from '@models/auth';
-import { Router } from '@core/router/router';
+import { Router } from '@core/Router';
 import { Store } from '@core/store/store';
 
 const router = new Router();
@@ -15,19 +14,9 @@ const store = new Store({
   isLogged: true,
 });
 
-export default class SignIn extends Block<object, AuthModel> {
-  constructor() {
-    super();
-
-    // Подписка на изменения состояния хранилища
-    store.on('changed', () => {
-      // Перерисовываем компонент, когда данные в хранилище изменяются
-      this.setProps({
-        login: store.getState().login,
-        password: store.getState().password,
-        isFormValid: store.getState().isFormValid,
-      });
-    });
+export default class SignIn extends Block<{}, {}> {
+  constructor(props: {} = {}) {
+    super(props); // Передаём пустой объект, соответствующий ожиданиям родителя
   }
 
   protected initChildren() {
@@ -90,23 +79,18 @@ export default class SignIn extends Block<object, AuthModel> {
       label: "тестовая кнопка",
       name: 'test',
       type: 'button',
+      id: this._id,
       onClick: () => {
         store.set({ login: 'popa' });  // Обновляем состояние хранилища
       },
     });
 
-    // Используем значение из хранилища для второй кнопки
+    // Кнопка testbtn2 будет автоматически обновляться при изменении хранилища
     this.childrens.testbtn2 = new Button({
       label: store.getState().login,  // Используем значение из хранилища
       name: 'test',
       type: 'button',
-    });
-
-    // Подписываемся на изменения в хранилище и обновляем label для testbtn2
-    store.on('changed', () => {
-      this.childrens.testbtn2.setProps({
-        label: store.getState().login,  // Обновляем label кнопки на основе состояния хранилища
-      });
+      id: this._id
     });
 
     this.childrens.register_link = new Link({
