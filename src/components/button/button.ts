@@ -8,7 +8,7 @@ interface ButtonProps {
   label: string;
   className?: string;
   id?: string;
-  onClick?: () => void;
+  onClick?: (e: Event) => void;
 }
 
 export class Button extends Block {

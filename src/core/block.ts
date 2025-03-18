@@ -119,15 +119,18 @@ class Block<
   private _render() {
     const fragment = this.render();
     const newElement = fragment.firstElementChild as HTMLElement;
-
+  
+    if (!newElement) {
+      return;
+    }
+  
     if (this._element) {
       this._removeEvents();
-
       this._element.replaceWith(newElement);
+    } else {
     }
-
+  
     this._element = newElement;
-
     this._addEvents();
   }
 
@@ -190,7 +193,7 @@ class Block<
   public show() {
     const el = this.getContent();
 
-    if (el) el.style.display = 'block';
+    if (el) el.style.display = 'flex';
   }
 
   public hide() {

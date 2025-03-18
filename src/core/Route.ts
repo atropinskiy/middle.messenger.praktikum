@@ -1,49 +1,50 @@
 import { RouteInterface } from "./Router";
-import Block from "./block";
-import renderDOM from '@core/renderDom'
-
-const updatePageTitle = (title: string): void => {
-  document.title = title;
-};
 
 class Route implements RouteInterface {
-  private _pathname: string;
-  private _blockClass: typeof Block;
-  private _block: Block | null;
-  private _props: any;
+  private pathname: string;
+  private blockClass: any;
+  private block: any;
+  private props: any;
 
-  constructor(pathname: string, view: typeof Block, props: Object) {
-    this._pathname = pathname;
-    this._blockClass = view;
-    this._block = null;
-    this._props = props;
+  constructor(pathname: string, view: any, props: any) {
+    this.pathname = pathname;
+    this.blockClass = view;
+    this.block = null;
+    this.props = props;
   }
 
   navigate(pathname: string) {
     if (this.match(pathname)) {
-      this._pathname = pathname;
+      this.pathname = pathname;
       this.render();
+    } else {
     }
   }
 
   leave() {
-    if (this._block) {
-      this._block.hide();
+    if (this.block) {
+      this.block.hide();
     }
   }
 
   match(pathname: string) {
-    return pathname === this._pathname;
+    const isMatch = pathname === this.pathname;
+    console.log(`Проверка совпадения пути: ${pathname} с ${this.pathname} — ${isMatch ? 'Совпадает' : 'Не совпадает'}`);
+    return isMatch;
   }
 
   render() {
-    if (!this._block) {
-      this._block = new this._blockClass();
+    if (!this.block) {
+      this.block = new this.blockClass(this.props);
     }
-
-    if (this._props.title) updatePageTitle(this._props.title);
-
-    renderDOM(this._props.rootQuery, this._block);
+  
+    const root = document.querySelector(this.props.rootQuery);
+    if (root) {
+      root.innerHTML = ''; // Очищаем контейнер перед рендером
+      root.appendChild(this.block.getContent() as HTMLElement);
+      this.block.show()
+    } else {
+    }
   }
 }
 

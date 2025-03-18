@@ -3,6 +3,8 @@ import template from './signup.hbs?raw';
 import { Button, InputField } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
+import { withRouter } from '@utils/withrouter';
+import { ROUTER } from '@utils/constants';
 
 const fields: UserModel = {
   email: '',
@@ -14,7 +16,11 @@ const fields: UserModel = {
   password_confirm: ''
 };
 
-export default class SignUp extends Block<Record<string, unknown>, UserModel> {
+interface SignUpProps{
+  router: TRouter
+}
+
+class SignUp extends Block<SignUpProps, UserModel> {
   private fieldLabels: UserModel = {
     email: 'Email',
     login: 'Логин',
@@ -25,8 +31,8 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
     password_confirm: 'Подтверждение пароля',
   };
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super({ ...props });
     this.state = { ...fields };
   }
 
@@ -59,6 +65,21 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
       className: 'button w-100 signup-button mt-auto',
       onClick: () => this.handleSubmit(),
     });
+
+    this.childrens.backbtn = new Button({
+      label: 'Назад',
+      name: 'back',
+      onClick: () => {
+        console.log(1234)
+        if (this.props.router) {
+          this.props.router.go(ROUTER.signin);
+        } else {
+          console.error('Router не передан в SignIn');
+        }
+      },
+      type: 'button'
+
+    })
   }
 
   private handleInputChange(e: Event, name: string) {
@@ -123,7 +144,7 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
     Object.entries(errors).forEach(([key, errorMessages]) => {
       const inputField = this.childrens[key] as InputField;
       const errorMessage = errorMessages.join(', ');
-      inputField.setProps({ error: errorMessage }); 
+      inputField.setProps({ error: errorMessage });
     });
 
     return errors;
@@ -148,3 +169,5 @@ export default class SignUp extends Block<Record<string, unknown>, UserModel> {
     return this.compile(template, {});
   }
 }
+
+export default withRouter(SignUp);
