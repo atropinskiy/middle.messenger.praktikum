@@ -1,12 +1,19 @@
-interface Window {
-  router: any; // Или конкретный тип вашего роутера, если он известен
+import Router from "@core/Router";
+import { Store } from "@core/Store";
+
+declare global {
+  interface TRouter {
+    start(): void;
+    use(path: string, callback: () => void): TRouter;
+    go(path: string): void;
+    back(): void;
+    forward(): void;
+  }
+
+  interface Window {
+    store: Store;
+    router: Router;
+  }
 }
 
-interface TRouter {
-	start(): void;
-	use(path: string, callback: () => void): CoreRouter;
-	go(path: string): void;
-	back(): void;
-	forward(): void;
-}
-
+export {}; 

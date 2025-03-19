@@ -16,7 +16,7 @@ const fields: UserModel = {
   password_confirm: ''
 };
 
-interface SignUpProps{
+interface SignUpProps {
   router: TRouter
 }
 
@@ -34,6 +34,8 @@ class SignUp extends Block<SignUpProps, UserModel> {
   constructor(props: any) {
     super({ ...props });
     this.state = { ...fields };
+    const user = window.store.getState();
+    console.log("Текущий пользователь:", user);
   }
 
   protected initChildren() {
