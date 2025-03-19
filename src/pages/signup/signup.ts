@@ -140,12 +140,14 @@ class SignUp extends Block<SignUpProps, UserModel> {
         phone: sanitizedState.phone,
         second_name: sanitizedState.second_name
       };
-      authServices.create(data);
+      await authServices.create(data);
+      const state = window.store.getState();
+      const loginError = state.loginError;
+      if (loginError) {
+        this.childrens.errorLabel.setProps({'label':loginError})
+      }   
     }
   }
-
-  
-  
 
   render() {
     return this.compile(template, {});

@@ -39,6 +39,7 @@ export const create = async (model: CreateUser): Promise<void> => {
     if (responsError instanceof Response) {
       const error: APIError = await responsError.json();
       window.store.set({ loginError: error.reason });
+      
     } else {
       console.error('Unexpected error:', responsError);
       window.store.set({ loginError: 'Неизвестная ошибка. Попробуйте позже.' });

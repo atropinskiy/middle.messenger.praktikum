@@ -13,21 +13,21 @@ export enum StoreEvents {
 
 export class Store extends EventBus {
   private static __instance: Store;
-  private state = {};
+  private state!: TState;
 
   constructor(defaultState: TState) {
     if (Store.__instance) {
       return Store.__instance;
     }
     super();
-
+    
     this.state = defaultState;
     this.set(defaultState);
 
     Store.__instance = this;
   }
 
-  public getState() {
+  public getState():TState  {
     return this.state;
   }
 
