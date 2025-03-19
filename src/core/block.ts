@@ -78,6 +78,10 @@ class Block<
     return JSON.stringify(oldProps) !== JSON.stringify(newProps);
   }
 
+  public getProps(): TProps {
+    return this.props;
+  }
+
   public setProps = (nextProps: any) => {
     if (!nextProps) return;
 
@@ -164,6 +168,10 @@ class Block<
         return true;
       },
     });
+  }
+
+  public componentWillUnmount() {
+    this._removeEvents();
   }
 
   private _removeEvents() {

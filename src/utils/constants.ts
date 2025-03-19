@@ -1,4 +1,5 @@
 export enum ROUTER {
   signin = "/signin",
-  signUp = "/signup"
+  signUp = "/signup",
+  chat = "/chat"
 }

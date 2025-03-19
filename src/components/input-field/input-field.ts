@@ -30,6 +30,9 @@ export class InputField extends Block<InputFieldProps> {
     })
   }
 
+  getValue(): string {
+    return this.props.value; // возвращаем значение поля
+  }
 
   render() {
     return this.compile(template, { ...this.props });

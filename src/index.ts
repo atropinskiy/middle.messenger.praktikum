@@ -14,7 +14,8 @@ Handlebars.registerHelper("neq", (a, b) => a !== b);
 window.store = new Store({
   isLoading: false,
   user: null,
-  isLogged: false
+  isLogged: false,
+  loginError: '',
 });
 
 window.store.on(StoreEvents.Updated, (prevState, newState) => {

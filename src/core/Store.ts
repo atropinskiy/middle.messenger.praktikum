@@ -4,6 +4,7 @@ interface TState {
   isLogged: boolean
   isLoading: boolean
   user: TUser | null
+  loginError: string
 }
 
 export enum StoreEvents {

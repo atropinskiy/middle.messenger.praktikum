@@ -1,23 +1,27 @@
 import Block from '@core/block';
 import template from './signup.hbs?raw';
-import { Button, InputField } from '@components/index';
+import { Button, InputField, ErrorLabel } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
-import { withRouter } from '@utils/withrouter';
-import { ROUTER } from '@utils/constants';
+import * as authServices from "../../services/auth";
+import { CreateUser } from 'api/type';
+import { connect } from '@utils/connect';
+
 
 const fields: UserModel = {
-  email: '',
-  login: '',
-  first_name: '',
-  second_name: '',
-  phone: '',
-  password: '',
-  password_confirm: ''
+  email: 'vas@mail.ru',
+  login: 'asd',
+  first_name: 'asd',
+  second_name: 'asd',
+  phone: '+79251234567',
+  password: 'Qq123123',
+  password_confirm: 'Qq123123',
 };
 
 interface SignUpProps {
-  router: TRouter
+  router: TRouter;
+  loginError: string;
+  user: any;
 }
 
 class SignUp extends Block<SignUpProps, UserModel> {
@@ -29,13 +33,13 @@ class SignUp extends Block<SignUpProps, UserModel> {
     phone: 'Телефон',
     password: 'Пароль',
     password_confirm: 'Подтверждение пароля',
+    loginError: ''
   };
 
-  constructor(props: any) {
+  constructor(props: SignUpProps) {
     super({ ...props });
     this.state = { ...fields };
-    const user = window.store.getState();
-    console.log("Текущий пользователь:", user);
+    console.log("Текущий пользователь:", this.props.user);
   }
 
   protected initChildren() {
@@ -60,6 +64,10 @@ class SignUp extends Block<SignUpProps, UserModel> {
       });
     });
 
+    this.childrens.errorLabel = new ErrorLabel({
+      label: this.props.loginError
+    });
+
     this.childrens.submitButton = new Button({
       label: 'Sign Up',
       name: 'submit',
@@ -67,22 +75,9 @@ class SignUp extends Block<SignUpProps, UserModel> {
       className: 'button w-100 signup-button mt-auto',
       onClick: () => this.handleSubmit(),
     });
-
-    this.childrens.backbtn = new Button({
-      label: 'Назад',
-      name: 'back',
-      onClick: () => {
-        console.log(1234)
-        if (this.props.router) {
-          this.props.router.go(ROUTER.signin);
-        } else {
-          console.error('Router не передан в SignIn');
-        }
-      },
-      type: 'button'
-
-    })
   }
+
+  
 
   private handleInputChange(e: Event, name: string) {
     const input = e.target as HTMLInputElement;
@@ -92,32 +87,12 @@ class SignUp extends Block<SignUpProps, UserModel> {
       [name]: value,
     });
 
-    if (name === 'password') {
-      if (this.state.password_confirm && this.state.password_confirm !== value) {
-        this.childrens.password_confirm?.setProps({
-          error: 'Пароли не совпадают',
-        });
-      } else {
-        this.childrens.password_confirm?.setProps({
-          error: '',
-        });
-      }
-    }
-
-    if (name === 'password_confirm') {
-      if (this.state.password && this.state.password !== value) {
-        this.childrens.password_confirm?.setProps({
-          error: 'Пароли не совпадают',
-        });
-      } else {
-        this.childrens.password_confirm?.setProps({
-          error: '',
-        });
-      }
+    if (name === 'password' || name === 'password_confirm') {
+      const error = this.state.password !== this.state.password_confirm ? 'Пароли не совпадают' : '';
+      this.childrens.password_confirm?.setProps({ error });
     }
 
     const fieldErrors = this.validateField(name, value);
-
     this.childrens[name]?.setProps({ error: fieldErrors.join(', ') });
   }
 
@@ -125,12 +100,8 @@ class SignUp extends Block<SignUpProps, UserModel> {
     const errors = Validator.validate({ [name]: value }, this.fieldLabels);
     const fieldErrors = errors[name] || [];
 
-    if (name === 'password_confirm') {
-      if (this.state.password && this.state.password !== value) {
-        fieldErrors.push('Пароли не совпадают');
-      } else if (this.state.password === value) {
-        fieldErrors.length = 0;
-      }
+    if (name === 'password_confirm' && this.state.password !== value) {
+      fieldErrors.push('Пароли не совпадают');
     }
 
     return fieldErrors;
@@ -145,31 +116,47 @@ class SignUp extends Block<SignUpProps, UserModel> {
 
     Object.entries(errors).forEach(([key, errorMessages]) => {
       const inputField = this.childrens[key] as InputField;
-      const errorMessage = errorMessages.join(', ');
-      inputField.setProps({ error: errorMessage });
+      inputField.setProps({ error: errorMessages.join(', ') });
     });
 
     return errors;
   }
 
-  private handleSubmit() {
+  private async handleSubmit() {
     const sanitizedState = Object.fromEntries(
       Object.entries(this.state).map(([key, value]) => [key, value ?? ''])
     );
-
+  
     const errors = this.validateFields();
-
+  
     if (Object.values(errors).some((errorMessages) => errorMessages.length > 0)) {
-      console.log("Ошибки при отправке формы:", errors);
-
+      console.log('Ошибка ввода');
     } else {
-      console.log("Форма успешно отправлена:", sanitizedState);
+      const data: CreateUser = {
+        email: sanitizedState.email,
+        first_name: sanitizedState.first_name,
+        login: sanitizedState.login,
+        password: sanitizedState.password,
+        phone: sanitizedState.phone,
+        second_name: sanitizedState.second_name
+      };
+      authServices.create(data);
     }
   }
+
+  
+  
 
   render() {
     return this.compile(template, {});
   }
 }
 
-export default withRouter(SignUp);
+const mapStateToProps = (state: any) => ({
+  loginError: state.loginError,
+  user: state.user,
+});
+
+// Корректный экспорт с приведением типов
+export default connect(mapStateToProps)(SignUp);
+
