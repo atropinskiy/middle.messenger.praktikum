@@ -39,10 +39,7 @@ export class HTTPTransport {
     });
   }
 
-  async request<TResponse>(
-    url: string,
-    options: Options = { method: METHOD.GET },
-  ): Promise<TResponse> {
+  async request<TResponse>(url: string, options: Options = { method: METHOD.GET }): Promise<TResponse> {
     const { method, data } = options;
     const response = await fetch(url, {
       method,
@@ -51,16 +48,22 @@ export class HTTPTransport {
       headers: { "Content-Type": "application/json" },
       body: data ? JSON.stringify(data) : null,
     });
-
+  
     if (!response.ok) {
       throw response;
     }
-
-    const isJson = response.headers
-      .get("content-type")
-      ?.includes("application/json");
-    const resultData = (await isJson) ? response.json() : null;
-
-    return resultData as unknown as TResponse;
+  
+    const contentType = response.headers.get("content-type");
+    let resultData: TResponse;
+  
+    if (contentType?.includes("application/json")) {
+      // Если это JSON, парсим как JSON
+      resultData = await response.json();
+    } else {
+      // Если это не JSON, обрабатываем как строку
+      resultData = await response.text() as unknown as TResponse;
+    }
+  
+    return resultData;
   }
 }

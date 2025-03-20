@@ -50,9 +50,16 @@ export class Router {
   _onRoute(pathname: string) {
     const isUserAuthorized = authServices.loggedIn();
     const route = this.getRoute(pathname);
+    console.log('userUuth:', isUserAuthorized)
 
     if (!route) {
       console.warn(`Маршрут для ${pathname} не найден!`);
+      return;
+    }
+
+    if (isUserAuthorized && (pathname === "/signin")) {
+      console.warn(`Пользователь уже авторизован, перенаправляем на /messenger`);
+      this.go("/chat");
       return;
     }
 

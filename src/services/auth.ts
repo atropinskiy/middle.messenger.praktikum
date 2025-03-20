@@ -6,17 +6,18 @@ const authApi = new AuthApi();
 
 export const loggedIn = () => {
   const store = window.store.getState()
-  return store.user || null;
+  return store.isLogged || null;
 };
 
 export const login = async (model: LoginRequestData): Promise<void> => {
   window.store.set({ isLoading: true });
   try {
     await authApi.login(model);
+    window.store.set({'isLogged': true})
+    await me()
     window.router.go(ROUTER.chat);
   } catch (responsError: unknown) {
     if (responsError instanceof Response) {
-      // Проверяем, что responsError это объект типа Response
       const error: APIError = await responsError.json();
       window.store.set({ loginError: error.reason });
     } else {
@@ -61,7 +62,7 @@ export const me = async (): Promise<void> => {
     const response = await authApi.me();
 
     if ('id' in response && 'login' in response) {
-      window.store.set({ user: response });
+      window.store.set({ user: response, isLogged: true });
     } else {
       console.error("Unexpected response format", response);
     }
@@ -81,46 +82,35 @@ export const me = async (): Promise<void> => {
 
 
 export const logOut = async (): Promise<void> => {
-  window.store.set({ isLoading: true });
-
   try {
-    const response = await authApi.logout(); // Получаем ответ от logout
+    const response = await authApi.logout(); 
 
-    // Проверяем, что response существует и имеет статус
-    if (response && 'status' in response) {
-      if (response.status === 200) {
-        window.store.set({ user: null });
-        console.log(window.store.getState())
-      } else if (response.status === 500) {
-        // Ошибка сервера
-        console.error("Unexpected error from the server");
-        window.store.set({ loginError: "Unexpected error occurred" });
-      } else {
-        // Обработка других кодов состояния
-        console.error(`Unexpected response status: ${response.status}`);
-        window.store.set({ loginError: `Error ${response.status}` });
-      }
+    // Логируем ответ, чтобы увидеть, что именно возвращает logout
+    console.log("Ответ от logout:", response);
+
+    // Проверяем, что response существует и это строка
+    if (typeof response === 'string') {
+      window.store.set({isLogged: false})
+      window.router.go(ROUTER.signin);
+      
     } else {
-      // Если нет response или status
-      console.error('No response or response format is incorrect');
-      window.store.set({ loginError: "Unexpected response format" });
+      // В случае ошибки или других значений
+      console.error("Ошибка при выходе, неверный ответ:", response);
+      window.store.set({ loginError: "Неизвестная ошибка при выходе" });
     }
 
   } catch (error: unknown) {
-    if (error instanceof Response) {
-      // Если ошибка — это ответ с ошибкой от API
-      const errorData: APIError = await error.json();
-      window.store.set({ loginError: errorData.reason });
-    } else {
-      // Обработка других типов ошибок (например, сетевых ошибок)
-      console.error("Unexpected error:", error);
-      window.store.set({ loginError: "Unexpected error occurred" });
-    }
+    // Обрабатываем другие ошибки (например, сетевые)
+    console.error("Ошибка при выполнении запроса:", error);
+    window.store.set({ loginError: "Ошибка при выполнении запроса" });
   } finally {
-    // Завершаем процесс загрузки
     window.store.set({ isLoading: false });
   }
 };
+
+
+
+
 
 
 

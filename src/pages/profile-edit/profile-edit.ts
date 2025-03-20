@@ -1,9 +1,10 @@
 import Block from '@core/block';
 import template from './profile-edit.hbs?raw';
-import { CurrentUserMock } from '../../mock-data/current-user';
 import { ProfileEditCell, Button, InputField, Avatar } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
+import { withRouter } from '@utils/withrouter';
+import { connect } from '@utils/connect';
 
 
 interface ProfileEditState {
@@ -11,7 +12,7 @@ interface ProfileEditState {
   email: string;
   first_name: string;
   second_name: string;
-  chat_name: string;
+  display_name: string;
   phone: string;
 }
 export class ProfileEdit extends Block<object, ProfileEditState> {
@@ -27,31 +28,23 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
 
   constructor() {
     super();
-    this.state = {
-      login: CurrentUserMock.login || '',
-      email: CurrentUserMock.email || '',
-      first_name: CurrentUserMock.first_name || '',
-      second_name: CurrentUserMock.second_name || '',
-      chat_name: CurrentUserMock.chat_name || '',
-      phone: CurrentUserMock.phone || '',
-
-    };
-    console.log("ProfileEdit state при инициализации:", this.state);
   }
 
   protected initChildren() {
-    // this.childrens.avatar = new Avatar({
-    //   src:""
-    // }),
-    Object.entries(CurrentUserMock)
-      .filter(([key]) => key !== "avatar_url")
+    const store = window.store.getState()
+    const user = store.user
+    if (!user) {
+      return;
+    }
+    Object.entries(user)
+      .filter(([key]) => key !== "id")
       .forEach(([key, value]) => {
         this.childrens[key] = new ProfileEditCell({
           label: key || "",
           input: new InputField({
             name: key,
             placeholder: `Введите ${key}`,
-            value: value || "",
+            value: String(value) || "",
             error: "",
             inputClasses: "text-right ml-auto",
             parentClasses: "",
@@ -110,3 +103,10 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
     return this.compile(template, {});
   }
 }
+
+const mapStateToProps = (state: any) => ({
+  loginError: state.loginError,
+  user: state.user
+});
+
+export default withRouter(connect(mapStateToProps)(ProfileEdit));

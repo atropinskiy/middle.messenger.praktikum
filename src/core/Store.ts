@@ -2,7 +2,7 @@ import EventBus from "./eventBus";
 import { UserDTO } from "api/type";
 
 interface TState {
-  isLogged: boolean
+  isLogged: boolean | null
   isLoading: boolean
   user: UserDTO | null
   loginError: string

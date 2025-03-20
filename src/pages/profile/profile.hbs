@@ -1,124 +1,51 @@
 <main>
-  <div class="d-flex flex-column">
-    {{#if loading}}
-      <!-- Если идет загрузка, показываем спиннер -->
-      <div class="spinner">Загрузка...</div>
-    {{else}}
-      <!-- Если данные пользователя загружены, показываем профиль -->
-      {{#if current_user}}
-        <div class="d-flex flex-grow justify-center">
-          {{{avatar}}} <!-- Здесь будет компонент с аватаром -->
-        </div>
-        <div class="w-100 d-flex justify-center name-label">{{current_user.login}}</div>
-        <table class="profile-table flex-grow">
-          <tr>
-            <td>Почта</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.email}}</td>
-          </tr>
-          <tr>
-            <td>Логин</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.login}}</td>
-          </tr>
-          <tr>
-            <td>Имя</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.first_name}}</td>
-          </tr>
-          <tr>
-            <td>Фамилия</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.second_name}}</td>
-          </tr>
-          <tr>
-            <td>Имя в чате</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.chat_name}}</td>
-          </tr>
-          <tr>
-            <td>Телефон</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.phone}}</td>
-          </tr>
-        </table>
-        <table class="profile-table">
-          <tr>
-            <td>
-              <a href="#profile_edit">Изменить данные</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#password_change">Изменить пароль</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {{{logoutLink}}}
-            </td>
-          </tr>
-        </table>
-      {{else}}
-        <!-- Если нет данных пользователя, показываем сообщение -->
-        <p>Пользователь не найден</p>
-      {{/if}}
-    {{/if}}
-  </div>
-</main>
-<main>
-  <div class="d-flex flex-column">
-    {{#if loading}}
-      <!-- Если идет загрузка, показываем спиннер -->
-      <div class="spinner">Загрузка...</div>
-    {{else}}
-      <!-- Если данные пользователя загружены, показываем профиль -->
-      {{#if current_user}}
-        <div class="d-flex flex-grow justify-center">
-          {{{avatar}}} <!-- Здесь будет компонент с аватаром -->
-        </div>
-        <div class="w-100 d-flex justify-center name-label">{{current_user.login}}</div>
-        <table class="profile-table flex-grow">
-          <tr>
-            <td>Почта</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.email}}</td>
-          </tr>
-          <tr>
-            <td>Логин</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.login}}</td>
-          </tr>
-          <tr>
-            <td>Имя</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.first_name}}</td>
-          </tr>
-          <tr>
-            <td>Фамилия</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.second_name}}</td>
-          </tr>
-          <tr>
-            <td>Имя в чате</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.chat_name}}</td>
-          </tr>
-          <tr>
-            <td>Телефон</td>
-            <td class="d-flex justify-end valign-center color-gray">{{current_user.phone}}</td>
-          </tr>
-        </table>
-        <table class="profile-table">
-          <tr>
-            <td>
-              <a href="#profile_edit">Изменить данные</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="#password_change">Изменить пароль</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a class="color-red" href="">Выйти</a>
-            </td>
-          </tr>
-        </table>
-      {{else}}
-        <!-- Если нет данных пользователя, показываем сообщение -->
-        <p>Пользователь не найден</p>
-      {{/if}}
-    {{/if}}
+  <div class='d-flex flex-column'>
+    <div class="d-flex flex-grow justify-center">
+      {{{avatar}}}
+    </div>
+    <div class='w-100 d-flex justify-center name-label'>{{current_user.login}}</div>
+    <table class='profile-table flex-grow'>
+      <tr>
+        <td>Почта</td>
+        <td class='d-flex justify-end valign-center color-gray'>{{current_user.email}}</td>
+      </tr>
+      <tr>
+        <td>Логин</td>
+        <td class='d-flex justify-end valign-center color-gray'>{{current_user.login}}</td>
+      </tr>
+      <tr>
+        <td>Имя</td>
+        <td class='d-flex justify-end valign-center color-gray'>{{current_user.first_name}}</td>
+      </tr>
+      <tr>
+        <td>Фамилия</td>
+        <td class='d-flex justify-end valign-center color-gray'>{{current_user.second_name}}</td>
+      </tr>
+      <tr>
+        <td>Имя в чате</td>
+        <td class='d-flex justify-end valign-center color-gray'>{{current_user.chat_name}}</td>
+      </tr>
+      <tr>
+        <td>Телефон</td>
+        <td class='d-flex justify-end valign-center color-gray'>{{current_user.phone}}</td>
+      </tr>
+    </table>
+    <table class='profile-table'>
+      <tr>
+        <td>
+          {{{ profileEdit }}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href='#password_change'>Изменить пароль</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {{{ logoutLink }}}
+        </td>
+      </tr>
+    </table>
   </div>
 </main>
