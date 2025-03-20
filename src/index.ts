@@ -29,4 +29,6 @@ window.router = new Router(APP_ROOT_ELEMNT);
 window.router
   .use(ROUTER.signin, Pages.SignIn)
   .use(ROUTER.signUp, Pages.SignUp)
+  .use(ROUTER.chat, Pages.Chat)
+  .use(ROUTER.profile, Pages.Profile, true)
   .start();

@@ -5,12 +5,14 @@ class Route implements RouteInterface {
   private blockClass: any;
   private block: any;
   private props: any;
+  public isProtected: boolean;
 
-  constructor(pathname: string, view: any, props: any) {
+  constructor(pathname: string, view: any, props: any, isProtected: boolean = false) {
     this.pathname = pathname;
     this.blockClass = view;
     this.block = null;
     this.props = props;
+    this.isProtected = isProtected;
   }
 
   navigate(pathname: string) {

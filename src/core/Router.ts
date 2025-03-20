@@ -1,6 +1,8 @@
 import Route from "./Route";
+import * as authServices from '../services/auth';
 
 export interface RouteInterface {
+  isProtected: boolean
   render: () => void;
   match: (path: string) => boolean;
   leave: () => void;
@@ -25,8 +27,8 @@ export class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: any) {
-    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
+  use(pathname: string, block: any, isProtected: boolean = false) {
+    const route = new Route(pathname, block, { rootQuery: this._rootQuery }, isProtected);
     this.routes.push(route);
     // Логирование добавления маршрута
     console.log(`Маршрут добавлен: ${pathname}`, route);
@@ -46,11 +48,17 @@ export class Router {
   }
 
   _onRoute(pathname: string) {
-    console.log(`Попытка отрендерить страницу: ${pathname}`);
-
+    const isUserAuthorized = authServices.loggedIn();
     const route = this.getRoute(pathname);
+
     if (!route) {
       console.warn(`Маршрут для ${pathname} не найден!`);
+      return;
+    }
+
+    if (route.isProtected && !isUserAuthorized) {
+      console.warn(`Доступ запрещён! Перенаправление на /signin`);
+      this.go("/signin");
       return;
     }
 

@@ -13,8 +13,6 @@ export class ErrorLabel extends Block<ErrorLabelProps> {
     
   }
 
-
-
   render() {
     console.log(this.props)
     return this.compile(template, { ...this.props });

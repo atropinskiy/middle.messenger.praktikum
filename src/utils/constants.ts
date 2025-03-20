@@ -1,5 +1,9 @@
 export enum ROUTER {
   signin = "/signin",
   signUp = "/signup",
-  chat = "/chat"
+  chat = "/chat",
+  profile = "/profile",
+  profileEdit = "/profile-edit",
+  errorPage = "/errors",
+  passwordChange = "/change_password"
 }

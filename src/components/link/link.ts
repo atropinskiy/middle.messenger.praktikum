@@ -5,7 +5,7 @@ interface LinkProps {
   className?: string;
   onClick?: (e: Event) => void;
   label: string;
-  router: any; // Принимаем роутер как пропс
+  router?: any; // Принимаем роутер как пропс
 }
 
 export class Link extends Block<LinkProps> {

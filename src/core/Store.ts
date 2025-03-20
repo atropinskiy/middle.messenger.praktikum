@@ -1,9 +1,10 @@
 import EventBus from "./eventBus";
+import { UserDTO } from "api/type";
 
 interface TState {
   isLogged: boolean
   isLoading: boolean
-  user: TUser | null
+  user: UserDTO | null
   loginError: string
 }
 
