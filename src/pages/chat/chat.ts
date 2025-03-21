@@ -1,13 +1,11 @@
 import Block from '@core/block';
 import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
-import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub, Link, Modal, Button } from '@components/index';
+import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub, Link, Modal, Button, InputField } from '@components/index';
 import { MessageModel } from '@models/chat';
 import { connect } from '@utils/connect';
 import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
-
-
 
 interface ChatState {
   currentDialog: string,
@@ -68,7 +66,8 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
     this.childrens.modal = new Modal({
       content: '123',
-      title: 'Модальное окно'
+      title: 'Создание чата',
+      inputSettings: {name:'input', value: ''}
     });
 
     this.childrens.createChatBtn = new Button({
