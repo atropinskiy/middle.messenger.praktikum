@@ -1,3 +1,5 @@
+import { CONSTATNS } from "@utils/constants";
+
 enum METHOD {
   GET = "GET",
   POST = "POST",
@@ -16,7 +18,7 @@ type OptionsWithoutMethod = Omit<Options, "method">;
 export class HTTPTransport {
   private apiUrl: string = "";
   constructor(apiPath: string) {
-    this.apiUrl = `https://ya-praktikum.tech/api/v2/${apiPath}`;
+    this.apiUrl = `${CONSTATNS.BASE_URL}${apiPath}`;
   }
 
   get<TResponse>(

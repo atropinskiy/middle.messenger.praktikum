@@ -1,40 +1,9 @@
-import { IChatCreate, IChatUsersRequest, Indexed } from './type';
+import { HTTPTransport } from "../core/httpTransport";
 
-import { queryString } from 'src/utils/queryString';
+const chatsApi = new HTTPTransport("/chats");
 
-import BaseAPI from './BaseAPI';
-
-export default class ChatsAPI extends BaseAPI {
-  constructor() {
-    super('/chats');
+export default class ChatApi {
+  async getChats<T=unknown>(data: TChat): Promise<T> {
+    return chatsApi.get("/chats", {data})
   }
-
-  getChats(query: Indexed): Promise<XMLHttpRequestResponseType> {
-    return this.http.get(queryString(query));
-  }
-
-  addChat(data: IChatCreate): Promise<XMLHttpRequestResponseType> {
-    return this.http.post('', { data });
-  }
-
-  deleteChat(id: string): Promise<XMLHttpRequestResponseType> {
-    return this.http.delete('', { data: { chatId: id } });
-  }
-
-  addUser(data: IChatUsersRequest): Promise<XMLHttpRequestResponseType> {
-    return this.http.put('/users', { data });
-  }
-
-  deleteUser(data: IChatUsersRequest): Promise<XMLHttpRequestResponseType> {
-    return this.http.delete('/users', { data });
-  }
-
-  getToken(id: string): Promise<XMLHttpRequestResponseType> {
-    return this.http.post(`/token/${id}`);
-  }
-
-  create = undefined;
-  read = undefined;
-  update = undefined;
-  delete = undefined;
 }

@@ -7,3 +7,8 @@ export enum ROUTER {
   errorPage = "/errors",
   passwordChange = "/change_password"
 }
+
+export enum CONSTATNS {
+  BASE_URL = 'https://ya-praktikum.tech/api/v2/',
+  BASE_SOCKET_URL = 'wss://ya-praktikum.tech/ws/chats/'
+}
