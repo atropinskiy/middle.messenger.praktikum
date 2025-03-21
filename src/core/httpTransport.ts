@@ -39,6 +39,17 @@ export class HTTPTransport {
     });
   }
 
+  put<TResponse>(
+    url: string,
+    options: OptionsWithoutMethod = {},
+  ): Promise<TResponse> {
+    return this.request<TResponse>(`${this.apiUrl}${url}`, {
+      ...options,
+      method: METHOD.PUT,
+    });
+  }
+  
+
   async request<TResponse>(url: string, options: Options = { method: METHOD.GET }): Promise<TResponse> {
     const { method, data } = options;
     const response = await fetch(url, {

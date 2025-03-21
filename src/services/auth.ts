@@ -1,8 +1,10 @@
 import { ROUTER } from "../utils/constants";
 import AuthApi from "../api/auth";
-import { LoginRequestData, APIError, CreateUser } from "api/type";
+import ProfileApi from "../api/profile";
+import { LoginRequestData, APIError, CreateUser, UserDTO } from "api/type";
 
 const authApi = new AuthApi();
+const profileApi = new ProfileApi();
 
 export const loggedIn = () => {
   const store = window.store.getState()
@@ -108,6 +110,28 @@ export const logOut = async (): Promise<void> => {
   }
 };
 
+export const editProfile = async (model: UserDTO): Promise<void> => {
+  window.store.set({ isLoading: true });
+
+  try {
+    const response = await profileApi.profileEdit<UserDTO>(model);
+
+    if (typeof response === "object" && response !== null && "id" in response && "login" in response) {
+      window.store.set({ user: response as UserDTO, isLogged: true });
+    } else {
+      console.error("Unexpected response format", response);
+    }
+  } catch (responsError: unknown) {
+    if (responsError instanceof Response) {
+      const error: APIError = await responsError.json();
+      window.store.set({ loginError: error.reason });
+    } else {
+      console.error("Unexpected error:", responsError);
+    }
+  } finally {
+    window.store.set({ isLoading: false });
+  }
+};
 
 
 

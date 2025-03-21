@@ -7,12 +7,12 @@ export type SignUpResponse = {
 }
 
 export type UserDTO = {
-  id: number;
+  id?: number;
   login: string;
   first_name: string;
   second_name: string;
   display_name: string;
-  avatar: string;
+  avatar?: string;
   phone: string;
   email: string;
 };
@@ -42,4 +42,29 @@ export type ChatDTO = {
   avatar: string | null,
   unread_count: number,
   last_message: LastMessage | null
+}
+
+// ChatTypes
+
+export interface IChatItem {
+  id: number;
+  title: string;
+  avatar: string;
+  unread_count: number;
+  last_message?: ILastMessage;
+}
+
+export interface IChatCreate {
+  title: string;
+}
+
+export interface IChatUsersRequest {
+  users: number[];
+  chatId: number;
+}
+
+export interface ILastMessage {
+  user: UserDTO;
+  time: string;
+  content: string;
 }

@@ -1,10 +1,11 @@
 import Block from '@core/block';
 import template from './profile-edit.hbs?raw';
-import { ProfileEditCell, Button, InputField, Avatar } from '@components/index';
+import { ProfileEditCell, Button, InputField, Avatar, BackDiv } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
 import { withRouter } from '@utils/withrouter';
 import { connect } from '@utils/connect';
+import * as authServices from "../../services/auth";
 
 
 interface ProfileEditState {
@@ -22,7 +23,7 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
     email: "Почта",
     first_name: "Имя",
     second_name: "Фамилия",
-    chat_name: "Имя в чате",
+    display_name: "Имя в чате",
     phone: "Телефон",
   };
 
@@ -32,10 +33,27 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
 
   protected initChildren() {
     const store = window.store.getState()
-    const user = store.user
+    const user = store.user ?? {} as Partial<UserModel>
+
+    this.state = {
+      login: user.login || "",
+      email: user.email || "",
+      first_name: user.first_name || "",
+      second_name: user.second_name || "",
+      display_name: user.display_name || "",
+      phone: user.phone || "",
+    };
+
     if (!user) {
       return;
     }
+
+    this.childrens.backDiv = new BackDiv({
+      onClick: () => {
+        window.router.back()
+      }
+    })
+
     Object.entries(user)
       .filter(([key]) => key !== "id")
       .forEach(([key, value]) => {
@@ -44,7 +62,7 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
           input: new InputField({
             name: key,
             placeholder: `Введите ${key}`,
-            value: String(value) || "",
+            value: value === null ? "" : String(value),
             error: "",
             inputClasses: "text-right ml-auto",
             parentClasses: "",
@@ -55,7 +73,6 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
               this.childrens[key].setProps({error:fieldErrors, value: input.value})
               this.setState((prevState) => ({
                 ...prevState,
-                value: input.value,
                 [key]: input.value
               }))
             },
@@ -94,6 +111,7 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
   
     if (Object.keys(validationErrors).length === 0) {
       console.log("Форма успешно сохранена:", this.state);
+      authServices.editProfile(this.state)
     } else {
       console.log("Форма содержит ошибки:", validationErrors);
     }
@@ -106,7 +124,6 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
-  user: state.user
 });
 
 export default withRouter(connect(mapStateToProps)(ProfileEdit));

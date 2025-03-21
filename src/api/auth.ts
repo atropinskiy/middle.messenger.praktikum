@@ -25,4 +25,8 @@ export default class AuthApi {
   async logout(): Promise<void | string> {
     return authApi.post("/logout");
   }
+
+  async profileEdit<T=unknown>(data: UserDTO): Promise<T> {
+    return authApi.put("/user/profile", {data})
+  }
 }

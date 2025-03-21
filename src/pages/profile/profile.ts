@@ -1,6 +1,6 @@
 import Block from '@core/block';
 import template from './profile.hbs?raw';
-import { Avatar, Link } from '@components/index';
+import { Avatar, Link, BackDiv } from '@components/index';
 import * as authServices from "../../services/auth";
 import { withRouter } from '@utils/withrouter';
 import { connect } from '@utils/connect';
@@ -24,6 +24,12 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
   }
 
   protected initChildren(): void {
+    this.childrens.backDiv = new BackDiv({
+      onClick: () => {
+        window.router.back()
+      }
+    })
+
     this.childrens.avatar = new Avatar({
       src: 'img/avatar_mock.jpg',
       className: 'avatar',
