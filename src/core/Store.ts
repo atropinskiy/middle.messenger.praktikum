@@ -6,6 +6,7 @@ interface TState {
   isLoading: boolean
   user: UserDTO | null
   loginError: string
+  isModalOpen: boolean
 }
 
 export enum StoreEvents {

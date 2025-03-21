@@ -17,16 +17,21 @@ export function connect<
       constructor(props: TProps) {
         const store = window.store;
         let state = mapStateToProps(store.getState() as S);
-
+        console.log('Текущий state', state)
         super({ ...props, ...state });
 
         this.onChangeStoreCallback = () => {
           const newState = mapStateToProps(store.getState() as S);
+          console.log("🔄 Store обновился! Новый state:", newState);
+        
           if (!isEqual(state, newState)) {
+            console.log("⚡ Состояние изменилось, обновляем props!", newState);
             this.setProps({ ...newState });
+          } else {
           }
-
+        
           state = newState;
+          console.log('result', props, state)
         };
 
         store.on(StoreEvents.Updated, this.onChangeStoreCallback);

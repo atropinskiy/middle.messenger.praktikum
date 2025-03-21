@@ -1,7 +1,8 @@
 <main>
   <div class='d-flex h-100 w-100'>
     <div class='chats-block d-flex flex-column'>
-      <div class='header w-100 d-flex justify-end'>
+      <div class='header w-100 d-flex justify-space-between'>
+        <div>{{{createChatBtn}}}</div>
         {{{profileLink}}}
       </div>
       <div class='search-div'></div>
@@ -16,6 +17,8 @@
       {{{chatdialog}}}
       {{{messageInput}}}
     </div>
-    
   </div>
+  {{#if isModalOpen}}
+  {{{modal}}}
+  {{/if}}
 </main>

@@ -16,6 +16,7 @@ window.store = new Store({
   user: null,
   isLogged: null,
   loginError: '',
+  isModalOpen: false
 });
 
 await authServices.me()

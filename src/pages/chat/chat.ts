@@ -1,33 +1,29 @@
 import Block from '@core/block';
 import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
-import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub, Link } from '@components/index';
+import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub, Link, Modal, Button } from '@components/index';
 import { MessageModel } from '@models/chat';
 import { connect } from '@utils/connect';
 import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
 
 
-interface ChatProps {
-  router?: TRouter; // Типизация роутера, если известна, можно уточнить
-}
 
 interface ChatState {
   currentDialog: string,
   currentUser: string,
-  messages: MessageModel[]
+  messages: MessageModel[],
 }
 
-class Chat extends Block<ChatProps, ChatState> {
-  constructor(props: ChatProps) {
+class Chat extends Block<Record<string, any>, ChatState> {
+  constructor() {
     const initialChat = 'chat_1';
-    console.log('adasdsa', props)
     super(
-      { ...props },
+      {},
       {
         currentDialog: initialChat,
         currentUser: 'ivanivanov',
-        messages: []
+        messages: [],
       }
     );
   }
@@ -68,7 +64,26 @@ class Chat extends Block<ChatProps, ChatState> {
 
     this.childrens.stub = new Stub({
       label: "Выберите чат"
+    });
+
+    this.childrens.modal = new Modal({
+      content: '123',
+      title: 'Модальное окно'
+    });
+
+    this.childrens.createChatBtn = new Button({
+      name: 'createChat',
+      label: '+',
+      type: 'button',
+      className: 'create-chat-btn cursor-pointer',
+      onClick: () => {
+        this.handleModalPressed()
+      }
     })
+  }
+
+  private handleModalPressed() {
+    window.store.set({ isModalOpen: true })
   }
 
   private getCurrentMessages() {
@@ -84,8 +99,6 @@ class Chat extends Block<ChatProps, ChatState> {
     const companion = currentChat.participants.find(
       (user) => user.login !== currentUser
     );
-
-    console.log("Found companion:", companion);
 
     return companion;
   }
@@ -115,9 +128,6 @@ class Chat extends Block<ChatProps, ChatState> {
     console.log("Updated messages:", updatedMessages);
   }
 
-
-
-
   private getCompanion() {
     return Chat.getCompanion(this.state.currentDialog, this.state.currentUser);
   }
@@ -139,14 +149,15 @@ class Chat extends Block<ChatProps, ChatState> {
   }
 
   render() {
-    console.log(this.getCompanion())
-    return this.compile(template, {});
+    console.log('!!!!', window.store.getState())
+    console.log(this.props)
+    return this.compile(template, { ...this.props }, { ...this.state });
   }
 }
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
-  user: state.user,
+  isModalOpen: state.isModalOpen
 });
 
 export default withRouter(connect(mapStateToProps)(Chat));
