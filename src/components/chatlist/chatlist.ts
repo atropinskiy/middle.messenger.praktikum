@@ -1,37 +1,46 @@
 import Block from '@core/block';
 import template from './chatlist.hbs?raw';
-import { ChatModel } from '@models/chat';
 import { ChatRow } from '@components/chatrow';
+import { connect } from '@utils/connect';
+import { IChatItem } from 'api/type';
 
 interface ChatListProps {
-  chats: ChatModel[];
   onClick: (_chatId: string) => void;
+  chats?: IChatItem[];
 }
 
-export class ChatList extends Block<ChatListProps> {
-  private static readonly currentUser = 'ivanivanov';
+class ChatList extends Block<ChatListProps> {
 
   constructor(props: ChatListProps) {
     super(props);
-    this.initChildren();
   }
 
   protected initChildren() {
-    this.props.chats.forEach((chat) => {
-      console.log(chat)
-      const filteredMessages = chat.messages.filter(
-        (msg) => msg.from.login !== ChatList.currentUser
-      );
+    const { chats } = this.props;
 
-      this.childrens[chat.id] = new ChatRow({
-        id: chat.id,
-        onClick: this.props.onClick,
-        messagesCount: filteredMessages.length,
+    if (chats) {
+      chats.forEach((chat) => {
+        this.childrens[chat.id] = new ChatRow({
+          id: String(chat.id),
+          onClick: this.props.onClick,
+          messagesCount: chat.unread_count,
+        });
       });
-    });
+    }
   }
 
   render() {
-    return this.compile(template, {});
+    console.log('рендерим чаты', this.props.chats);
+    return this.compile(template, { ...this.props });
   }
 }
+
+const mapStateToProps = (state: any) => {
+  console.log('Состояние в Redux:', state.chats);  // Проверьте, что chats существует
+  return {
+    chats: state.chats
+  };
+};
+
+
+export default connect(mapStateToProps)(ChatList);

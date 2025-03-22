@@ -1,4 +1,5 @@
 /* eslint-disable */
+import isEqual from '@utils/isEqual';
 import EventBus from './eventBus';
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
@@ -75,7 +76,7 @@ class Block<
   }
 
   protected componentDidUpdate(oldProps: any, newProps: any) {
-    return JSON.stringify(oldProps) !== JSON.stringify(newProps);
+    return !isEqual(oldProps, newProps);
   }
 
   public getProps(): TProps {

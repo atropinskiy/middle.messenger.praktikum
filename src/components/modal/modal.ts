@@ -10,6 +10,7 @@ interface ModalProps {
   content: string;
   isOpen: boolean;
   inputSettings: {name: string, value: string};
+  onOkClick?: () => {}
 }
 
 
@@ -44,7 +45,8 @@ export class Modal extends Block<ModalProps> {
       label: "Создать",
       name: "create",
       type: "submit",
-      className: "button w-100 mt-4"
+      className: "button w-100 mt-4",
+      onClick: this.props.onOkClick
     })
   }
 

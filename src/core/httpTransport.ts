@@ -21,15 +21,22 @@ export class HTTPTransport {
     this.apiUrl = `${CONSTATNS.BASE_URL}${apiPath}`;
   }
 
-  get<TResponse>(
-    url: string,
-    options: OptionsWithoutMethod = {},
-  ): Promise<TResponse> {
-    return this.request<TResponse>(`${this.apiUrl}${url}`, {
+  get<TResponse>(url: string, options: OptionsWithoutMethod = {}): Promise<TResponse> {
+    let fullUrl = `${this.apiUrl}${url}`;
+  
+    // Если переданы параметры (options.data), добавляем их в query string
+    if (options.data) {
+      const params = new URLSearchParams(options.data as Record<string, string>).toString();
+      fullUrl += `?${params}`;
+    }
+  
+    return this.request<TResponse>(fullUrl, {
       ...options,
       method: METHOD.GET,
+      data: undefined, // Убираем data, т.к. fetch() не поддерживает body в GET
     });
   }
+  
 
   post<TResponse>(
     url: string,

@@ -1,14 +1,13 @@
 import Block from '@core/block';
 import template from './chatrow.hbs?raw';
 import { Avatar } from '@components/avatar';
-
 interface ChatRowProps {
   id: string;
   onClick?: (chatId: string) => void;
   messagesCount: number;
 }
 
-export class ChatRow extends Block {
+class ChatRow extends Block {
   constructor(props: ChatRowProps) {
     super({
       ...props,
@@ -32,3 +31,6 @@ export class ChatRow extends Block {
     return this.compile(template, { ...this.props });
   }
 }
+
+
+export default ChatRow;

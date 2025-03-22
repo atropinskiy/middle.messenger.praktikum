@@ -1,11 +1,12 @@
 import Block from '@core/block';
 import template from './chat.hbs?raw';
 import { MockChats } from '../../mock-data/chat';
-import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub, Link, Modal, Button, InputField } from '@components/index';
+import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub, Link, Modal, Button } from '@components/index';
 import { MessageModel } from '@models/chat';
 import { connect } from '@utils/connect';
 import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
+import { getChats } from '../../services/chat';
 
 interface ChatState {
   currentDialog: string,
@@ -28,8 +29,8 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
   protected initChildren() {
     this.childrens.chatlist = new ChatList({
-      chats: MockChats,
       onClick: (chatId: string) => this.handleChatClick(chatId),
+      chats: window.store.getState().chats
     });
 
     this.childrens.profileLink = new Link({
@@ -67,7 +68,10 @@ class Chat extends Block<Record<string, any>, ChatState> {
     this.childrens.modal = new Modal({
       content: '123',
       title: 'Создание чата',
-      inputSettings: {name:'input', value: ''}
+      inputSettings: {name:'input', value: ''},
+      onOkClick: () => {
+        getChats()
+      }
     });
 
     this.childrens.createChatBtn = new Button({
@@ -156,7 +160,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
-  isModalOpen: state.isModalOpen
+  isModalOpen: state.isModalOpen,
 });
 
 export default withRouter(connect(mapStateToProps)(Chat));

@@ -1,9 +1,15 @@
 import { HTTPTransport } from "../core/httpTransport";
+import { APIError, IChatCreate, IChatItem, SignUpResponse } from "./type";
+// import { CreateChat } from "./type";
 
 const chatsApi = new HTTPTransport("/chats");
 
 export default class ChatApi {
-  async getChats<T=unknown>(data: TChat): Promise<T> {
-    return chatsApi.get("/chats", {data})
+  async getChats(data: TChatResponseSettings): Promise<IChatItem[] | APIError> {
+    return chatsApi.get("/", {data:{data}})
+  }
+
+  async createChat(data: IChatCreate): Promise<SignUpResponse | APIError> {
+    return chatsApi.post("/", { data })
   }
 }
