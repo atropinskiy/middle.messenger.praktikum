@@ -1,5 +1,5 @@
 import EventBus from "./eventBus";
-import { IChatItem, UserDTO } from "api/type";
+import { IChatItem, IChatMessage, UserDTO } from "api/type";
 
 interface TState {
   isLogged: boolean | null
@@ -8,6 +8,7 @@ interface TState {
   loginError: string
   isModalOpen: boolean
   chats: IChatItem[]
+  currentMessages: IChatMessage[]
 }
 
 export enum StoreEvents {

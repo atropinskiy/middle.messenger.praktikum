@@ -20,7 +20,6 @@ class ChatList extends Block<ChatListProps> {
     const chats = window.store.getState().chats
     if (chats) {
       chats.forEach((chat) => {
-        console.log(chat.id)
         this.childrens[chat.id] = new ChatRow({
           id: String(chat.id),
           title: chat.title,

@@ -17,7 +17,7 @@ export type UserDTO = {
   email: string;
 };
 
-export type CreateUser = Omit<UserDTO, 'avatar' | 'display_name' | 'id'>  & {
+export type CreateUser = Omit<UserDTO, 'avatar' | 'display_name' | 'id'> & {
   password: string
 }
 
@@ -67,4 +67,25 @@ export interface ILastMessage {
   user: UserDTO;
   time: string;
   content: string;
+}
+
+export interface IToken {
+  token: string
+}
+
+export interface IChatMessage {
+  chat_id: "number",
+  time: "string",
+  type: "string",
+  user_id: "string",
+  content: "string",
+  file?: {
+    id: "number",
+    user_id: "number",
+    path: "string",
+    filename: "string",
+    content_type: "string",
+    content_size: "number",
+    upload_date: "string",
+  }
 }
