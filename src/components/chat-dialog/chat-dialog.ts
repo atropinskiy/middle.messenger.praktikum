@@ -1,17 +1,16 @@
 import Block from '@core/block';
 import template from './chat-dialog.hbs?raw';
-import { MessageModel } from '@models/chat';
 import { Stub } from '@components/index';
+import { connect } from '@utils/connect';
+import { IChatMessage } from 'api/type';
 
 interface ChatDialogProps {
-  messages: MessageModel[];
+  currentMessages?: IChatMessage[]
 }
 
-export class ChatDialog extends Block {
+class ChatDialog extends Block {
   constructor(props: ChatDialogProps) {
-    super({
-      ...props,
-    });
+    super(props);
   }
 
   protected initChildren(): void {
@@ -20,17 +19,18 @@ export class ChatDialog extends Block {
     })  
   }
 
-  protected componentDidUpdate(oldProps: ChatDialogProps, newProps: ChatDialogProps) {
-    console.log("Перерисовк")
-    return oldProps.messages !== newProps.messages; 
-    
-  }
-
-
   render() {
-    return this.compile(template, { ...this.props });
+    console.log('Пропсы', this.props)
+    return this.compile(template, this.props);
   }
 }
 
-export default ChatDialog;
+const mapStateToProps = (state: any) => {
+  console.log("Текущее состояние currentMessages:", state.currentMessages);
+  return {
+    currentMessages: state.currentMessages
+  };
+};
+
+export default connect(mapStateToProps)(ChatDialog);
 

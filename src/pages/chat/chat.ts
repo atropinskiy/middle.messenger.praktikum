@@ -54,9 +54,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
     })
 
-    this.childrens.chatdialog = new ChatDialog({
-      messages: this.state.messages,
-    });
+    this.childrens.chatdialog = new ChatDialog();
 
     this.childrens.chatheader = new ChatHeader({
       avatar_url: '',

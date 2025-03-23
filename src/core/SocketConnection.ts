@@ -42,10 +42,8 @@ export default class SocketConnection {
         const store = window.store
         if (Array.isArray(data)) {
           store.set({ currentMessages: data })
-          console.log(window.store.getState())
         } else {
           window.store.set({ currentMessages: [...store.getState().currentMessages, data] })
-          console.log('Добавлено', window.store.getState())
         }
       }
     });
