@@ -1,12 +1,11 @@
 import Block from '@core/block';
 import template from './chatrow.hbs?raw';
 import { Avatar } from '@components/avatar';
-import { ILastMessage } from 'api/type';
 interface ChatRowProps {
   id: string;
   onClick?: (chatId: string) => void;
   messagesCount: number;
-  lastMessage?: ILastMessage;
+  lastMessage?: string | null;
   title: string; 
 }
 

@@ -1,6 +1,6 @@
 import { CONSTATNS } from '@utils/constants';
 
-const store = window.store
+
 
 export default class SocketConnection {
   protected socket;
@@ -28,7 +28,7 @@ export default class SocketConnection {
     this.socket.addEventListener('close', (event) => {
       if (event.wasClean) {
         console.log('Соединение закрыто чисто');
-        store.set({currentMessages: []});
+        window.store.set({currentMessages: []});
       } else {
         console.log('Обрыв соединения');
       }
@@ -39,7 +39,14 @@ export default class SocketConnection {
     this.socket.addEventListener('message', (event) => {
       const data = JSON.parse(event.data);
       if (data && data.type !== 'error' && data.type !== 'pong' && data.type !== 'user connected') {
-        console.log(data)
+        const store = window.store
+        if (Array.isArray(data)) {
+          store.set({ currentMessages: data })
+          console.log(window.store.getState())
+        } else {
+          window.store.set({ currentMessages: [...store.getState().currentMessages, data] })
+          console.log('Добавлено', window.store.getState())
+        }
       }
     });
 

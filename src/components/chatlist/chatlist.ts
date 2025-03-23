@@ -23,7 +23,7 @@ class ChatList extends Block<ChatListProps> {
         this.childrens[chat.id] = new ChatRow({
           id: String(chat.id),
           title: chat.title,
-          lastMessage: chat.last_message,
+          lastMessage: chat.last_message? chat.last_message.content : null,
           onClick: this.props.onClick,
           messagesCount: chat.unread_count,
         });

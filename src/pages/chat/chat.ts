@@ -15,6 +15,9 @@ interface ChatState {
 }
 
 class Chat extends Block<Record<string, any>, ChatState> {
+  private socketService: SocketService;
+  
+  
   constructor(props: Record<string, any>) {
     const initialChat = 'chat_1';
     super(
@@ -25,10 +28,13 @@ class Chat extends Block<Record<string, any>, ChatState> {
         messages: [],
       }
     );
+    this.socketService = new SocketService()
   }
 
+  
 
   protected initChildren() {
+    
     getChats()
     const chats = this.props.chats
     this.childrens.chatlist = new ChatList({
@@ -58,7 +64,10 @@ class Chat extends Block<Record<string, any>, ChatState> {
     });
 
     this.childrens.messageInput = new MessageInput({
-      onSendMessage: (message: string) => {console.log(message)},
+      onSendMessage: (message: string) => {
+        console.log(message)
+        this.socketService.sendMessage(message)
+      },
       message: ''
     });
 
@@ -92,8 +101,8 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
   private handleChatClick(chatId: string) {
     const user: string = String(window.store.getState().user?.id)
-    const socketService = new SocketService();
-    socketService.setSocketConnection(user, chatId);
+    
+    this.socketService.setSocketConnection(user, chatId);
 
   }
 
