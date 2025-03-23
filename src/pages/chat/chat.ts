@@ -6,7 +6,7 @@ import { MessageModel } from '@models/chat';
 import { connect } from '@utils/connect';
 import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
-import { getChats } from '../../services/chat';
+import { createChat, getChats } from '../../services/chat';
 
 interface ChatState {
   currentDialog: string,
@@ -15,10 +15,10 @@ interface ChatState {
 }
 
 class Chat extends Block<Record<string, any>, ChatState> {
-  constructor() {
+  constructor(props: Record<string, any>) {
     const initialChat = 'chat_1';
     super(
-      {},
+      props,
       {
         currentDialog: initialChat,
         currentUser: 'ivanivanov',
@@ -27,10 +27,14 @@ class Chat extends Block<Record<string, any>, ChatState> {
     );
   }
 
+
   protected initChildren() {
+    getChats()
+    const chats = this.props.chats
+    console.log(chats)
     this.childrens.chatlist = new ChatList({
       onClick: (chatId: string) => this.handleChatClick(chatId),
-      chats: window.store.getState().chats
+      chats: chats
     });
 
     this.childrens.profileLink = new Link({
@@ -40,8 +44,6 @@ class Chat extends Block<Record<string, any>, ChatState> {
         e.preventDefault()
         if (this.props.router) {
           this.props.router.go(ROUTER.profile);
-        } else {
-          console.error('Router не передан в Chat');
         }
       },
 
@@ -70,7 +72,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
       title: 'Создание чата',
       inputSettings: {name:'input', value: ''},
       onOkClick: () => {
-        getChats()
+        createChat('test2')
       }
     });
 
@@ -161,6 +163,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
   isModalOpen: state.isModalOpen,
+  chats: state.chats,
 });
 
 export default withRouter(connect(mapStateToProps)(Chat));

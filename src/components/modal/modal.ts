@@ -12,15 +12,10 @@ interface ModalProps {
   inputSettings: {name: string, value: string};
   onOkClick?: () => {}
 }
-
-
-
 export class Modal extends Block<ModalProps> {
   constructor(props:ModalProps) {
     super(props);
   }
-
-  
 
   protected initChildren() {
     this.childrens.input = new InputField({
@@ -51,7 +46,6 @@ export class Modal extends Block<ModalProps> {
   }
 
   render() {
-    console.log('222',this.props)
     return this.compile(template, {...this.props}, {...this.state});
   }
 }

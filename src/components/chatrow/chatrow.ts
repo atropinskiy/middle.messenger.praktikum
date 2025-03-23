@@ -1,10 +1,13 @@
 import Block from '@core/block';
 import template from './chatrow.hbs?raw';
 import { Avatar } from '@components/avatar';
+import { ILastMessage } from 'api/type';
 interface ChatRowProps {
   id: string;
   onClick?: (chatId: string) => void;
   messagesCount: number;
+  lastMessage?: ILastMessage;
+  title: string; 
 }
 
 class ChatRow extends Block {
@@ -17,6 +20,7 @@ class ChatRow extends Block {
     });
     this.initChildren();
   }
+  
 
   protected initChildren() {
     this.childrens.avatar = new Avatar({
@@ -31,6 +35,5 @@ class ChatRow extends Block {
     return this.compile(template, { ...this.props });
   }
 }
-
 
 export default ChatRow;

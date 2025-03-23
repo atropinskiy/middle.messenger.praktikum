@@ -18,16 +18,12 @@ export function connect<
         const store = window.store;
         let state = mapStateToProps(store.getState() as S);
         super({ ...props, ...state });
-        console.log(props)
         this.onChangeStoreCallback = () => {
           const newState = mapStateToProps(store.getState() as S);
-          console.log("Сравниваю", state, newState)
           if (!isEqual(state, newState)) {
             console.log("⚡ Состояние изменилось, обновляем props!", newState);
             this.setProps({ ...newState });
           } else {
-            console.log('Состояние не изменилось',state, newState)
-
           }
         
           state = newState;

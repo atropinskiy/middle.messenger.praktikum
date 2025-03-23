@@ -16,12 +16,15 @@ class ChatList extends Block<ChatListProps> {
   }
 
   protected initChildren() {
-    const { chats } = this.props;
-
+    this.childrens = {};
+    const chats = window.store.getState().chats
     if (chats) {
       chats.forEach((chat) => {
+        console.log(chat.id)
         this.childrens[chat.id] = new ChatRow({
           id: String(chat.id),
+          title: chat.title,
+          lastMessage: chat.last_message,
           onClick: this.props.onClick,
           messagesCount: chat.unread_count,
         });
@@ -29,14 +32,19 @@ class ChatList extends Block<ChatListProps> {
     }
   }
 
+  protected componentDidUpdate(): boolean {
+
+    this.initChildren()
+    return true
+  }
+
+
   render() {
-    console.log('рендерим чаты', this.props.chats);
-    return this.compile(template, { ...this.props });
+    return this.compile(template, {});
   }
 }
 
 const mapStateToProps = (state: any) => {
-  console.log('Состояние в Redux:', state.chats);  // Проверьте, что chats существует
   return {
     chats: state.chats
   };

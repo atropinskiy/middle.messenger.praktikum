@@ -10,7 +10,6 @@ export function withRouter<
 >(WrappedBlock: typeof Block<TProps, TState>) {
   return class extends WrappedBlock {
     constructor(props: TProps & WithRouterProps) {
-      console.log("withRouter: window.router:", window.router);
       super({ ...props, router: window.router });
     }
   } as typeof Block<TProps, TState>;
