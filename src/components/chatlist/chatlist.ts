@@ -39,13 +39,14 @@ class ChatList extends Block<ChatListProps> {
 
 
   render() {
+    console.log('Дети чата', this.childrens)
     return this.compile(template, {});
   }
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    chats: state.chats
+    chats: state.chats,
   };
 };
 

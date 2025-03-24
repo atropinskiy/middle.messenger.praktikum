@@ -20,7 +20,8 @@ class UserList extends Block<UserListProps> {
         this.childrens[`us${user.id}`] = new ChatMenuItem({
           icon: 'x',
           label: user.login,
-          className: 'mt-2'
+          className: 'mt-2',
+          classNameIcon: 'chat-menu-icon-color-red'
         })
       });
     }

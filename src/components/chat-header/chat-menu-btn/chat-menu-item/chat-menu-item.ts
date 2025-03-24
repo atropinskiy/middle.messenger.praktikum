@@ -7,6 +7,7 @@ interface ChatMenuItemProps {
   label: string,
   icon: string,
   className?: string,
+  classNameIcon?: string
 }
 
 export class ChatMenuItem extends Block {

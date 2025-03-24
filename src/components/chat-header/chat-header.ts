@@ -26,13 +26,7 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
       label: 'Добавить пользователя',
       icon: '+',
       onClick: () => window.store.set({ openedModal: 'addUser' }),
-    });
-
-    this.childrens.delUser = new ChatMenuItem({
-      label: 'Удалить пользователя',
-      icon: 'x',
-      className: "mt-3",
-      onClick: () => console.log("Удалить пользователя"),
+      classNameIcon: 'chat-menu-icon-color-blue'
     });
 
     this.childrens.modalAdd = new Modal({
