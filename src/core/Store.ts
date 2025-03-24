@@ -1,5 +1,5 @@
 import EventBus from "./eventBus";
-import { IChatItem, IChatMessage, UserDTO } from "api/type";
+import { IChatItem, IChatMessage, TChatUser, UserDTO } from "api/type";
 
 interface TState {
   isLogged: boolean | null
@@ -9,6 +9,8 @@ interface TState {
   openedModal: 'createChat' | 'addUser' | false
   chats: IChatItem[]
   currentMessages: IChatMessage[]
+  currentChatId: number
+  currentChatUsers: TChatUser[]
 }
 
 export enum StoreEvents {

@@ -4,25 +4,38 @@ import template from './modal.hbs?raw';
 import { Button } from '@components/button';
 import { connect } from '@utils/connect';
 import { InputField } from '@components/input-field';
+import { addUserToChat } from '../../services/chat';
 
 interface ModalProps {
   title: string;
   content: string;
   inputSettings: {name: string, value: string};
-  onOkClick?: () => {}
+  onOkClick?: (inputValue: string) => void
+  
 }
-export class Modal extends Block<ModalProps> {
+
+interface ModalState {
+  inputContent: string
+  showOk: boolean
+}
+
+export class Modal extends Block<ModalProps, ModalState> {
   constructor(props:ModalProps) {
     super(props);
+    this.setState({inputContent: '', showOk: false})
   }
 
   protected initChildren() {
     this.childrens.input = new InputField({
       name:this.props.inputSettings.name,
-      value:"",
+      value:this.state.inputContent,
       error:"",
       inputClasses:"signin-login-input w-100",
-      placeholder:"Логин"
+      placeholder:"Логин",
+      onChange: (e) => {
+        const input = e.target as HTMLInputElement;
+        this.setState({inputContent: input.value})
+      }
     })
 
     this.childrens.closeBtn = new Button ({
@@ -32,6 +45,7 @@ export class Modal extends Block<ModalProps> {
       className: "modal-close-btn",
       onClick: () => {
         window.store.set({ openedModal: false})
+        
       }
     })
 
@@ -40,7 +54,11 @@ export class Modal extends Block<ModalProps> {
       name: "create",
       type: "submit",
       className: "button w-100 mt-4",
-      onClick: this.props.onOkClick
+      onClick: () => {
+        const inputValue = this.state.inputContent
+        addUserToChat(Number(inputValue))
+        
+      }
     })
   }
 

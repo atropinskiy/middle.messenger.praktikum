@@ -18,7 +18,9 @@ window.store = new Store({
   loginError: '',
   openedModal: false,
   chats: [],
-  currentMessages: []
+  currentMessages: [],
+  currentChatId: 0,
+  currentChatUsers: []
 });
 
 await authServices.me()

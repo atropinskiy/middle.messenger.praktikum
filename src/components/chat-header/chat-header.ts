@@ -4,6 +4,7 @@ import { ChatMenuItem } from './chat-menu-btn/chat-menu-item/chat-menu-item';
 import template from './chat-header.hbs?raw';
 import { Modal } from '@components/index';
 import { connect } from '@utils/connect';
+import UserList from './users-list/users-list'
 
 interface ChatHeaderProps {
   avatar_url: string;
@@ -15,11 +16,12 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
   constructor(props: ChatHeaderProps) {
     super({
       ...props,
-      isMenuVisible: false, // Меню скрыто по умолчанию
+      isMenuVisible: false,
     });
   }
 
   protected initChildren(): void {
+    this.childrens.userList = new UserList({})
     this.childrens.addUser = new ChatMenuItem({
       label: 'Добавить пользователя',
       icon: '+',
@@ -48,9 +50,13 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
           isMenuVisible: !prevState.isMenuVisible,
 
         }));
-        console.log(this.state.isMenuVisible)
       },
     });
+  }
+
+  protected componentDidUpdate(): boolean {
+    this.initChildren()
+    return true
   }
 
   render() {
@@ -62,6 +68,7 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
 
 const mapStateToProps = (state: any) => ({
   openedModal: state.openedModal,
+  currentChatUsers: state.currentChatUsers
 });
 
 export default connect(mapStateToProps)(ChatHeader);

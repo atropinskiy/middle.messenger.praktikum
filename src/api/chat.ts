@@ -1,5 +1,5 @@
 import { HTTPTransport } from "../core/httpTransport";
-import { APIError, IChatCreate, IChatItem, IToken, SignUpResponse } from "./type";
+import { APIError, IChatCreate, IChatItem, IToken, SignUpResponse, TChatUser } from "./type";
 // import { CreateChat } from "./type";
 
 const chatsApi = new HTTPTransport("/chats");
@@ -15,5 +15,13 @@ export default class ChatApi {
 
   async getToken(chatId: string): Promise<IToken | APIError> {
     return chatsApi.post(`/token/${chatId}`)
+  }
+
+  async addUserToChat(userId: number, chatId: number): Promise<string | APIError> {
+    return chatsApi.put('/users', {data: {users: [userId], chatId: chatId}})
+  }
+
+  async getChatUsers(chatId: number, data: {limit?: number, offset?: number}): Promise<TChatUser[] | string> {
+    return chatsApi.get(`/${String(chatId)}/users`, {data: data})
   }
 }

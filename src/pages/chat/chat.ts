@@ -5,7 +5,7 @@ import { MessageModel } from '@models/chat';
 import { connect } from '@utils/connect';
 import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
-import { createChat, getChats } from '../../services/chat';
+import { createChat, getChats, getChatUsers } from '../../services/chat';
 import { SocketService } from '../../services/chat';
 
 interface ChatState {
@@ -37,7 +37,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
     
     getChats()
     const chats = this.props.chats
-    this.childrens.chatlist = new ChatList({
+    this.childrens.chatList = new ChatList({
       onClick: (chatId: string) => this.handleChatClick(chatId),
       chats: chats
     });
@@ -63,7 +63,6 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
     this.childrens.messageInput = new MessageInput({
       onSendMessage: (message: string) => {
-        console.log(message)
         this.socketService.sendMessage(message)
       },
       message: ''
@@ -95,7 +94,8 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
   private handleChatClick(chatId: string) {
     const user: string = String(window.store.getState().user?.id)
-    
+    window.store.set({ currentChatId: Number(chatId) })
+    getChatUsers()
     this.socketService.setSocketConnection(user, chatId);
 
   }

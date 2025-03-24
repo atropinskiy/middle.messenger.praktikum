@@ -19,9 +19,21 @@ class ChatDialog extends Block {
     })  
   }
 
+  scrollToBottom() {
+    setTimeout(() => {
+      const messagesContainer = document.querySelector('.inner-message-div');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }, 1);
+  }
+
   render() {
-    console.log('Пропсы', this.props)
-    return this.compile(template, this.props);
+    const result = this.compile(template, this.props);
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 3);
+    return result;
   }
 }
 

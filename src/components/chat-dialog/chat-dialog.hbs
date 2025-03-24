@@ -1,16 +1,25 @@
 <div class='w-100 mb-2 d-flex justify-end flex-grow flex-column chat-dialog'>
-  {{#if currentMessages.length }}
-    {{#each currentMessages }}
+  <div class="inner-message-div">
+    {{#if currentMessages.length }}
+      {{#each currentMessages }}
         {{#if (eq @root.myUser user_id) }}
-        <div class='w-40 dialog-from-me justify-end'>
-          <div>{{content}}</div>
-          <div class='date-dialog w-100 d-flex justify-end'>
-            <div>12:43</div>
+          <div class='w-40 dialog-from-me justify-end'>
+            <div>{{content}}</div>
+            <div class='date-dialog w-100 d-flex justify-end'>
+              <div>12:43</div>
+            </div>
           </div>
-        </div>
+        {{else}}
+          <div class='w-40 dialog-to-me justify-start'>
+            <div>{{content}}</div>
+            <div class='date-dialog w-100 d-flex justify-end'>
+              <div>12:43</div>
+            </div>
+          </div>
         {{/if}}
-    {{/each}}
-  {{else}}
-    {{{stub}}}
-  {{/if}}
+      {{/each}}
+    {{else}}
+      {{{stub}}}
+    {{/if}}
+  </div>
 </div>

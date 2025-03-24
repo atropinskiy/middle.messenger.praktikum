@@ -1,6 +1,6 @@
 import SocketConnection from "@core/SocketConnection";
 import ChatApi from "../api/chat";
-import { APIError, IChatItem, IToken, SignUpResponse } from "api/type";
+import { APIError, IChatItem, IToken, SignUpResponse, TChatUser } from "api/type";
 
 const chatApi = new ChatApi();
 
@@ -45,6 +45,38 @@ export const createChat = async (title: string): Promise<SignUpResponse | APIErr
   }
 };
 
+export const addUserToChat = async (userId: number): Promise<string | APIError> => {
+  window.store.set({ isLoading: true });
+  const chat = window.store.getState().currentChatId
+  try {
+    const response = await chatApi.addUserToChat(userId, chat)
+    return response
+  } catch (error) {
+    return { reason: "Неизвестная ошибка" } as APIError;
+  } finally {
+    window.store.set({ isLoading: false });
+  }
+}
+
+export const getChatUsers = async (): Promise<TChatUser[] | string> => {
+  window.store.set({ isLoading: true });
+  const chat = window.store.getState().currentChatId
+  try {
+    const response = await chatApi.getChatUsers(chat, {limit:5, offset:0})
+
+    if (typeof response === "string") {
+      console.error(response);
+      return response;
+    }
+    
+    window.store.set({currentChatUsers: response})
+    return response
+  } catch {
+    return "Неизвестная ошибка";
+  } finally {
+    window.store.set({ isLoading: false });
+  }
+}
 
 export class SocketService {
   private socket: SocketConnection | null
@@ -63,7 +95,7 @@ export class SocketService {
         const endpoint = `${userId}/${chatId}/${token}`;
         this.socket = new SocketConnection(endpoint)
       }
-     
+
 
       return response;
     } catch (error) {

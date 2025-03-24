@@ -35,7 +35,6 @@ export class MessageInput extends Block<MessageInputProps> {
         if (message) {
           this.props.onSendMessage(message); 
           this.setProps({ message: '' }); 
-          console.log(message)
         }
       },
     });

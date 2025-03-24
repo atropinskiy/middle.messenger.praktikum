@@ -89,3 +89,12 @@ export interface IChatMessage {
     upload_date: "string",
   }
 }
+
+export interface IAddUser {
+  users: number[]
+  chatId: number
+}
+
+export type TChatUser = Omit<UserDTO, 'phone' | 'email'> & {
+  role: string
+}
