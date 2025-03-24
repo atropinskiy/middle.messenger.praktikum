@@ -88,13 +88,9 @@ class Chat extends Block<Record<string, any>, ChatState> {
       type: 'button',
       className: 'create-chat-btn cursor-pointer',
       onClick: () => {
-        this.handleModalPressed()
+        window.store.set({ openedModal: 'createChat' })
       }
     })
-  }
-
-  private handleModalPressed() {
-    window.store.set({ isModalOpen: true })
   }
 
   private handleChatClick(chatId: string) {
@@ -137,7 +133,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
-  isModalOpen: state.isModalOpen,
+  openedModal: state.openedModal,
 });
 
 export default withRouter(connect(mapStateToProps)(Chat));

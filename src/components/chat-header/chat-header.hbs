@@ -1,3 +1,4 @@
+{{openedModal}}
 <div class='w-100 chat-header d-flex'>
   <div>{{{name}}}</div>
   <div class="ml-auto">
@@ -9,4 +10,7 @@
       </ul>
     </div>
   </div>
+  {{#if (eq openedModal 'addUser')}}
+  {{{modalAdd}}}
+  {{/if}}
 </div>

@@ -16,7 +16,7 @@ window.store = new Store({
   user: null,
   isLogged: null,
   loginError: '',
-  isModalOpen: false,
+  openedModal: false,
   chats: [],
   currentMessages: []
 });

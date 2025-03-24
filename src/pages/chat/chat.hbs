@@ -18,7 +18,7 @@
       {{{messageInput}}}
     </div>
   </div>
-  {{#if isModalOpen}}
+  {{#if (eq openedModal 'createChat') }}
   {{{modal}}}
   {{/if}}
 </main>

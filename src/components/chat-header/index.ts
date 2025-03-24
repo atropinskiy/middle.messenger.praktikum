@@ -1,2 +1,2 @@
 import './chat-header.pcss';
-export { ChatHeader as ChatHeader } from './chat-header';
+export { default as ChatHeader } from './chat-header';

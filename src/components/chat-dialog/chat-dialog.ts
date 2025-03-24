@@ -26,9 +26,9 @@ class ChatDialog extends Block {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log("Текущее состояние currentMessages:", state.currentMessages);
   return {
-    currentMessages: state.currentMessages
+    currentMessages: state.currentMessages,
+    myUser: state.user.id
   };
 };
 

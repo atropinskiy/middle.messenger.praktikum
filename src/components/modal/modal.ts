@@ -8,7 +8,6 @@ import { InputField } from '@components/input-field';
 interface ModalProps {
   title: string;
   content: string;
-  isOpen: boolean;
   inputSettings: {name: string, value: string};
   onOkClick?: () => {}
 }
@@ -32,7 +31,7 @@ export class Modal extends Block<ModalProps> {
       type: 'button',
       className: "modal-close-btn",
       onClick: () => {
-        window.store.set({ isModalOpen: false})
+        window.store.set({ openedModal: false})
       }
     })
 
@@ -51,7 +50,7 @@ export class Modal extends Block<ModalProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-  isOpen: state.isModalOpen,
+  openedModal: state.openedModal,
 });
 
 export default connect(mapStateToProps)(Modal);

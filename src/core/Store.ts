@@ -6,7 +6,7 @@ interface TState {
   isLoading: boolean
   user: UserDTO | null
   loginError: string
-  isModalOpen: boolean
+  openedModal: 'createChat' | 'addUser' | false
   chats: IChatItem[]
   currentMessages: IChatMessage[]
 }
