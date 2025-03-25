@@ -30,9 +30,6 @@ export class Router {
   use(pathname: string, block: any, isProtected: boolean = false) {
     const route = new Route(pathname, block, { rootQuery: this._rootQuery }, isProtected);
     this.routes.push(route);
-    // Логирование добавления маршрута
-    console.log(`Маршрут добавлен: ${pathname}`, route);
-
     return this;
   }
 

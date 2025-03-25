@@ -4,13 +4,15 @@ import template from './modal.hbs?raw';
 import { Button } from '@components/button';
 import { connect } from '@utils/connect';
 import { InputField, SearchList, AvatarUploadForm } from '@components/index';
+import { UserDTO } from 'api/type';
 
 interface ModalProps {
   title: string;
   content: string;
   inputSettings?: {name: string, value: string};
   onOkClick: (inputValue: string) => void,
-  placeHolder?: string
+  placeHolder?: string,
+  searchUsers?: UserDTO[],
 }
 
 interface ModalState {
@@ -38,10 +40,11 @@ export class Modal extends Block<ModalProps, ModalState> {
         }
       })
     }
-    this.childrens.searchList = new SearchList({})
-    this.childrens.avatarUploadForm = new AvatarUploadForm({
-      
+    this.childrens.searchList = new SearchList({
+      searchUsers: this.props.searchUsers
     })
+
+    this.childrens.avatarUploadForm = new AvatarUploadForm({})
     this.childrens.closeBtn = new Button ({
       label: 'x',
       name: 'closeModal',
@@ -73,6 +76,7 @@ export class Modal extends Block<ModalProps, ModalState> {
 
 const mapStateToProps = (state: any) => ({
   openedModal: state.openedModal,
+  searchUsers: state.searchUsers
 });
 
 export default connect(mapStateToProps)(Modal);

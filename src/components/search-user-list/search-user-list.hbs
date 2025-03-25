@@ -1,15 +1,8 @@
 <div>
   <ul>
-    {{#each searchUsers }}
-      <li>
-        <div class="d-flex">
-          <div>{{id}}</div>
-          <div>
-            <img src="{{@root.baseAvatarUrl}}{{avatar}}" height="48px" width="48px" alt="">
-            {{avatar}}
-          </div>
-        </div>
-      </li>
-    {{/each}}
+  {{#each this}}
+    {{{this}}}
+  {{/each}}
   </ul>
+
 </div>

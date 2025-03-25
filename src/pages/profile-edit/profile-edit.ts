@@ -73,7 +73,7 @@ export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
               const input = e.target as HTMLInputElement;
               const validationErrors = Validator.validate({ [key]: input.value }, this.fieldLabels);
               const fieldErrors = validationErrors[key] || [];
-              this.childrens[key].setProps({ error: fieldErrors, value: input.value })
+              this.childrens[`userFields ${key}`].setProps({ error: fieldErrors, value: input.value })
               this.setState((prevState) => ({
                 ...prevState,
                 [key]: input.value
