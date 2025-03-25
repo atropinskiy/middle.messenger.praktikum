@@ -48,6 +48,18 @@ export class HTTPTransport {
     });
   }
 
+  postFile<TResponse>(url: string, file: File, fieldName: string = 'file'): Promise<TResponse> {
+    const formData = new FormData();
+    formData.append(fieldName, file);
+  
+    return this.request<TResponse>(`${this.apiUrl}${url}`, {
+      method: METHOD.POST,
+      body: formData, // Используем FormData вместо JSON
+      headers: {} // Убираем заголовок Content-Type, браузер сам его установит
+    });
+  }
+  
+
   put<TResponse>(
     url: string,
     options: OptionsWithoutMethod = {},

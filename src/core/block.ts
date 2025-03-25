@@ -92,30 +92,28 @@ class Block<
 
 
   public setState(update: Partial<TState> | ((prevState: TState) => Partial<TState>)) {
-    const newState = typeof update === "function" ? update(this.state) : update;
-
+    const newState = typeof update === 'function' ? update(this.state) : update;
+  
     const updatedState = Object.keys(newState).reduce((acc, key) => {
       const value = newState[key as keyof TState];
-
-      if (Array.isArray(value)) {
-        acc[key as keyof TState] = [...value] as TState[keyof TState]; // Клонируем массив
-      } else if (typeof value === "object" && value !== null) {
-        acc[key as keyof TState] = { ...value } as TState[keyof TState]; // Клонируем объект
+  
+      if (value && value.constructor?.name === 'File') {
+        acc[key as keyof TState] = value; // Оставляем File без изменений
+      } else if (Array.isArray(value)) {
+        acc[key as keyof TState] = [...value] as TState[keyof TState];
+      } else if (typeof value === 'object' && value !== null) {
+        acc[key as keyof TState] = { ...value } as TState[keyof TState];
       } else {
         acc[key as keyof TState] = value;
       }
-
+  
       return acc;
     }, {} as Partial<TState>);
-
-    // Теперь безопасно обновляем state
+  
     Object.assign(this.state, updatedState);
-
+  
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
-
-
-
 
   get element(): HTMLElement | null {
     return this._element;
