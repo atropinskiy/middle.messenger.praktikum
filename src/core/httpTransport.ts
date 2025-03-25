@@ -58,6 +58,15 @@ export class HTTPTransport {
     });
   }
   
+  delete<TResponse>(
+    url: string,
+    options: OptionsWithoutMethod = {},
+  ): Promise<TResponse> {
+    return this.request<TResponse>(`${this.apiUrl}${url}`, {
+      ...options,
+      method: METHOD.DELETE,
+    });
+  }
 
   async request<TResponse>(url: string, options: Options = { method: METHOD.GET }): Promise<TResponse> {
     const { method, data } = options;

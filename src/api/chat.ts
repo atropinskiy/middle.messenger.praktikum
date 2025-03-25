@@ -21,6 +21,10 @@ export default class ChatApi {
     return chatsApi.put('/users', {data: {users: [userId], chatId: chatId}})
   }
 
+  async delUserFromChat(userId: number, chatId: number): Promise<string | APIError> {
+    return chatsApi.delete('/users', {data: {users: [userId], chatId: chatId}})
+  }
+
   async getChatUsers(chatId: number, data: {limit?: number, offset?: number}): Promise<TChatUser[] | string> {
     return chatsApi.get(`/${String(chatId)}/users`, {data: data})
   }

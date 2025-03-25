@@ -50,6 +50,8 @@ export const addUserToChat = async (userId: number): Promise<string | APIError> 
   const chat = window.store.getState().currentChatId
   try {
     const response = await chatApi.addUserToChat(userId, chat)
+    window.store.set({ openedModal: false })
+    getChatUsers()
     return response
   } catch (error) {
     return { reason: "Неизвестная ошибка" } as APIError;
@@ -58,18 +60,33 @@ export const addUserToChat = async (userId: number): Promise<string | APIError> 
   }
 }
 
+export const delUserFromChat = async (userId: number): Promise<string | APIError> => {
+  window.store.set({ isLoading: true });
+  const currentChatId = window.store.getState().currentChatId
+  try {
+    const response = chatApi.delUserFromChat(userId, currentChatId)
+    getChatUsers()
+    return response
+  } catch {
+    return { reason: "Ошибка" } as APIError;
+  } finally {
+    window.store.set({ isLoading: false });
+  }
+
+}
+
 export const getChatUsers = async (): Promise<TChatUser[] | string> => {
   window.store.set({ isLoading: true });
   const chat = window.store.getState().currentChatId
   try {
-    const response = await chatApi.getChatUsers(chat, {limit:5, offset:0})
+    const response = await chatApi.getChatUsers(chat, { limit: 5, offset: 0 })
 
     if (typeof response === "string") {
       console.error(response);
       return response;
     }
-    
-    window.store.set({currentChatUsers: response})
+
+    window.store.set({ currentChatUsers: response })
     return response
   } catch {
     return "Неизвестная ошибка";

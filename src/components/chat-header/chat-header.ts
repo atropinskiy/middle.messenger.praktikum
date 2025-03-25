@@ -42,7 +42,6 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
       onClick: () => {
         this.setState((prevState) => ({
           isMenuVisible: !prevState.isMenuVisible,
-
         }));
       },
     });
@@ -54,6 +53,7 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
   }
 
   render() {
+    console.log('Ререндер хедера')
     return this.compile(template, {
       ...this.props,...this.state
     });

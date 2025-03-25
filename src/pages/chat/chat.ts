@@ -31,8 +31,6 @@ class Chat extends Block<Record<string, any>, ChatState> {
     this.socketService = new SocketService()
   }
 
-  
-
   protected initChildren() {
     
     getChats()
