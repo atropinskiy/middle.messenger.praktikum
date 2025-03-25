@@ -57,8 +57,6 @@ export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
       }
     })
 
-
-
     Object.entries(user)
       .filter(([key]) => key !== "id")
       .forEach(([key, value]) => {

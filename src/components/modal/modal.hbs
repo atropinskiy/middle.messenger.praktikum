@@ -8,7 +8,12 @@
     <div class="modal-content p-2">
       {{{searchList}}}
       {{{input}}}
+      {{#if (eq openedModal 'uploadAvatar')}}
+        {{{avatarUploadForm}}}
+      {{/if}}
+      {{#if (neq openedModal 'uploadAvatar')}}
       {{{createBtn}}}
+      {{/if}}
     </div>
   </div>
 </div>

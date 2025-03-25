@@ -3,7 +3,7 @@ import Block from '@core/block';
 import template from './modal.hbs?raw';
 import { Button } from '@components/button';
 import { connect } from '@utils/connect';
-import { InputField, SearchList } from '@components/index';
+import { InputField, SearchList, AvatarUploadForm } from '@components/index';
 
 interface ModalProps {
   title: string;
@@ -39,7 +39,9 @@ export class Modal extends Block<ModalProps, ModalState> {
       })
     }
     this.childrens.searchList = new SearchList({})
-
+    this.childrens.avatarUploadForm = new AvatarUploadForm({
+      
+    })
     this.childrens.closeBtn = new Button ({
       label: 'x',
       name: 'closeModal',
