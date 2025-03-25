@@ -74,6 +74,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
       content: '123',
       title: 'Создание чата',
       inputSettings: {name:'input', value: ''},
+      placeHolder: 'Название чата',
       onOkClick: () => {
         createChat('test2')
       }
@@ -97,32 +98,6 @@ class Chat extends Block<Record<string, any>, ChatState> {
     this.socketService.setSocketConnection(user, chatId);
 
   }
-
-
-
-
-  // private handleSendMessage(message: string) {
-  //   if (!message) return;
-
-  //   const currentChat = MockChats.find((chat) => chat.id === this.state.currentDialog);
-  //   if (!currentChat) return;
-
-  //   const companion = Chat.getCompanion(this.state.currentDialog, this.state.currentUser);
-
-  //   currentChat.messages.push({
-  //     dateTime: new Date(),
-  //     from: { login: this.state.currentUser, avatar_url: '' },
-  //     to: { login: companion?.login || '', avatar_url: '' },
-  //     message: message,
-  //   });
-
-  //   const updatedMessages = [...currentChat.messages];
-  //   this.setState({ messages: updatedMessages });
-
-  //   this.childrens.chatdialog.setProps({ messages: updatedMessages });
-
-  //   console.log("Updated messages:", updatedMessages);
-  // }
 
   render() {
     return this.compile(template, { ...this.props }, { ...this.state });

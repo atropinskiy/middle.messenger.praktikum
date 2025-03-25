@@ -5,6 +5,7 @@ import template from './chat-header.hbs?raw';
 import { Modal } from '@components/index';
 import { connect } from '@utils/connect';
 import UserList from './users-list/users-list'
+import { searchUsersByLogin } from '../../services/chat';
 
 interface ChatHeaderProps {
   avatar_url: string;
@@ -32,9 +33,10 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
     this.childrens.modalAdd = new Modal({
       content: '123',
       title: 'Добавление пользователя',
+      placeHolder: 'Имя пользователя',
       inputSettings: { name: 'input', value: '' },
-      onOkClick: () => {
-        console.log(123)
+      onOkClick: (login: string) => {
+        searchUsersByLogin(login)
       }
     })
 

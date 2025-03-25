@@ -1,8 +1,9 @@
 import { HTTPTransport } from "../core/httpTransport";
-import { APIError, IChatCreate, IChatItem, IToken, SignUpResponse, TChatUser } from "./type";
+import { APIError, IChatCreate, IChatItem, IToken, SignUpResponse, TChatUser, UserDTO } from "./type";
 // import { CreateChat } from "./type";
 
 const chatsApi = new HTTPTransport("/chats");
+const userApi = new HTTPTransport("/user")
 
 export default class ChatApi {
   async getChats(data: TChatResponseSettings): Promise<IChatItem[] | APIError> {
@@ -28,4 +29,9 @@ export default class ChatApi {
   async getChatUsers(chatId: number, data: {limit?: number, offset?: number}): Promise<TChatUser[] | string> {
     return chatsApi.get(`/${String(chatId)}/users`, {data: data})
   }
+
+  async searchUsersByLogin(login: string): Promise<UserDTO[] | APIError | string> {
+    return userApi.post('/search', {data: {login: login}})
+  }
+
 }

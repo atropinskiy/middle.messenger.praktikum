@@ -9,12 +9,16 @@ interface AvatarProps {
   className?: string;
   width: number;
   label?: string;
+  onClick?: (e: Event) => void
 }
 
 export class Avatar extends Block {
   constructor(props: AvatarProps) {
     super({
       ...props,
+      events: {
+        click: props.onClick
+      },
       className: props.className || '',
     });
   }

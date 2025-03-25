@@ -3,15 +3,14 @@ import Block from '@core/block';
 import template from './modal.hbs?raw';
 import { Button } from '@components/button';
 import { connect } from '@utils/connect';
-import { InputField } from '@components/input-field';
-import { addUserToChat } from '../../services/chat';
+import { InputField, SearchList } from '@components/index';
 
 interface ModalProps {
   title: string;
   content: string;
-  inputSettings: {name: string, value: string};
-  onOkClick?: (inputValue: string) => void
-  
+  inputSettings?: {name: string, value: string};
+  onOkClick: (inputValue: string) => void,
+  placeHolder?: string
 }
 
 interface ModalState {
@@ -26,17 +25,20 @@ export class Modal extends Block<ModalProps, ModalState> {
   }
 
   protected initChildren() {
-    this.childrens.input = new InputField({
-      name:this.props.inputSettings.name,
-      value:this.state.inputContent,
-      error:"",
-      inputClasses:"signin-login-input w-100",
-      placeholder:"Логин",
-      onChange: (e) => {
-        const input = e.target as HTMLInputElement;
-        this.setState({inputContent: input.value})
-      }
-    })
+    if (this.props.inputSettings) {
+      this.childrens.input = new InputField({
+        name:this.props.inputSettings.name,
+        value:this.state.inputContent,
+        error:"",
+        inputClasses:"signin-login-input w-100",
+        placeholder:this.props.placeHolder,
+        onChange: (e) => {
+          const input = e.target as HTMLInputElement;
+          this.setState({inputContent: input.value})
+        }
+      })
+    }
+    this.childrens.searchList = new SearchList({})
 
     this.childrens.closeBtn = new Button ({
       label: 'x',
@@ -45,7 +47,6 @@ export class Modal extends Block<ModalProps, ModalState> {
       className: "modal-close-btn",
       onClick: () => {
         window.store.set({ openedModal: false})
-        
       }
     })
 
@@ -56,8 +57,9 @@ export class Modal extends Block<ModalProps, ModalState> {
       className: "button w-100 mt-4",
       onClick: () => {
         const inputValue = this.state.inputContent
-        addUserToChat(Number(inputValue))
-        
+        if (inputValue) {
+          this.props.onOkClick(inputValue)
+        }
       }
     })
   }

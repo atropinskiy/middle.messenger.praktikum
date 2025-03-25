@@ -1,6 +1,6 @@
 import SocketConnection from "@core/SocketConnection";
 import ChatApi from "../api/chat";
-import { APIError, IChatItem, IToken, SignUpResponse, TChatUser } from "api/type";
+import { APIError, IChatItem, IToken, SignUpResponse, TChatUser, UserDTO } from "api/type";
 
 const chatApi = new ChatApi();
 
@@ -95,6 +95,21 @@ export const getChatUsers = async (): Promise<TChatUser[] | string> => {
   }
 }
 
+export const searchUsersByLogin = async (login: string): Promise<UserDTO[] | APIError | string> => {
+  window.store.set({ isLoading: true });
+  try {
+    const response = await chatApi.searchUsersByLogin(login)
+    if (Array.isArray(response) && response.every(user => 'id' in user && 'login' in user)) {
+      window.store.set({ searchUsers: response });
+    }
+    return response
+  } catch {
+    return "Ошибка"
+  } finally {
+    window.store.set({ isLoading: false })
+  }
+}
+
 export class SocketService {
   private socket: SocketConnection | null
 
@@ -104,7 +119,6 @@ export class SocketService {
 
   async setSocketConnection(userId: string, chatId: string): Promise<IToken | APIError> {
     window.store.set({ isLoading: true });
-
     try {
       const response = await chatApi.getToken(chatId);
       if ('token' in response) {
@@ -112,7 +126,6 @@ export class SocketService {
         const endpoint = `${userId}/${chatId}/${token}`;
         this.socket = new SocketConnection(endpoint)
       }
-
 
       return response;
     } catch (error) {

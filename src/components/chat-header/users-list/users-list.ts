@@ -40,7 +40,6 @@ class UserList extends Block<UserListProps> {
   }
 
   render() {
-    console.log('Ререндер списка')
     return this.compile(template, {});
   }
 }

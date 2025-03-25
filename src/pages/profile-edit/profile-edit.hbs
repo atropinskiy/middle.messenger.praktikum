@@ -1,5 +1,8 @@
 <main>
   <div class="d-flex w-100 h-100">
+    {{#if (eq openedModal 'uploadAvatar') }}
+      {{{modal}}}
+    {{/if}}
     {{{backDiv}}}
     <div class='d-flex flex-column w-100 justify-center valign-center'>
       <div class="d-flex justify-center">{{{avatar}}}</div>
@@ -7,9 +10,10 @@
       <div>
         <form>
           <ul class="flex-grow editList">
-            {{{state.login}}}
             {{#each this }}
-              {{{this}}}
+              {{#if (startsWith @key "userFields") }}
+                {{{this}}}
+              {{/if}}
             {{/each}}
           </ul>
           {{errors}}

@@ -1,12 +1,15 @@
 import Block from '@core/block';
 import template from './profile-edit.hbs?raw';
-import { ProfileEditCell, Button, InputField, Avatar, BackDiv } from '@components/index';
+import { ProfileEditCell, Button, InputField, Avatar, BackDiv, Modal } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
 import { withRouter } from '@utils/withrouter';
 import { connect } from '@utils/connect';
 import * as authServices from "../../services/auth";
 
+interface ProfileEditProps {
+  openedModal?: 'createChat' | 'addUser' | 'uploadAvatar' | false
+}
 
 interface ProfileEditState {
   login: string;
@@ -16,7 +19,7 @@ interface ProfileEditState {
   display_name: string;
   phone: string;
 }
-export class ProfileEdit extends Block<object, ProfileEditState> {
+export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
 
   private fieldLabels: UserModel = {
     login: "Логин",
@@ -27,8 +30,8 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
     phone: "Телефон",
   };
 
-  constructor() {
-    super();
+  constructor(props: ProfileEditProps) {
+    super({ ...props });
   }
 
   protected initChildren() {
@@ -54,10 +57,12 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
       }
     })
 
+
+
     Object.entries(user)
       .filter(([key]) => key !== "id")
       .forEach(([key, value]) => {
-        this.childrens[key] = new ProfileEditCell({
+        this.childrens[`userFields ${key}`] = new ProfileEditCell({
           label: key || "",
           input: new InputField({
             name: key,
@@ -69,8 +74,8 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
             onChange: (e: Event) => {
               const input = e.target as HTMLInputElement;
               const validationErrors = Validator.validate({ [key]: input.value }, this.fieldLabels);
-              const fieldErrors = validationErrors[key] || []; 
-              this.childrens[key].setProps({error:fieldErrors, value: input.value})
+              const fieldErrors = validationErrors[key] || [];
+              this.childrens[key].setProps({ error: fieldErrors, value: input.value })
               this.setState((prevState) => ({
                 ...prevState,
                 [key]: input.value
@@ -81,7 +86,7 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
 
       });
     this.childrens.resultButton = new Button({
-      label: "Сохранить",
+      label: "Поменять",
       name: "save",
       type: "button",
       className: "button w-100 mt-2",
@@ -89,10 +94,17 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
         this.handleSave()
       }
     });
-    this.childrens.avatar = new Avatar ({
+    this.childrens.avatar = new Avatar({
       src: 'img/avatar_mock.jpg',
-      className: 'avatar mb-2',
-      width: 130
+      className: 'avatar cursor-pointer mb-2',
+      width: 130,
+      onClick: () => { window.store.set({ openedModal: 'uploadAvatar' }) }
+    })
+
+    this.childrens.modal = new Modal({
+      title: 'Загрузка нового аватара',
+      content: 'Аватар',
+      onOkClock: () => { console.log(123) }
     })
   }
 
@@ -104,11 +116,11 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
         validationErrors[key] = fieldErrors.join(", ");
       }
     });
-  
+
     Object.entries(validationErrors).forEach(([key, error]) => {
       this.childrens[key]?.setProps({ error });
     });
-  
+
     if (Object.keys(validationErrors).length === 0) {
       console.log("Форма успешно сохранена:", this.state);
       authServices.editProfile(this.state)
@@ -116,14 +128,15 @@ export class ProfileEdit extends Block<object, ProfileEditState> {
       console.log("Форма содержит ошибки:", validationErrors);
     }
   }
-  
+
   render() {
-    return this.compile(template, {});
+    return this.compile(template, this.props)
   }
 }
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
+  openedModal: state.openedModal
 });
 
 export default withRouter(connect(mapStateToProps)(ProfileEdit));

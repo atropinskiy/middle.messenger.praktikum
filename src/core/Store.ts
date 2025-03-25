@@ -6,11 +6,12 @@ interface TState {
   isLoading: boolean
   user: UserDTO | null
   loginError: string
-  openedModal: 'createChat' | 'addUser' | false
+  openedModal: 'createChat' | 'addUser' | 'uploadAvatar' | false
   chats: IChatItem[]
   currentMessages: IChatMessage[]
   currentChatId: number
   currentChatUsers: TChatUser[]
+  searchUsers: UserDTO[]
 }
 
 export enum StoreEvents {
