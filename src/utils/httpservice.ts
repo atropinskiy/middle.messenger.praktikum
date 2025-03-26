@@ -8,14 +8,14 @@ export function queryStringify(
 	const keys = Object.keys(data);
 	return keys.length
 		? '?' +
-				keys
-					.map(
-						(key) =>
-							`${encodeURIComponent(key)}=${encodeURIComponent(
-								String(data[key])
-							)}`
-					)
-					.join('&')
+		keys
+			.map(
+				(key) =>
+					`${encodeURIComponent(key)}=${encodeURIComponent(
+						String(data[key])
+					)}`
+			)
+			.join('&')
 		: '';
 }
 
@@ -56,20 +56,16 @@ class HTTPTransport {
 	): Promise<XMLHttpRequest> {
 		const { headers = {}, method = METHODS.GET, data } = options;
 		const isGet = method === METHODS.GET;
-
-		// Корректно формируем URL для GET-запросов
 		const requestUrl =
 			isGet && data
 				? `${url}${queryStringify(
-						data as Record<string, string | number | boolean>
-				  )}`
+					data as Record<string, string | number | boolean>
+				)}`
 				: url;
 
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
-			xhr.open(method, requestUrl); // Теперь передаются два аргумента: method и URL
-
-			// Устанавливаем заголовки
+			xhr.open(method, requestUrl);
 			Object.entries(headers).forEach(([key, value]) => {
 				xhr.setRequestHeader(key, value);
 			});
