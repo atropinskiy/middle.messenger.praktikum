@@ -5,12 +5,13 @@ import template from './chat-header.hbs?raw';
 import { Modal } from '@components/index';
 import { connect } from '@utils/connect';
 import UserList from './users-list/users-list'
-import { searchUsersByLogin } from '../../services/chat';
+import { deleteChat, searchUsersByLogin } from '../../services/chat';
 
 interface ChatHeaderProps {
   avatar_url: string;
   name: string;
   openedModal?: 'createChat' | 'addUser' | false
+  currentChatId: number
 }
 
 class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { isMenuVisible: boolean }> {
@@ -22,8 +23,9 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
   }
 
   protected initChildren(): void {
-    
+
     this.childrens.userList = new UserList({})
+    
     this.childrens.addUser = new ChatMenuItem({
       label: 'Добавить пользователя',
       icon: '+',
@@ -33,6 +35,25 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
       },
       classNameIcon: 'chat-menu-icon-color-blue'
     });
+
+    this.childrens.delChat = new ChatMenuItem({
+      icon: 'x',
+      label: 'Удалить чат',
+      classNameIcon: 'chat-menu-icon-color-red',
+      className: 'mt-2',
+      onClick: () => {
+        const chatId = window.store.getState().currentChatId
+        console.log('Удаляем чат', chatId)
+        deleteChat(chatId)
+      },
+    })
+
+    this.childrens.updateChatAvatar = new ChatMenuItem({
+      icon: '📝',
+      label: 'Обновить аватар',
+      classNameIcon: 'chat-menu-icon-color-blue',
+      className: 'mt-2'
+    })
 
     this.childrens.modalAdd = new Modal({
       content: '123',
@@ -59,7 +80,6 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
   }
 
   render() {
-    console.log('Ререндер хедера')
     return this.compile(template, {
       ...this.props,...this.state
     });
@@ -68,7 +88,8 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
 
 const mapStateToProps = (state: any) => ({
   openedModal: state.openedModal,
-  currentChatUsers: state.currentChatUsers
+  currentChatUsers: state.currentChatUsers,
+  currentChatId: state.currentChatId
 });
 
 export default connect(mapStateToProps)(ChatHeader);

@@ -108,3 +108,13 @@ export interface IFileRequest {
   content_size: number
   upload_date: string
 }
+
+export interface IDeleteChatResponse {
+  userId: number,
+  result: {
+    id: number,
+    title: string,
+    avatar: string,
+    created_by: string
+  }
+}

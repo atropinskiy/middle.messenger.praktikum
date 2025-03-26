@@ -13,6 +13,7 @@ interface ModalProps {
   onOkClick: (inputValue: string) => void,
   placeHolder?: string,
   searchUsers?: UserDTO[],
+  isLoading?: boolean
 }
 
 interface ModalState {
@@ -64,6 +65,7 @@ export class Modal extends Block<ModalProps, ModalState> {
         const inputValue = this.state.inputContent
         if (inputValue) {
           this.props.onOkClick(inputValue)
+          this.setState({inputContent: ''})
         }
       }
     })
@@ -76,7 +78,8 @@ export class Modal extends Block<ModalProps, ModalState> {
 
 const mapStateToProps = (state: any) => ({
   openedModal: state.openedModal,
-  searchUsers: state.searchUsers
+  searchUsers: state.searchUsers,
+  isLoading: state.isLoading
 });
 
 export default connect(mapStateToProps)(Modal);

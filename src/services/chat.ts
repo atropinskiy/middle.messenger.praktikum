@@ -1,6 +1,6 @@
 import SocketConnection from "@core/SocketConnection";
 import ChatApi from "../api/chat";
-import { APIError, IChatItem, IToken, SignUpResponse, TChatUser, UserDTO } from "api/type";
+import { APIError, IChatItem, IDeleteChatResponse, IToken, SignUpResponse, TChatUser, UserDTO } from "api/type";
 import ProfileApi from "../api/profile";
 
 const chatApi = new ChatApi();
@@ -30,8 +30,8 @@ export const createChat = async (title: string): Promise<SignUpResponse | APIErr
 
   try {
     const response = await chatApi.createChat({ title: title });
-
-    // Проверяем, является ли ответ ошибкой
+    getChats()
+    window.store.set({openedModal: false})
     if ("reason" in response) {
       console.error("Ошибка при создании чата:", response.reason);
       return response;
@@ -46,6 +46,22 @@ export const createChat = async (title: string): Promise<SignUpResponse | APIErr
     window.store.set({ isLoading: false });
   }
 };
+
+export const deleteChat = async (chatId: number): Promise<IDeleteChatResponse | string> => {
+  window.store.set({ isLoading: true });
+  try {
+    const response = await chatApi.deleteChat(chatId);
+    return response;
+  } catch (error) {
+    console.error("Ошибка при удалении чата:", error);
+    // Можно вернуть ошибку как строку или кастомный тип ошибки
+    return "Ошибка";
+  } finally {
+    window.store.set({ isLoading: false });
+    getChats()
+  }
+};
+
 
 export const addUserToChat = async (userId: number): Promise<string | APIError> => {
   window.store.set({ isLoading: true });

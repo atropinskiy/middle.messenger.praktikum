@@ -1,16 +1,22 @@
-{{openedModal}}
 <div class='w-100 chat-header d-flex'>
   <div>{{{name}}}</div>
   <div class="ml-auto">
-    {{{menuBtn}}}
+    {{#if currentChatId }}
+      {{{menuBtn}}}
+    {{/if}}
     <div class="menu-wrapper {{#unless isMenuVisible}}hidden{{/unless}}">
       <ul class="menu hidden">
         {{{addUser}}}
+        {{{delChat}}}
+        {{{updateChatAvatar}}}
+        <div class="mt-2">
+          Удалить пользователя:
+        </div>
         {{{userList}}}
       </ul>
     </div>
   </div>
-  {{#if (eq openedModal 'addUser')}}
-  {{{modalAdd}}}
+  {{#if (eq openedModal 'addUser') }}
+    {{{modalAdd}}}
   {{/if}}
 </div>

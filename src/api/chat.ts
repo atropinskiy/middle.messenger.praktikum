@@ -1,6 +1,5 @@
 import { HTTPTransport } from "../core/httpTransport";
-import { APIError, IChatCreate, IChatItem, IToken, SignUpResponse, TChatUser, UserDTO } from "./type";
-// import { CreateChat } from "./type";
+import { APIError, IChatCreate, IChatItem, IDeleteChatResponse, IToken, SignUpResponse, TChatUser, UserDTO } from "./type";
 
 const chatsApi = new HTTPTransport("/chats");
 const userApi = new HTTPTransport("/user")
@@ -34,4 +33,9 @@ export default class ChatApi {
     return userApi.post('/search', {data: {login: login}})
   }
 
+  async deleteChat(chatId: number): Promise<IDeleteChatResponse | string> {
+    return chatsApi.delete('/', {
+      data: { chatId: chatId },
+    });
+  }
 }

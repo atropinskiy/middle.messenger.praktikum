@@ -75,8 +75,8 @@ class Chat extends Block<Record<string, any>, ChatState> {
       title: 'Создание чата',
       inputSettings: {name:'input', value: ''},
       placeHolder: 'Название чата',
-      onOkClick: () => {
-        createChat('test2')
+      onOkClick: (chatName: string) => {
+        createChat(chatName)
       }
     });
 

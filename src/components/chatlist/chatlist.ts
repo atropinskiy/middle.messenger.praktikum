@@ -33,7 +33,6 @@ class ChatList extends Block<ChatListProps> {
   }
 
   protected componentDidUpdate(): boolean {
-
     this.initChildren()
     return true
   }
