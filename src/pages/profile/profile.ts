@@ -6,9 +6,10 @@ import { withRouter } from '@utils/withrouter';
 import { connect } from '@utils/connect';
 import { UserDTO } from 'api/type';
 import { ROUTER } from '@utils/constants';
+import { CONSTATNS } from '@utils/constants';
 
 interface ProfileState {
-  user: UserDTO | null;
+  user?: UserDTO | null;
   isLoading: boolean;
 }
 
@@ -21,9 +22,12 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
       user: store.user,
       isLoading: store.isLoading,
     };
+    
   }
 
   protected initChildren(): void {
+    const user = window.store.getState().user
+    const avatar = CONSTATNS.BASE_SOURCES_URL+user?.avatar || 'img/avatar_mocj.jpg'
     this.childrens.backDiv = new BackDiv({
       onClick: () => {
         window.router.back()
@@ -31,7 +35,7 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
     })
 
     this.childrens.avatar = new Avatar({
-      src: 'img/avatar_mock.jpg',
+      user_src: avatar,
       className: 'avatar',
       width: 130,
     });
@@ -55,12 +59,13 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
   }
 
   render() {
-    return this.compile(template, { current_user: this.state.user });
+    return this.compile(template, {...this.props});
   }
 }
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
+  user: state.user
 });
 
 export default withRouter(connect(mapStateToProps)(Profile));

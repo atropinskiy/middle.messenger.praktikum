@@ -1,4 +1,5 @@
 import { CONSTATNS } from '@utils/constants';
+import { sortMessage } from '@utils/helpers/message-sorter';
 
 
 
@@ -41,7 +42,8 @@ export default class SocketConnection {
       if (data && data.type !== 'error' && data.type !== 'pong' && data.type !== 'user connected') {
         const store = window.store
         if (Array.isArray(data)) {
-          store.set({ currentMessages: data })
+          const sortedData = sortMessage(data)
+          store.set({ currentMessages: sortedData })
         } else {
           window.store.set({ currentMessages: [...store.getState().currentMessages, data] })
         }

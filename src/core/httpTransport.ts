@@ -72,44 +72,49 @@ export class HTTPTransport {
     return new Promise<TResponse>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       
-      // Собираем полный URL
       xhr.open(method, url, true);
-      xhr.withCredentials = true; // То же самое, что и "credentials: 'include'"
+      xhr.withCredentials = true;
   
-      // Устанавливаем заголовки
       Object.entries(headers).forEach(([key, value]) => {
         xhr.setRequestHeader(key, value);
       });
   
-      // Устанавливаем заголовок "Content-Type", если это JSON
       if (data && !(data instanceof FormData)) {
         xhr.setRequestHeader("Content-Type", "application/json");
       }
   
-      xhr.responseType = "json"; // Ожидаем JSON в ответе
-  
-      // Обработчики загрузки и ошибок
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
-          resolve(xhr.response); // Если статус OK, возвращаем данные
+          const contentType = xhr.getResponseHeader("Content-Type") || "";
+  
+          try {
+            if (contentType.includes("application/json")) {
+              resolve(JSON.parse(xhr.responseText) as TResponse);
+            } else {
+              resolve(xhr.responseText as unknown as TResponse);
+            }
+          } catch (error) {
+            console.error("Ошибка парсинга JSON:", error);
+            resolve(xhr.responseText as unknown as TResponse);
+          }
         } else {
-          reject(xhr); // Если ошибка, отклоняем промис
+          reject(xhr);
         }
       };
   
       xhr.onerror = () => reject(new Error("Ошибка сети"));
       xhr.ontimeout = () => reject(new Error("Превышено время ожидания запроса"));
   
-      // Отправляем данные
       if (data instanceof FormData) {
-        xhr.send(data); // Если это FormData, отправляем как есть
+        xhr.send(data);
       } else if (data) {
-        xhr.send(JSON.stringify(data)); // Если данные есть, отправляем их как JSON
+        xhr.send(JSON.stringify(data));
       } else {
-        xhr.send(); // Если данных нет, отправляем пустой запрос
+        xhr.send();
       }
     });
   }
+  
   
 
 

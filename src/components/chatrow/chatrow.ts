@@ -1,12 +1,14 @@
 import Block from '@core/block';
 import template from './chatrow.hbs?raw';
-import { Avatar } from '@components/avatar';
+import { CONSTATNS } from '@utils/constants';
+
 interface ChatRowProps {
   id: string;
   onClick?: (chatId: string) => void;
   messagesCount: number;
   lastMessage?: string | null;
   title: string; 
+  chatAvatar: string;
 }
 
 class ChatRow extends Block {
@@ -16,18 +18,9 @@ class ChatRow extends Block {
       events: {
         click: () => props.onClick?.(props.id),
       },
+      chatAvatar: props.chatAvatar ? CONSTATNS.BASE_SOURCES_URL + props.chatAvatar : 'img/avatar_mock.jpg'
     });
     this.initChildren();
-  }
-  
-
-  protected initChildren() {
-    this.childrens.avatar = new Avatar({
-      user_src: 'img/avatar_mock.jpg',
-      className: 'avatar',
-      width: 47,
-      label: '123',
-    });
   }
 
   render() {

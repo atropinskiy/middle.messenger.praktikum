@@ -19,4 +19,11 @@ export const registerHelpers = (): void => {
     }
     return false; // Возвращаем false, если не совпадает
   });
+
+  Handlebars.registerHelper("formatTime", function (isoString: string): string {
+    const date = new Date(isoString);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  });
 };

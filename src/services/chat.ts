@@ -123,8 +123,7 @@ export const uploadFile = async (file: File): Promise<UserDTO | string> => {
     const response = await profileApi.uploadAvatar(formData);
 
     if (typeof response === 'object' && response !== null && 'id' in response && 'avatar' in response) {
-      window.store.set({ user: response });
-      window.store.set({ openedModal: false })
+      window.store.set({ user: response, avatar: response.avatar, openedModal: false });
       return response;
     } else {
       return "Ошибка: Неверный формат ответа от сервера";

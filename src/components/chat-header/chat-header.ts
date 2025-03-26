@@ -22,11 +22,15 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
   }
 
   protected initChildren(): void {
+    
     this.childrens.userList = new UserList({})
     this.childrens.addUser = new ChatMenuItem({
       label: 'Добавить пользователя',
       icon: '+',
-      onClick: () => window.store.set({ openedModal: 'addUser' }),
+      onClick: () => {
+        window.store.set({ openedModal: 'addUser' })
+        this.setState({ isMenuVisible : false })
+      },
       classNameIcon: 'chat-menu-icon-color-blue'
     });
 

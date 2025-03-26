@@ -64,7 +64,7 @@ export const me = async (): Promise<void> => {
     const response = await authApi.me();
 
     if ('id' in response && 'login' in response) {
-      window.store.set({ user: response, isLogged: true });
+      window.store.set({ user: response, isLogged: true, avatar: response.avatar });
     } else {
       console.error("Unexpected response format", response);
     }
@@ -83,32 +83,29 @@ export const me = async (): Promise<void> => {
 }
 
 
-export const logOut = async (): Promise<void> => {
+export const logOut = async (): Promise<string> => {
   try {
     const response = await authApi.logout(); 
-
-    // Логируем ответ, чтобы увидеть, что именно возвращает logout
     console.log("Ответ от logout:", response);
-
-    // Проверяем, что response существует и это строка
-    if (typeof response === 'string') {
-      window.store.set({isLogged: false})
+    if (response == 'OK') {
+      window.store.set({ isLogged: false });
       window.router.go(ROUTER.signin);
-      
+      return 'Ok';
     } else {
-      // В случае ошибки или других значений
       console.error("Ошибка при выходе, неверный ответ:", response);
       window.store.set({ loginError: "Неизвестная ошибка при выходе" });
+      return 'error';
     }
-
   } catch (error: unknown) {
-    // Обрабатываем другие ошибки (например, сетевые)
     console.error("Ошибка при выполнении запроса:", error);
     window.store.set({ loginError: "Ошибка при выполнении запроса" });
+    return 'error'; 
   } finally {
-    window.store.set({ isLoading: false });
+    window.store.set({ isLoading: false, isLogged: false });
+    window.router.go(ROUTER.signin);
   }
 };
+
 
 export const editProfile = async (model: UserDTO): Promise<void> => {
   window.store.set({ isLoading: true });

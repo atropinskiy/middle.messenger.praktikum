@@ -26,6 +26,7 @@ class ChatList extends Block<ChatListProps> {
           lastMessage: chat.last_message? chat.last_message.content : null,
           onClick: this.props.onClick,
           messagesCount: chat.unread_count,
+          chatAvatar: chat.avatar
         });
       });
     }

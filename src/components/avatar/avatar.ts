@@ -1,11 +1,15 @@
 import Block from '@core/block';
 import template from './avatar.hbs?raw';
 import Handlebars from 'handlebars';
+import { connect } from '@utils/connect';
+import { UserDTO } from 'api/type';
+import { CONSTATNS } from '@utils/constants';
 
 Handlebars.registerPartial('Avatar', template);
 
 interface AvatarProps {
-  user_src?: string
+  avatar?: UserDTO
+  user_src: string
   className?: string;
   width: number;
   label?: string;
@@ -28,6 +32,9 @@ class Avatar extends Block {
   }
 }
 
+const mapStateToProps = (state: any) => ({
+  avatar: CONSTATNS.BASE_SOURCES_URL + state.avatar
+});
 
-export default Avatar;
+export default connect(mapStateToProps)(Avatar);
 

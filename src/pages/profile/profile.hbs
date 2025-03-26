@@ -3,23 +3,23 @@
     {{{backDiv}}}
     <div class='d-flex flex-column w-100 justify-center valign-center'>
       <div class="d-flex w-100 justify-center">{{{avatar}}}</div>
-      <div class='w-100 d-flex valign-center name-label'>{{current_user.login}}</div>
+      <div class='w-100 justify-center d-flex valign-center name-label'>{{user.login}}</div>
       <table class='profile-table'>
         <tr>
           <td>Почта</td>
-          <td class='d-flex justify-end valign-center color-gray'>{{current_user.email}}</td>
+          <td class='d-flex justify-end valign-center color-gray'>{{user.email}}</td>
         </tr>
         <tr>
           <td>Логин</td>
-          <td class='d-flex justify-end valign-center color-gray'>{{current_user.login}}</td>
+          <td class='d-flex justify-end valign-center color-gray'>{{user.login}}</td>
         </tr>
         <tr>
           <td>Имя</td>
-          <td class='d-flex justify-end valign-center color-gray'>{{current_user.first_name}}</td>
+          <td class='d-flex justify-end valign-center color-gray'>{{user.first_name}}</td>
         </tr>
         <tr>
           <td>Фамилия</td>
-          <td class='d-flex justify-end valign-center color-gray'>{{current_user.second_name}}</td>
+          <td class='d-flex justify-end valign-center color-gray'>{{user.second_name}}</td>
         </tr>
         <tr>
           <td>Имя в чате</td>
@@ -27,7 +27,7 @@
         </tr>
         <tr>
           <td>Телефон</td>
-          <td class='d-flex justify-end valign-center color-gray'>{{current_user.phone}}</td>
+          <td class='d-flex justify-end valign-center color-gray'>{{user.phone}}</td>
         </tr>
       </table>
       <table class='profile-table'>

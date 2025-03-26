@@ -20,6 +20,7 @@ window.store = new Store({
   currentChatId: 0,
   currentChatUsers: [],
   searchUsers: [],
+  avatar: 'img/avatar_mock.jpg'
 });
 
 await authServices.me()
