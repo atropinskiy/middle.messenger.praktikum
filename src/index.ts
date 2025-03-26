@@ -22,7 +22,7 @@ window.store = new Store({
 	avatar: 'img/avatar_mock.jpg',
 });
 
-await authServices.me();
+authServices.me();
 console.log(window.store.getState().user);
 
 window.store.on(StoreEvents.Updated, (prevState, newState) => {

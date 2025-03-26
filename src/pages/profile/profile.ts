@@ -27,9 +27,11 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
 
 	protected initChildren(): void {
 		const user = window.store.getState().user;
-		const avatarUrl = user?.avatar !== null ?
-			(CONSTATNS.BASE_SOURCES_URL + user?.avatar) : 'img/avatar_mocj.jpg';
-		console.log('avatar', avatarUrl)
+		const avatarUrl =
+			user?.avatar !== null
+				? CONSTATNS.BASE_SOURCES_URL + user?.avatar
+				: 'img/avatar_mocj.jpg';
+		console.log('avatar', avatarUrl);
 		this.childrens.backDiv = new BackDiv({
 			onClick: () => {
 				window.router.back();
@@ -69,7 +71,7 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
 	}
 
 	render() {
-		console.log(this.props.user)
+		console.log(this.props.user);
 		return this.compile(template, { ...this.props });
 	}
 }
@@ -77,7 +79,7 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
 const mapStateToProps = (state: ProfileState) => ({
 	loginError: state.loginError,
 	user: state.user,
-	avatar: state.user?.avatar
+	avatar: state.user?.avatar,
 });
 
 export default withRouter(connect(mapStateToProps)(Profile));

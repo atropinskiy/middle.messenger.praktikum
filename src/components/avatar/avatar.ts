@@ -14,7 +14,6 @@ interface AvatarProps {
 	onClick?: (e: Event) => void;
 }
 
-
 class Avatar extends Block {
 	constructor(props: AvatarProps) {
 		super({
@@ -26,18 +25,19 @@ class Avatar extends Block {
 	}
 
 	protected componentDidUpdate(): boolean {
-		return true
+		return true;
 	}
 
 	render() {
 		console.log('222', this.props);
-		return this.compile(template, {...this.props});
+		return this.compile(template, { ...this.props });
 	}
 }
 
 const mapStateToProps = (state: AvatarProps) => ({
-	
-	avatar: state.avatar? CONSTATNS.BASE_SOURCES_URL + state.avatar: 'img/avatar_mock.jpg',
+	avatar: state.avatar
+		? CONSTATNS.BASE_SOURCES_URL + state.avatar
+		: 'img/avatar_mock.jpg',
 });
 
 export default connect(mapStateToProps)(Avatar);

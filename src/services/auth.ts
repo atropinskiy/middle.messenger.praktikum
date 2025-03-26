@@ -17,7 +17,9 @@ export const login = async (model: LoginRequestData): Promise<void> => {
 	try {
 		await authApi.login(model);
 		window.store.set({ isLogged: true });
-		await me();
+		(async () => {
+      await me();
+    })();
 	} catch (responsError: unknown) {
 		if (responsError instanceof Response) {
 			const error: APIError = await responsError.json();
@@ -28,35 +30,36 @@ export const login = async (model: LoginRequestData): Promise<void> => {
 		}
 	} finally {
 		window.store.set({ isLoading: false });
-    window.router.go(ROUTER.chat);
+		window.router.go(ROUTER.chat);
 	}
 };
 
 export const create = async (model: CreateUser): Promise<void> => {
-  window.store.set({ isLoading: true });
-  try {
-    const response = await authApi.create(model);
-    if (response && 'id' in response) {
-      window.store.set({ isLogged: true });
-      await me();
-      window.router.go(ROUTER.chat)
-    } else {
-      console.error('Unexpected response format:', response);
-      window.store.set({ loginError: 'Неизвестная ошибка при регистрации' });
-    }
-  } catch (responsError: unknown) {
-    if (responsError instanceof Response) {
-      const error: APIError = await responsError.json();
-      window.store.set({ loginError: error.reason });
-    } else {
-      console.error('Unexpected error:', responsError);
-      window.store.set({ loginError: 'Неизвестная ошибка. Попробуйте позже.' });
-    }
-  } finally {
-    window.store.set({ isLoading: false });
-  }
+	window.store.set({ isLoading: true });
+	try {
+		const response = await authApi.create(model);
+		if (response && 'id' in response) {
+			window.store.set({ isLogged: true });
+			(async () => {
+        await me();
+      })();
+			window.router.go(ROUTER.chat);
+		} else {
+			console.error('Unexpected response format:', response);
+			window.store.set({ loginError: 'Неизвестная ошибка при регистрации' });
+		}
+	} catch (responsError: unknown) {
+		if (responsError instanceof Response) {
+			const error: APIError = await responsError.json();
+			window.store.set({ loginError: error.reason });
+		} else {
+			console.error('Unexpected error:', responsError);
+			window.store.set({ loginError: 'Неизвестная ошибка. Попробуйте позже.' });
+		}
+	} finally {
+		window.store.set({ isLoading: false });
+	}
 };
-
 
 export const me = async (): Promise<void> => {
 	window.store.set({ isLoading: true });
@@ -138,16 +141,3 @@ export const editProfile = async (model: UserDTO): Promise<void> => {
 	}
 };
 
-// export const checkLoginUser = async () => {
-//   window.store.set({ isLoading: true });
-//   try {
-//     const user = await authApi.me();
-//     window.router.go(ROUTER.cats);
-//     window.store.set({ user });
-//   } catch (responsError) {
-//     const error = await responsError.json();
-//     window.store.set({ loginError: error.reason });
-//   } finally {
-//     window.store.set({ isLoading: false });
-//   }
-// };
