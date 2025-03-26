@@ -14,11 +14,11 @@ interface ChatState {
   messages: MessageModel[],
 }
 
-class Chat extends Block<Record<string, any>, ChatState> {
+class Chat extends Block<Record<string, string | null>, ChatState> {
   private socketService: SocketService;
   
   
-  constructor(props: Record<string, any>) {
+  constructor(props: Record<string, string | null>) {
     const initialChat = 'chat_1';
     super(
       props,
@@ -45,9 +45,7 @@ class Chat extends Block<Record<string, any>, ChatState> {
       className: "profile-link",
       onClick: (e) => {
         e.preventDefault()
-        if (this.props.router) {
-          this.props.router.go(ROUTER.profile);
-        }
+        window.router.go(ROUTER.profile)
       },
 
     })
