@@ -24,6 +24,7 @@ class ChatList extends Block<ChatListProps> {
           id: String(chat.id),
           title: chat.title,
           lastMessage: chat.last_message? chat.last_message.content : null,
+          lastMessageTime: chat.last_message? chat.last_message.time : null,
           onClick: this.props.onClick,
           messagesCount: chat.unread_count,
           chatAvatar: chat.avatar

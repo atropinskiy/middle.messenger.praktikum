@@ -11,7 +11,9 @@
     </div>
     <div class='w-100 d-flex justify-end'>
       <div class='d-flex flex-column'>
-        <div>10:49</div>
+        {{#if lastMessageTime}}
+        <div>{{{formatTime lastMessageTime}}}</div>
+        {{/if}}
         <div class='d-flex w-100 justify-end'>
           <div class='missed-messages-div d-flex justify-center valign-center'>{{messagesCount}}</div>
         </div>

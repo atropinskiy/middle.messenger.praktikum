@@ -1,7 +1,7 @@
 import Block from '@core/block';
 import template from './chat-avatar-upload-form.hbs?raw';
 import { Button, InputField } from '@components/index';
-import { uploadChatAvatar, uploadFile } from '../../services/chat';
+import { uploadChatAvatar } from '../../services/chat';
 
 interface ChatAvatarUploadFormProps {
   className?: string;

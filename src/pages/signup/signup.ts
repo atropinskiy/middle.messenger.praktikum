@@ -1,21 +1,22 @@
 import Block from '@core/block';
 import template from './signup.hbs?raw';
-import { Button, InputField, ErrorLabel } from '@components/index';
+import { Button, InputField, ErrorLabel, Link } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
 import * as authServices from "../../services/auth";
 import { CreateUser } from 'api/type';
 import { connect } from '@utils/connect';
+import { ROUTER } from '@utils/constants';
 
 
 const fields: UserModel = {
-  email: 'vas@mail.ru',
-  login: 'asd',
-  first_name: 'asd',
-  second_name: 'asd',
-  phone: '+79251234567',
-  password: 'Qq123123',
-  password_confirm: 'Qq123123',
+  email: '',
+  login: '',
+  first_name: '',
+  second_name: '',
+  phone: '',
+  password: '',
+  password_confirm: '',
 };
 
 interface SignUpProps {
@@ -72,9 +73,17 @@ class SignUp extends Block<SignUpProps, UserModel> {
       label: 'Sign Up',
       name: 'submit',
       type: 'button',
-      className: 'button w-100 signup-button mt-auto',
+      className: 'button w-100 signup-button mt-4',
       onClick: () => this.handleSubmit(),
     });
+
+    this.childrens.loginLink = new Link({
+      label: 'Войти',
+      className: 'w-100 d-flex mt-2 justify-center',
+      onClick() {
+        window.router.go(ROUTER.signin)
+      },
+    })
   }
 
   
@@ -159,6 +168,5 @@ const mapStateToProps = (state: any) => ({
   user: state.user,
 });
 
-// Корректный экспорт с приведением типов
 export default connect(mapStateToProps)(SignUp);
 

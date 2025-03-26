@@ -4,14 +4,17 @@
       <h3 class='w-100 d-flex justify-center'>Регистрация</h3>
       <div class='fields-block h-100'>
       {{#each this}}
-        {{#if (neq @key "submitButton")}}
+        {{!-- {{#if (notIn @key "submitButton" @key "loginLink")}} --}}
           {{{this}}}
-        {{/if}}
+        {{!-- {{/if}} --}}
       {{/each}}
       </div>
       {{{error_label}}}
       <div>
         {{{submitButton}}}
+      </div>
+      <div class="mt-4">
+        {{{loginLink}}}
       </div>
     </div>
   </form>

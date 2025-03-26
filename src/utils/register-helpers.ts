@@ -1,16 +1,16 @@
 import Handlebars from 'handlebars';
 
 export const registerHelpers = (): void => {
-  Handlebars.registerHelper('eq', function (a: any, b: any) {
+  Handlebars.registerHelper('eq', function (a: string | number, b: string | number) {
     return a === b;
   });
 
-  Handlebars.registerHelper("neq", function (a: any, b: any) {
+  Handlebars.registerHelper("neq", function (a: string | number, b: string | number) {
     return a !== b;
   });
   
   Handlebars.registerHelper("startsWith", function (
-    this: any, // тип для контекста
+    this: string | object, // тип для контекста
     value: string,
     searchString: string
   ): boolean {
@@ -25,5 +25,9 @@ export const registerHelpers = (): void => {
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
+  });
+
+  Handlebars.registerHelper('notIn', function (value: string, array: string[]): boolean {
+    return !Array.isArray(array) || !array.includes(value);
   });
 };

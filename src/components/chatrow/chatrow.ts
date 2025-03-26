@@ -7,6 +7,7 @@ interface ChatRowProps {
   onClick?: (chatId: string) => void;
   messagesCount: number;
   lastMessage?: string | null;
+  lastMessageTime?: string | null;
   title: string; 
   chatAvatar: string;
 }

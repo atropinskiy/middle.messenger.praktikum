@@ -2,6 +2,7 @@ import { ROUTER } from "../utils/constants";
 import AuthApi from "../api/auth";
 import ProfileApi from "../api/profile";
 import { LoginRequestData, APIError, CreateUser, UserDTO } from "api/type";
+import { getChats } from "./chat";
 
 const authApi = new AuthApi();
 const profileApi = new ProfileApi();
@@ -65,6 +66,7 @@ export const me = async (): Promise<void> => {
 
     if ('id' in response && 'login' in response) {
       window.store.set({ user: response, isLogged: true, avatar: response.avatar });
+      getChats()
     } else {
       console.error("Unexpected response format", response);
     }

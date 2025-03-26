@@ -5,8 +5,8 @@ import { Link } from "@components/link";
 
 class ErrorPage extends Block {
   constructor() {
-    let error = "404";
-    let text = "Стриница не найдена";
+    const error = "404";
+    const text = "Стриница не найдена";
     super({ error, text });
   }
 

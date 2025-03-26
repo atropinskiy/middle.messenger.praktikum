@@ -218,7 +218,7 @@ export class SocketService {
     } finally {
       window.store.set({ isLoading: false });
     }
-  };
+  }
 
   async sendMessage(message: string) {
     if (this.socket) {

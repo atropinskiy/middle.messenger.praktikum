@@ -5,8 +5,8 @@ type WithRouterProps = {
 };
 
 export function withRouter<
-  TProps extends Record<string, any> = {},
-  TState extends Record<string, any> = {}
+  TProps extends Record<string, any> = Record<string, never>,
+  TState extends Record<string, any> = Record<string, never>
 >(WrappedBlock: typeof Block<TProps, TState>) {
   return class extends WrappedBlock {
     constructor(props: TProps & WithRouterProps) {
