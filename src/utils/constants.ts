@@ -1,7 +1,7 @@
 export enum ROUTER {
 	signin = '/signin',
 	signUp = '/signup',
-	chat = '/chat',
+	chat = '/messenger',
 	profile = '/profile',
 	profileEdit = '/profile-edit',
 	errorPage = '/errors',

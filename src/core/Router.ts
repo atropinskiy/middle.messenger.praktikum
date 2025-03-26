@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Route from './Route';
 import * as authServices from '../services/auth';
+import { ROUTER } from '@utils/constants';
 
 export interface RouteInterface {
 	isProtected: boolean;
@@ -63,7 +64,7 @@ export class Router {
 			console.warn(
 				`Пользователь уже авторизован, перенаправляем на /messenger`
 			);
-			this.go('/chat');
+			this.go(ROUTER.chat);
 			return;
 		}
 

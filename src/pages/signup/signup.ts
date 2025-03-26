@@ -7,6 +7,7 @@ import * as authServices from '../../services/auth';
 import { CreateUser, UserDTO } from 'api/type';
 import { connect } from '@utils/connect';
 import { ROUTER } from '@utils/constants';
+import { withRouter } from '@utils/withrouter';
 
 const fields: UserModel = {
 	email: '',
@@ -155,6 +156,7 @@ class SignUp extends Block<SignUpProps, UserModel> {
 				second_name: sanitizedState.second_name,
 			};
 			await authServices.create(data);
+
 			const state = window.store.getState();
 			const loginError = state.loginError;
 			if (loginError) {
@@ -173,4 +175,4 @@ const mapStateToProps = (state: SignUpProps) => ({
 	user: state.user,
 });
 
-export default connect(mapStateToProps)(SignUp);
+export default withRouter(connect(mapStateToProps)(SignUp));
