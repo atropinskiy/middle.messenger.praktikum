@@ -1,5 +1,5 @@
 interface TChatResponseSettings {
-  offset: number,
-  limit: number,
-  title?: string
+	offset: number;
+	limit: number;
+	title?: string;
 }

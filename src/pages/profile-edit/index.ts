@@ -1,2 +1,2 @@
-import './profile-edit.pcss'
-export { default as ProfileEdit} from './profile-edit'
+import './profile-edit.pcss';
+export { default as ProfileEdit } from './profile-edit';

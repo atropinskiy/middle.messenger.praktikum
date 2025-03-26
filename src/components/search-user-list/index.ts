@@ -1,1 +1,1 @@
-export { default as SearchList } from './search-user-list'
+export { default as SearchList } from './search-user-list';

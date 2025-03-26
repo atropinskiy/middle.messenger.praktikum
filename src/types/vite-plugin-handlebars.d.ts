@@ -1,12 +1,12 @@
 declare module 'vite-plugin-handlebars' {
-  import { Plugin } from 'vite';
+	import { Plugin } from 'vite';
 
-  interface HandlebarsPluginOptions {
-    partialDirectory?: string;
-    context?: Record<string, unknown>;
-  }
+	interface HandlebarsPluginOptions {
+		partialDirectory?: string;
+		context?: Record<string, unknown>;
+	}
 
-  function handlebars(): Plugin;
+	function handlebars(): Plugin;
 
-  export default handlebars;
+	export default handlebars;
 }

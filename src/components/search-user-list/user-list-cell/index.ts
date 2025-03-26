@@ -1,1 +1,1 @@
-export { default as SearchListCell } from './search-list-cell'
+export { default as SearchListCell } from './search-list-cell';

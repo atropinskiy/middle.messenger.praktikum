@@ -1,49 +1,49 @@
-import EventBus from "./eventBus";
-import { IChatItem, IChatMessage, TChatUser, UserDTO } from "api/type";
+import EventBus from './eventBus';
+import { IChatItem, IChatMessage, TChatUser, UserDTO } from 'api/type';
 
 interface TState {
-  isLogged: boolean | null
-  isLoading: boolean
-  user: UserDTO | null
-  loginError: string
-  openedModal: 'createChat' | 'addUser' | 'uploadAvatar' | 'chatAvatar' | false
-  chats: IChatItem[]
-  currentMessages: IChatMessage[]
-  currentChatId: number
-  currentChatUsers: TChatUser[]
-  searchUsers: UserDTO[]
-  avatar: string
+	isLogged: boolean | null;
+	isLoading: boolean;
+	user: UserDTO | null;
+	loginError: string;
+	openedModal: 'createChat' | 'addUser' | 'uploadAvatar' | 'chatAvatar' | false;
+	chats: IChatItem[];
+	currentMessages: IChatMessage[];
+	currentChatId: number;
+	currentChatUsers: TChatUser[];
+	searchUsers: UserDTO[];
+	avatar: string;
 }
 
 export enum StoreEvents {
-  Updated = "Updated",
+	Updated = 'Updated',
 }
 
 export class Store extends EventBus {
-  private static __instance: Store;
-  private state!: TState;
+	private static __instance: Store;
+	private state!: TState;
 
-  constructor(defaultState: TState) {
-    if (Store.__instance) {
-      return Store.__instance;
-    }
-    super();
-    
-    this.state = defaultState;
-    this.set(defaultState);
+	constructor(defaultState: TState) {
+		if (Store.__instance) {
+			return Store.__instance;
+		}
+		super();
 
-    Store.__instance = this;
-  }
+		this.state = defaultState;
+		this.set(defaultState);
 
-  public getState():TState  {
-    return this.state;
-  }
+		Store.__instance = this;
+	}
 
-  public set(nextState: Partial<TState>): void {
-    const prevState = { ...this.state };
+	public getState(): TState {
+		return this.state;
+	}
 
-    this.state = { ...this.state, ...nextState };
+	public set(nextState: Partial<TState>): void {
+		const prevState = { ...this.state };
 
-    this.emit(StoreEvents.Updated, prevState, nextState);
-  }
+		this.state = { ...this.state, ...nextState };
+
+		this.emit(StoreEvents.Updated, prevState, nextState);
+	}
 }

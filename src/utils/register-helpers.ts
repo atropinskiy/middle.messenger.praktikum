@@ -1,33 +1,45 @@
 import Handlebars from 'handlebars';
 
 export const registerHelpers = (): void => {
-  Handlebars.registerHelper('eq', function (a: string | number, b: string | number) {
-    return a === b;
-  });
+	Handlebars.registerHelper(
+		'eq',
+		function (a: string | number, b: string | number) {
+			return a === b;
+		}
+	);
 
-  Handlebars.registerHelper("neq", function (a: string | number, b: string | number) {
-    return a !== b;
-  });
-  
-  Handlebars.registerHelper("startsWith", function (
-    this: string | object, // тип для контекста
-    value: string,
-    searchString: string
-  ): boolean {
-    if (typeof value === "string" && value.startsWith(searchString)) {
-      return true; // Возвращаем true для успешного совпадения
-    }
-    return false; // Возвращаем false, если не совпадает
-  });
+	Handlebars.registerHelper(
+		'neq',
+		function (a: string | number, b: string | number) {
+			return a !== b;
+		}
+	);
 
-  Handlebars.registerHelper("formatTime", function (isoString: string): string {
-    const date = new Date(isoString);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-  });
+	Handlebars.registerHelper(
+		'startsWith',
+		function (
+			this: string | object, // тип для контекста
+			value: string,
+			searchString: string
+		): boolean {
+			if (typeof value === 'string' && value.startsWith(searchString)) {
+				return true; // Возвращаем true для успешного совпадения
+			}
+			return false; // Возвращаем false, если не совпадает
+		}
+	);
 
-  Handlebars.registerHelper('notIn', function (value: string, array: string[]): boolean {
-    return !Array.isArray(array) || !array.includes(value);
-  });
+	Handlebars.registerHelper('formatTime', function (isoString: string): string {
+		const date = new Date(isoString);
+		const hours = date.getHours().toString().padStart(2, '0');
+		const minutes = date.getMinutes().toString().padStart(2, '0');
+		return `${hours}:${minutes}`;
+	});
+
+	Handlebars.registerHelper(
+		'notIn',
+		function (value: string, array: string[]): boolean {
+			return !Array.isArray(array) || !array.includes(value);
+		}
+	);
 };

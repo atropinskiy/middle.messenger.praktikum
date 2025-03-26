@@ -4,7 +4,7 @@
 // export default class SocketConnection {
 //   protected socket;
 //   protected timerId?: NodeJS.Timeout;
-  
+
 //   constructor(endpoint: string) {
 //     this.socket = new WebSocket(`${CONSTATNS.BASE_SOCKET_URL}${endpoint}`);
 //     this.timerId;
