@@ -4,6 +4,7 @@ import template from './search-list-cell.hbs?raw';
 interface SearchListCellProps {
   userId: string | null;
   userLogin: string
+  avatarUrl?: string | null
   onClick: () => void
 }
 
@@ -14,7 +15,7 @@ class SearchListCell extends Block<SearchListCellProps> {
 
   render() {
     console.log('asdasd', this.props)
-    return this.compile(template, {...this.props});
+    return this.compile(template, this.props);
   }
 }
 

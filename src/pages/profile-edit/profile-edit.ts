@@ -6,6 +6,7 @@ import { Validator } from '@utils/validators';
 import { withRouter } from '@utils/withrouter';
 import { connect } from '@utils/connect';
 import * as authServices from "../../services/auth";
+import { CONSTATNS } from '@utils/constants';
 
 interface ProfileEditProps {
   openedModal?: 'createChat' | 'addUser' | 'uploadAvatar' | false
@@ -92,8 +93,9 @@ export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
         this.handleSave()
       }
     });
+
     this.childrens.avatar = new Avatar({
-      src: 'img/avatar_mock.jpg',
+      user_src: CONSTATNS.BASE_SOURCES_URL+window.store.getState().user?.avatar || 'img/avatar_mock.jpg',
       className: 'avatar cursor-pointer mb-2',
       width: 130,
       onClick: () => { window.store.set({ openedModal: 'uploadAvatar' }) }
@@ -128,13 +130,14 @@ export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
   }
 
   render() {
-    return this.compile(template, this.props)
+    return this.compile(template, {...this.props})
   }
 }
 
 const mapStateToProps = (state: any) => ({
   loginError: state.loginError,
-  openedModal: state.openedModal
+  openedModal: state.openedModal,
+  user: state.user
 });
 
 export default withRouter(connect(mapStateToProps)(ProfileEdit));

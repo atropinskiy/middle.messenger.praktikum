@@ -6,11 +6,13 @@ import { IChatMessage } from 'api/type';
 
 interface ChatDialogProps {
   currentMessages?: IChatMessage[]
+  isLoading?: boolean
 }
 
 class ChatDialog extends Block {
   constructor(props: ChatDialogProps) {
-    super(props);
+    super({...props});
+    
   }
 
   protected initChildren(): void {
@@ -40,7 +42,8 @@ class ChatDialog extends Block {
 const mapStateToProps = (state: any) => {
   return {
     currentMessages: state.currentMessages,
-    myUser: state.user.id
+    myUser: state.user.id,
+    isLoading: state.isLoading
   };
 };
 

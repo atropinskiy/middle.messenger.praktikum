@@ -1,5 +1,5 @@
 import EventBus from "./eventBus";
-import { IChatItem, IChatMessage, TChatUser, UserDTO } from "api/type";
+import { IChatItem, IChatMessage, IFileRequest, TChatUser, UserDTO } from "api/type";
 
 interface TState {
   isLogged: boolean | null

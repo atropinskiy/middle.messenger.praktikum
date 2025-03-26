@@ -5,27 +5,29 @@ import Handlebars from 'handlebars';
 Handlebars.registerPartial('Avatar', template);
 
 interface AvatarProps {
-  src: string;
+  user_src?: string
   className?: string;
   width: number;
   label?: string;
   onClick?: (e: Event) => void
 }
 
-export class Avatar extends Block {
+class Avatar extends Block {
   constructor(props: AvatarProps) {
     super({
       ...props,
       events: {
-        click: props.onClick
+        click: props.onClick,
       },
-      className: props.className || '',
     });
   }
 
   render() {
-    return this.compile(template, { ...this.props });
+    console.log('222', this.props)
+    return this.compile(template, this.props);
   }
 }
 
+
 export default Avatar;
+

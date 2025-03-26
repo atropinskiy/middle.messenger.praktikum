@@ -1,6 +1,7 @@
 import Block from '@core/block';
 import template from './avatar-upload-form.hbs?raw';
 import { Button, InputField } from '@components/index';
+import { uploadFile } from '../../services/chat';
 
 interface AvatarUploadFormProps {
   className?: string;
@@ -47,6 +48,7 @@ export class AvatarUploadForm extends Block<AvatarUploadFormProps, AvatarUploadF
     const file = input.files ? input.files[0] : null;
 
     console.log('Файл до обновления состояния:', file?.name);
+    console.log(file?.name, file?.type)
 
     if (file) {
       this.setState({ selectedFile: file });
@@ -56,8 +58,9 @@ export class AvatarUploadForm extends Block<AvatarUploadFormProps, AvatarUploadF
 
   private handleSubmit() {
     if (this.state.selectedFile) {
-      console.log('Файл для загрузки:', this.state.selectedFile);
-      // Тут можно реализовать отправку файла
+      const file = this.state.selectedFile
+      console.log('Файл для загрузки:', file, file.type, file.name);
+      uploadFile(this.state.selectedFile)
     } else {
       console.log('Файл не выбран!');
     }

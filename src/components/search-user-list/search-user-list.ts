@@ -3,6 +3,9 @@ import template from './search-user-list.hbs?raw';
 import { connect } from '@utils/connect';
 import { UserDTO } from 'api/type';
 import { SearchListCell } from './user-list-cell';
+import { CONSTATNS } from '@utils/constants';
+import './search-user-list.pcss'
+import { addUserToChat } from '../../services/chat';
 
 
 interface SearchListProps {
@@ -17,17 +20,17 @@ class SearchList extends Block<SearchListProps> {
   protected initChildren(): void {
 
     const users = window.store.getState().searchUsers
-    console.log(users)
     if (users) {
       users.forEach((user) => {
-        console.log(user.id)
         this.childrens[`usercell-${user.login}`] = new SearchListCell({
           userId: String(user.id) || null,
           userLogin: user.login,
           onClick: () => {
-            console.log(user.id)
-            window.store.set({ openedModal: false })
-          }
+            if (user.id) {
+              addUserToChat(user.id)
+            }
+          },
+          avatarUrl: user.avatar !== null ? (CONSTATNS.BASE_SOURCES_URL + user.avatar) : 'img/avatar_mock.jpg'
         });
       });
     }

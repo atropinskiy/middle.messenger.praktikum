@@ -1,4 +1,10 @@
 <div class='w-100 mb-2 d-flex justify-end flex-grow flex-column chat-dialog'>
+  {{#if (eq isLoading true) }}
+  <div class="w-100 h-100 d-flex valign-center justify-center">
+    <img height="200px" width="200px" src="img/loader.gif" alt="">
+  </div>
+  
+  {{else}}
   <div class="inner-message-div">
     {{#if currentMessages.length }}
       {{#each currentMessages }}
@@ -22,4 +28,5 @@
       {{{stub}}}
     {{/if}}
   </div>
+  {{/if}}
 </div>

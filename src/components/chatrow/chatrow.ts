@@ -23,7 +23,7 @@ class ChatRow extends Block {
 
   protected initChildren() {
     this.childrens.avatar = new Avatar({
-      src: 'img/avatar_mock.jpg',
+      user_src: 'img/avatar_mock.jpg',
       className: 'avatar',
       width: 47,
       label: '123',

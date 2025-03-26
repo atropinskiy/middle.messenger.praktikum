@@ -98,3 +98,13 @@ export interface IAddUser {
 export type TChatUser = Omit<UserDTO, 'phone' | 'email'> & {
   role: string
 }
+
+export interface IFileRequest {
+  id: number
+  user_id: number
+  path: string,
+  filename: string
+  content_type: string
+  content_size: number
+  upload_date: string
+}

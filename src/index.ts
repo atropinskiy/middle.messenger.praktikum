@@ -19,7 +19,7 @@ window.store = new Store({
   currentMessages: [],
   currentChatId: 0,
   currentChatUsers: [],
-  searchUsers: []
+  searchUsers: [],
 });
 
 await authServices.me()

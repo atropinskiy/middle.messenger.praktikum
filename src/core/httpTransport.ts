@@ -45,13 +45,10 @@ export class HTTPTransport {
     });
   }
 
-  postFile<TResponse>(url: string, file: File, fieldName: string = "file"): Promise<TResponse> {
-    const formData = new FormData();
-    formData.append(fieldName, file);
-
+  putFile<TResponse>(url: string, data: FormData): Promise<TResponse> {
     return this.request<TResponse>(`${this.apiUrl}${url}`, {
-      method: METHOD.POST,
-      data: formData, // Передаём FormData
+      method: METHOD.PUT,
+      data,
     });
   }
 
@@ -68,46 +65,52 @@ export class HTTPTransport {
       method: METHOD.DELETE,
     });
   }
-
+  
   async request<TResponse>(url: string, options: Options = { method: METHOD.GET }): Promise<TResponse> {
     const { method, data, headers = {} } = options;
-
-    const fetchOptions: RequestInit = {
-        method,
-        credentials: "include",
-        mode: "cors",
-        headers: { ...headers }, // Инициализируем заголовки
-    };
-
-    if (data) {
-        if (data instanceof FormData) {
-            fetchOptions.body = data;
-            // НЕ УСТАНАВЛИВАЕМ "Content-Type", браузер сам установит boundary
+  
+    return new Promise<TResponse>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      
+      // Собираем полный URL
+      xhr.open(method, url, true);
+      xhr.withCredentials = true; // То же самое, что и "credentials: 'include'"
+  
+      // Устанавливаем заголовки
+      Object.entries(headers).forEach(([key, value]) => {
+        xhr.setRequestHeader(key, value);
+      });
+  
+      // Устанавливаем заголовок "Content-Type", если это JSON
+      if (data && !(data instanceof FormData)) {
+        xhr.setRequestHeader("Content-Type", "application/json");
+      }
+  
+      xhr.responseType = "json"; // Ожидаем JSON в ответе
+  
+      // Обработчики загрузки и ошибок
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr.response); // Если статус OK, возвращаем данные
         } else {
-            fetchOptions.body = JSON.stringify(data);
-            fetchOptions.headers = {
-                ...fetchOptions.headers, // Расширяем существующие заголовки
-                "Content-Type": "application/json",
-            };
+          reject(xhr); // Если ошибка, отклоняем промис
         }
-    }
+      };
+  
+      xhr.onerror = () => reject(new Error("Ошибка сети"));
+      xhr.ontimeout = () => reject(new Error("Превышено время ожидания запроса"));
+  
+      // Отправляем данные
+      if (data instanceof FormData) {
+        xhr.send(data); // Если это FormData, отправляем как есть
+      } else if (data) {
+        xhr.send(JSON.stringify(data)); // Если данные есть, отправляем их как JSON
+      } else {
+        xhr.send(); // Если данных нет, отправляем пустой запрос
+      }
+    });
+  }
+  
 
-    const response = await fetch(url, fetchOptions);
-
-    if (!response.ok) {
-        throw response;
-    }
-
-    const contentType = response.headers.get("content-type");
-    let resultData: TResponse;
-
-    if (contentType?.includes("application/json")) {
-        resultData = await response.json();
-    } else {
-        resultData = await response.text() as unknown as TResponse;
-    }
-
-    return resultData;
-}
 
 }
