@@ -3,16 +3,24 @@
     {{{closeBtn}}}
     <div class="modal-header">
       <p>{{title}}</p>
-      
     </div>
     <div class="modal-content p-2">
       {{{searchList}}}
-      {{{input}}}
-      {{#if (eq openedModal 'uploadAvatar')}}
+      {{#if (neq openedModal 'uploadAvatar') }}
+        {{#if (neq openedModal 'chatAvatar') }}
+          {{{input}}}
+        {{/if}}
+      {{/if}}
+      {{#if (eq openedModal 'uploadAvatar') }}
         {{{avatarUploadForm}}}
       {{/if}}
-      {{#if (neq openedModal 'uploadAvatar')}}
-      {{{createBtn}}}
+      {{#if (eq openedModal 'chatAvatar') }}
+        {{{chatAvatarUploadForm}}}
+      {{/if}}
+      {{#if (neq openedModal 'uploadAvatar') }}
+        {{#if (neq openedModal 'chatAvatar') }}
+          {{{createBtn}}}
+        {{/if}}
       {{/if}}
     </div>
   </div>

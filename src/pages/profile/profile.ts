@@ -40,6 +40,14 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
       width: 130,
     });
 
+    this.childrens.changePassword = new Link({
+      label: 'Изменить пароль',
+      onClick(e) {
+        e.preventDefault()
+        window.router.go(ROUTER.passwordChange)
+      },
+    })
+
     this.childrens.profileEdit = new Link({
       label: 'Изменить данные',
       onClick(e) {

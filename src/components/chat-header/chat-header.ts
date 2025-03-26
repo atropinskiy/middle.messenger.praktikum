@@ -52,7 +52,10 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
       icon: '📝',
       label: 'Обновить аватар',
       classNameIcon: 'chat-menu-icon-color-blue',
-      className: 'mt-2'
+      className: 'mt-2',
+      onClick: () => {
+        window.store.set({ openedModal: 'chatAvatar'})
+      }
     })
 
     this.childrens.modalAdd = new Modal({
@@ -63,6 +66,12 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
       onOkClick: (login: string) => {
         searchUsersByLogin(login)
       }
+    })
+
+    this.childrens.modalUpload = new Modal({
+      content: 'Обновление аватара',
+      title: 'Обновление аватара',
+      inputSettings: { name: 'input', value: '' },
     })
 
     this.childrens.menuBtn = new ChatMenuBtn({

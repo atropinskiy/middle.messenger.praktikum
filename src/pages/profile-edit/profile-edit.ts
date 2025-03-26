@@ -84,6 +84,7 @@ export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
         });
 
       });
+      
     this.childrens.resultButton = new Button({
       label: "Поменять",
       name: "save",

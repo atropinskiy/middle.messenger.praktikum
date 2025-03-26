@@ -152,6 +152,47 @@ export const uploadFile = async (file: File): Promise<UserDTO | string> => {
   }
 };
 
+export const uploadChatAvatar = async (file: File, chatId: number): Promise<IChatItem | string> => {
+  window.store.set({ isLoading: true });
+  
+  const formData = new FormData();
+  formData.append("avatar", file); // Передаем "avatar"
+  formData.append("chatId", chatId.toString())
+  try {
+    const response = await chatApi.uploadAvatar(formData);
+
+    if (typeof response === 'object' && response !== null && 'id' in response && 'avatar' in response) {
+
+      return response;
+    } else {
+      return "Ошибка: Неверный формат ответа от сервера";
+    }
+  } catch (error) {
+    console.error("Ошибка при загрузке файла", error); // Логируем ошибку для отладки
+    return "Ошибка при загрузке файла";
+  } finally {
+    window.store.set({ isLoading: false, openedModal: false });
+    getChats()
+
+  }
+};
+
+export const changePassword = async (
+  oldPassword: string, 
+  newPassword: string
+): Promise<string | APIError> => {
+  window.store.set({ isLoading: true });
+  try {
+    const response = await chatApi.changePassword({ oldPassword, newPassword });
+    return response;
+  } catch (error) {
+    console.error("Ошибка при смене пароля:", error);
+    return "Ошибка";
+  } finally {
+    window.store.set({ isLoading: false });
+  }
+};
+
 export class SocketService {
   private socket: SocketConnection | null
 

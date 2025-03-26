@@ -39,4 +39,7 @@ window.router
   .use(ROUTER.chat, Pages.Chat, true)
   .use(ROUTER.profile, Pages.Profile, true)
   .use(ROUTER.profileEdit, Pages.ProfileEdit, true)
+  .use(ROUTER.passwordChange, Pages.PasswordChange, true)
+  .use('/', Pages.SignIn)
+  .use('*', Pages.ErrorPage)
   .start();
