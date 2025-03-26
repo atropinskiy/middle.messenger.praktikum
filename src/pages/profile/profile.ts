@@ -11,6 +11,7 @@ import { CONSTATNS } from '@utils/constants';
 interface ProfileState {
   user?: UserDTO | null;
   isLoading: boolean;
+  loginError?: string
 }
 
 class Profile extends Block<Record<string, unknown>, ProfileState> {
@@ -71,7 +72,7 @@ class Profile extends Block<Record<string, unknown>, ProfileState> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ProfileState) => ({
   loginError: state.loginError,
   user: state.user
 });

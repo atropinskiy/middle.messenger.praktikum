@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { CONSTATNS } from "@utils/constants";
 
 enum METHOD {

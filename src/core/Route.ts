@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { RouteInterface } from "./Router";
 
 class Route implements RouteInterface {

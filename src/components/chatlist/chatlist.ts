@@ -45,7 +45,7 @@ class ChatList extends Block<ChatListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: ChatListProps) => {
   return {
     chats: state.chats,
   };

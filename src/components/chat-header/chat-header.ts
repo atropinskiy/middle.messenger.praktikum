@@ -6,12 +6,14 @@ import { Modal } from '@components/index';
 import { connect } from '@utils/connect';
 import UserList from './users-list/users-list'
 import { deleteChat, searchUsersByLogin } from '../../services/chat';
+import { TChatUser } from 'api/type';
 
 interface ChatHeaderProps {
   avatar_url: string;
   name: string;
   openedModal?: 'createChat' | 'addUser' | false
   currentChatId: number
+  currentChatUsers?: TChatUser[]
 }
 
 class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { isMenuVisible: boolean }> {
@@ -95,7 +97,7 @@ class ChatHeader extends Block<{ isMenuVisible: boolean } & ChatHeaderProps, { i
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ChatHeaderProps) => ({
   openedModal: state.openedModal,
   currentChatUsers: state.currentChatUsers,
   currentChatId: state.currentChatId

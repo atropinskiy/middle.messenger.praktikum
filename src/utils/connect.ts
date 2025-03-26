@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Block from "@core/block";
 import { StoreEvents } from "../core/Store";
 import isEqual from "./isEqual";

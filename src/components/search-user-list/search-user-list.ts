@@ -47,7 +47,7 @@ class SearchList extends Block<SearchListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: SearchListProps) => ({
   searchUsers: state.searchUsers
 });
 

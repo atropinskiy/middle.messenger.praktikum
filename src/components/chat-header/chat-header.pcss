@@ -4,29 +4,29 @@
 }
 
 .chat-menu-btn {
-  background-color: rgb(227, 227, 227);
   width: 25px;
   height: 25px;
-  border-radius: 50%;
+  line-height: 1;
   text-align: center;
   vertical-align: middle;
-  line-height: 25px;
+  background-color: rgb(227 227 227);
+  border-radius: 50%;
   user-select: none;
 }
 
 .menu-wrapper {
   position: absolute;
-  width: 210px;
-  display: inline-block;
   top: 60px;
-  background-color: white;
   right: 10px;
+  z-index: 9999;
+  display: inline-block;
   box-sizing: border-box;
+  width: 210px;
+  padding-left: 15px;
+  background-color: white;
+  border: 1px solid rgb(0 0 0 / 14%);
   border-width: 0;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.14);
-  padding-left: 15px;
-  z-index: 9999;
 }
 
 .menu-wrapper.hidden {
@@ -44,17 +44,17 @@
 }
 
 .chat-menu-icon {
-  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 22px;
   height: 22px;
-  line-height: 22x;
-  font-size: 16px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
   margin-right: 8px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  border-radius: 50%;
 }
 
 .chat-menu-icon-color-blue {

@@ -2,11 +2,13 @@ import Block from '@core/block';
 import template from './chat-dialog.hbs?raw';
 import { Stub } from '@components/index';
 import { connect } from '@utils/connect';
-import { IChatMessage } from 'api/type';
+import { IChatMessage, UserDTO } from 'api/type';
 
 interface ChatDialogProps {
   currentMessages?: IChatMessage[]
   isLoading?: boolean
+  myUser?: number
+  user?: UserDTO
 }
 
 class ChatDialog extends Block {
@@ -39,10 +41,10 @@ class ChatDialog extends Block {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: ChatDialogProps) => {
   return {
     currentMessages: state.currentMessages,
-    myUser: state.user.id,
+    myUser: state.user ? state.user.id : {},
     isLoading: state.isLoading
   };
 };

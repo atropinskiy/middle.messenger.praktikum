@@ -8,7 +8,7 @@ interface PasswordChangeState {
   newPassword: string
   confirmPassword: string
 }
-export class PasswordChange extends Block<{}, PasswordChangeState> {
+export class PasswordChange extends Block<Record<string,string>, PasswordChangeState> {
   constructor() {
     super();
   }

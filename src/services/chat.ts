@@ -21,7 +21,7 @@ export const getChats = async (): Promise<IChatItem[] | APIError> => {
     console.error("Ошибка при загрузке чатов:", error);
     return [];
   } finally {
-
+    window.store.set({ isLoading: false });
   }
 }
 
@@ -72,6 +72,7 @@ export const addUserToChat = async (userId: number): Promise<string | APIError> 
     getChatUsers()
     return response
   } catch (error) {
+    console.log(error)
     return { reason: "Неизвестная ошибка" } as APIError;
   } finally {
     window.store.set({ isLoading: false });

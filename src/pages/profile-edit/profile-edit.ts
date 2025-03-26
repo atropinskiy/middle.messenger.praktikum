@@ -7,9 +7,12 @@ import { withRouter } from '@utils/withrouter';
 import { connect } from '@utils/connect';
 import * as authServices from "../../services/auth";
 import { CONSTATNS } from '@utils/constants';
+import { UserDTO } from 'api/type';
 
 interface ProfileEditProps {
   openedModal?: 'createChat' | 'addUser' | 'uploadAvatar' | false
+  loginError?: string
+  user?: UserDTO
 }
 
 interface ProfileEditState {
@@ -135,7 +138,7 @@ export class ProfileEdit extends Block<ProfileEditProps, ProfileEditState> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ProfileEditProps) => ({
   loginError: state.loginError,
   openedModal: state.openedModal,
   user: state.user

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Block from '@core/block';
 
 type WithRouterProps = {

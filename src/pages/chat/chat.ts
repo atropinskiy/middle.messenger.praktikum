@@ -12,6 +12,8 @@ interface ChatState {
   currentDialog: string,
   currentUser: string,
   messages: MessageModel[],
+  loginError?: string,
+  openedModal?: string
 }
 
 class Chat extends Block<Record<string, string | null>, ChatState> {
@@ -102,7 +104,7 @@ class Chat extends Block<Record<string, string | null>, ChatState> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ChatState) => ({
   loginError: state.loginError,
   openedModal: state.openedModal,
 });

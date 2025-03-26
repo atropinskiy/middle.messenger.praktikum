@@ -14,6 +14,7 @@ interface ModalProps {
   placeHolder?: string,
   searchUsers?: UserDTO[],
   isLoading?: boolean
+  openedModal?: 'createChat' | 'addUser' | 'uploadAvatar' | 'chatAvatar' | false
 }
 
 interface ModalState {
@@ -78,7 +79,7 @@ export class Modal extends Block<ModalProps, ModalState> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ModalProps) => ({
   openedModal: state.openedModal,
   searchUsers: state.searchUsers,
   isLoading: state.isLoading

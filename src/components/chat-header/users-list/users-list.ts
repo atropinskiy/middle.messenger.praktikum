@@ -44,7 +44,7 @@ class UserList extends Block<UserListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: UserListProps) => ({
   currentChatUsers: state.currentChatUsers,
 });
 

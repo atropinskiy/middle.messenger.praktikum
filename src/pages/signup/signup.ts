@@ -4,7 +4,7 @@ import { Button, InputField, ErrorLabel, Link } from '@components/index';
 import { UserModel } from '@models/chat';
 import { Validator } from '@utils/validators';
 import * as authServices from "../../services/auth";
-import { CreateUser } from 'api/type';
+import { CreateUser, UserDTO } from 'api/type';
 import { connect } from '@utils/connect';
 import { ROUTER } from '@utils/constants';
 
@@ -22,7 +22,7 @@ const fields: UserModel = {
 interface SignUpProps {
   router: TRouter;
   loginError: string;
-  user: any;
+  user: UserDTO;
 }
 
 class SignUp extends Block<SignUpProps, UserModel> {
@@ -163,7 +163,7 @@ class SignUp extends Block<SignUpProps, UserModel> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: SignUpProps) => ({
   loginError: state.loginError,
   user: state.user,
 });

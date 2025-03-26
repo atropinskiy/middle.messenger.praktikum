@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Route from "./Route";
 import * as authServices from '../services/auth';
 

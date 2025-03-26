@@ -9,7 +9,6 @@ export default class SocketConnection {
 
   constructor(endpoint: string) {
     this.socket = new WebSocket(`${CONSTATNS.BASE_SOCKET_URL}${endpoint}`);
-    this.timerId;
     this.init();
   }
 

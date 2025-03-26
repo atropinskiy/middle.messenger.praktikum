@@ -68,7 +68,6 @@ class SignIn extends Block<SignInProps, LoginRequestData> {
 
 
     this.childrens.register_link = new Link({
-      router: "",
       onClick: (e) => {
         e.preventDefault();
         console.log(1234)

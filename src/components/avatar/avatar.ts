@@ -6,7 +6,6 @@ import { UserDTO } from 'api/type';
 import { CONSTATNS } from '@utils/constants';
 
 Handlebars.registerPartial('Avatar', template);
-
 interface AvatarProps {
   avatar?: UserDTO
   user_src: string
@@ -14,6 +13,10 @@ interface AvatarProps {
   width: number;
   label?: string;
   onClick?: (e: Event) => void
+}
+
+interface AvatarState {
+  avatar?: string
 }
 
 class Avatar extends Block {
@@ -32,7 +35,7 @@ class Avatar extends Block {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AvatarState) => ({
   avatar: CONSTATNS.BASE_SOURCES_URL + state.avatar
 });
 
