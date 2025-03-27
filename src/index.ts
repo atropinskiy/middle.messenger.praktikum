@@ -12,7 +12,7 @@ window.store = new Store({
 	isLoading: false,
 	user: null,
 	isLogged: null,
-	loginError: '',
+	errorLabel: '',
 	openedModal: false,
 	chats: [],
 	currentMessages: [],

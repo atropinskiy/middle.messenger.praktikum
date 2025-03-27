@@ -5,7 +5,7 @@ interface TState {
 	isLogged: boolean | null;
 	isLoading: boolean;
 	user: UserDTO | null;
-	loginError: string;
+	errorLabel: string;
 	openedModal: 'createChat' | 'addUser' | 'uploadAvatar' | 'chatAvatar' | false;
 	chats: IChatItem[];
 	currentMessages: IChatMessage[];

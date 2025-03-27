@@ -25,35 +25,30 @@ export const login = async (model: LoginRequestData): Promise<void | APIError> =
 			if (errorData.reason === "User already in system") {
 				window.router.go(ROUTER.chat);
 				console.log('Юзер в системе, перенаправляем в чат')
+			} else {
+				window.store.set({errorLabel: errorData.reason})
 			}
 		} catch {
 			console.log('ОШИБКА:', responsError);
 		}
 	} finally {
 		window.store.set({ isLoading: false });
-		window.router.go(ROUTER.chat);
 	}
 };
 
-export const create = async (model: CreateUser): Promise<void> => {
+export const create = async (model: CreateUser): Promise<void | APIError> => {
 	window.store.set({ isLoading: true });
 	try {
-		const response = await authApi.create(model);
-		if (response && 'id' in response) {
-			window.store.set({ isLogged: true });
-      await me();
-			window.router.go(ROUTER.chat);
-		} else {
-			console.error('Unexpected response format:', response);
-			window.store.set({ loginError: 'Неизвестная ошибка при регистрации' });
-		}
-	} catch (responsError: unknown) {
-		if (responsError instanceof Response) {
-			const error: APIError = await responsError.json();
-			window.store.set({ loginError: error.reason });
-		} else {
-			console.error('Unexpected error:', responsError);
-			window.store.set({ loginError: 'Неизвестная ошибка. Попробуйте позже.' });
+		await authApi.create(model);
+		window.store.set({ isLogged: true });
+		await me();
+		window.router.go(ROUTER.chat);
+	} catch (responsError: any) {
+		try {
+			const errorData = JSON.parse(responsError.responseText);
+			window.store.set({ errorLabel: errorData.reason });
+		} catch {
+			console.log('ОШИБКА:', responsError);
 		}
 	} finally {
 		window.store.set({ isLoading: false });
@@ -76,11 +71,9 @@ export const me = async (): Promise<void> => {
 		}
 	} catch (responsError: unknown) {
 		if (responsError instanceof Response) {
-			// Проверяем, что responsError это объект типа Response
 			const error: APIError = await responsError.json();
-			window.store.set({ loginError: error.reason });
+			window.store.set({ errorLabel: error.reason });
 		} else {
-			// Обработка других типов ошибок, если нужно
 			console.error('Unexpected error:', responsError);
 		}
 	} finally {
@@ -98,12 +91,12 @@ export const logOut = async (): Promise<string> => {
 			return 'Ok';
 		} else {
 			console.error('Ошибка при выходе, неверный ответ:', response);
-			window.store.set({ loginError: 'Неизвестная ошибка при выходе' });
+			window.store.set({ errorLabel: 'Неизвестная ошибка при выходе' });
 			return 'error';
 		}
 	} catch (error: unknown) {
 		console.error('Ошибка при выполнении запроса:', error);
-		window.store.set({ loginError: 'Ошибка при выполнении запроса' });
+		window.store.set({ errorLabel: 'Ошибка при выполнении запроса' });
 		return 'error';
 	} finally {
 		window.store.set({ isLoading: false, isLogged: false });
@@ -130,7 +123,7 @@ export const editProfile = async (model: UserDTO): Promise<void> => {
 	} catch (responsError: unknown) {
 		if (responsError instanceof Response) {
 			const error: APIError = await responsError.json();
-			window.store.set({ loginError: error.reason });
+			window.store.set({ errorLabel: error.reason });
 		} else {
 			console.error('Unexpected error:', responsError);
 		}

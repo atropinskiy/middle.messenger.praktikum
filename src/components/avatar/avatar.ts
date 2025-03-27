@@ -1,10 +1,7 @@
 import Block from '@core/block';
 import template from './avatar.hbs?raw';
-import Handlebars from 'handlebars';
 import { connect } from '@utils/connect';
 import { CONSTATNS } from '@utils/constants';
-
-Handlebars.registerPartial('Avatar', template);
 interface AvatarProps {
 	avatar?: string;
 	user_src?: string;
@@ -29,7 +26,6 @@ class Avatar extends Block {
 	}
 
 	render() {
-		console.log('222', this.props);
 		return this.compile(template, { ...this.props });
 	}
 }

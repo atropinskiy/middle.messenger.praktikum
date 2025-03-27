@@ -1,21 +1,24 @@
 import Block from '@core/block';
 import template from './error-label.hbs?raw';
+import { APIError } from 'api/type';
+import { connect } from '@utils/connect';
 
 interface ErrorLabelProps {
-	label: string;
+	errorLabel?: APIError;
 }
 
-export class ErrorLabel extends Block<ErrorLabelProps> {
-	constructor(props: { label: string }) {
-		super({
-			...props,
-		});
+class ErrorLabel extends Block<ErrorLabelProps> {
+	constructor(props: ErrorLabelProps) {
+		super(props);
 	}
 
 	render() {
-		console.log(this.props);
-		return this.compile(template, { ...this.props });
+		return this.compile(template, this.props);
 	}
 }
 
-export default ErrorLabel;
+const mapStateToProps = (state: ErrorLabelProps) => ({
+	errorLabel: state.errorLabel
+});
+
+export default connect(mapStateToProps)(ErrorLabel);

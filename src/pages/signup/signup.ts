@@ -158,7 +158,7 @@ class SignUp extends Block<SignUpProps, UserModel> {
 			await authServices.create(data);
 
 			const state = window.store.getState();
-			const loginError = state.loginError;
+			const loginError = state.errorLabel;
 			if (loginError) {
 				this.childrens.errorLabel.setProps({ label: loginError });
 			}

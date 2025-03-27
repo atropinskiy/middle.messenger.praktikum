@@ -1,11 +1,12 @@
 import Block from '@core/block';
 import template from './signin.hbs?raw';
-import { Button, InputField, Link } from '@components/index';
+import { Button, ErrorLabel, InputField, Link } from '@components/index';
 import { validateLogin, validatePassword } from '@utils/validators';
 import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
 import * as authServices from '../../services/auth';
 import { LoginRequestData } from 'api/type';
+import error from 'pages/errors/error';
 
 interface SignInProps {
 	router?: TRouter; // Типизация роутера, если известна, можно уточнить
@@ -79,6 +80,11 @@ class SignIn extends Block<SignInProps, LoginRequestData> {
 			label: 'Зарегистрироваться',
 			className: '',
 		});
+
+		const error = window.store.getState().errorLabel
+		this.childrens.errorLabel = new ErrorLabel({
+			error: error
+		})
 	}
 
 	private handleSubmit() {
