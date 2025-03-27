@@ -52,8 +52,9 @@ export class Router {
 	}
 
 	_onRoute(pathname: string) {
-		const isUserAuthorized = authServices.loggedIn();
+		const isUserAuthorized = window.store.getState().isLogged
 		const route = this.getRoute(pathname);
+		console.log('Флаг авторизации', authServices.loggedIn())
 
 		if (!route) {
 			console.warn(`Маршрут для ${pathname} не найден!`);

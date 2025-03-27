@@ -1,7 +1,7 @@
 import * as Pages from './pages';
 import { Router } from '@core/Router';
 import { ROUTER } from '@utils/constants';
-import { Store, StoreEvents } from '@core/Store';
+import { Store } from '@core/Store';
 import * as authServices from './services/auth';
 import '@styles/main.pcss';
 import { registerHelpers } from '@utils/register-helpers';
@@ -22,23 +22,19 @@ window.store = new Store({
 	avatar: 'img/avatar_mock.jpg',
 });
 
-authServices.me();
-console.log(window.store.getState().user);
-
-window.store.on(StoreEvents.Updated, (prevState, newState) => {
-	console.log('prevState', prevState);
-	console.log('newState', newState);
-});
-
 const APP_ROOT_ELEMNT = '#app';
 window.router = new Router(APP_ROOT_ELEMNT);
-window.router
-	.use(ROUTER.signin, Pages.SignIn)
-	.use(ROUTER.signUp, Pages.SignUp)
-	.use(ROUTER.chat, Pages.Chat, true)
-	.use(ROUTER.profile, Pages.Profile, true)
-	.use(ROUTER.profileEdit, Pages.ProfileEdit, true)
-	.use(ROUTER.passwordChange, Pages.PasswordChange, true)
-	.use('/', Pages.SignIn)
-	.use('*', Pages.ErrorPage)
-	.start();
+
+(async () => {
+	await authServices.me();
+	window.router
+		.use(ROUTER.signin, Pages.SignIn)
+		.use(ROUTER.signUp, Pages.SignUp)
+		.use(ROUTER.chat, Pages.Chat, true)
+		.use(ROUTER.profile, Pages.Profile, true)
+		.use(ROUTER.profileEdit, Pages.ProfileEdit, true)
+		.use(ROUTER.passwordChange, Pages.PasswordChange, true)
+		.use('/', Pages.SignIn)
+		.use('*', Pages.ErrorPage)
+		.start();
+})();

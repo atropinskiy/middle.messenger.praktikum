@@ -9,24 +9,25 @@ const profileApi = new ProfileApi();
 
 export const loggedIn = () => {
 	const store = window.store.getState();
+	console.log("Текущее состояние авторизации:", store.isLogged);
 	return store.isLogged || null;
 };
 
-export const login = async (model: LoginRequestData): Promise<void> => {
+export const login = async (model: LoginRequestData): Promise<void | APIError> => {
 	window.store.set({ isLoading: true });
 	try {
 		await authApi.login(model);
 		window.store.set({ isLogged: true });
-		(async () => {
-      await me();
-    })();
-	} catch (responsError: unknown) {
-		if (responsError instanceof Response) {
-			const error: APIError = await responsError.json();
-			window.store.set({ loginError: error.reason });
-		} else {
-			// Обработка других типов ошибок, если нужно
-			console.error('Unexpected error:', responsError);
+		await me();
+	} catch (responsError: any) {
+		try {
+			const errorData = JSON.parse(responsError.responseText);
+			if (errorData.reason === "User already in system") {
+				window.router.go(ROUTER.chat);
+				console.log('Юзер в системе, перенаправляем в чат')
+			}
+		} catch {
+			console.log('ОШИБКА:', responsError);
 		}
 	} finally {
 		window.store.set({ isLoading: false });
@@ -40,9 +41,7 @@ export const create = async (model: CreateUser): Promise<void> => {
 		const response = await authApi.create(model);
 		if (response && 'id' in response) {
 			window.store.set({ isLogged: true });
-			(async () => {
-        await me();
-      })();
+      await me();
 			window.router.go(ROUTER.chat);
 		} else {
 			console.error('Unexpected response format:', response);
@@ -65,7 +64,6 @@ export const me = async (): Promise<void> => {
 	window.store.set({ isLoading: true });
 	try {
 		const response = await authApi.me();
-
 		if ('id' in response && 'login' in response) {
 			window.store.set({
 				user: response,
