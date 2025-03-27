@@ -6,7 +6,6 @@ import { withRouter } from '@utils/withrouter';
 import { ROUTER } from '@utils/constants';
 import * as authServices from '../../services/auth';
 import { LoginRequestData } from 'api/type';
-import error from 'pages/errors/error';
 
 interface SignInProps {
 	router?: TRouter; // Типизация роутера, если известна, можно уточнить

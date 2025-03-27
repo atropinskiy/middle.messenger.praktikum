@@ -36,13 +36,4 @@ export const registerHelpers = (): void => {
 		return `${hours}:${minutes}`;
 	});
 
-	Handlebars.registerHelper('notIn', function (arr: any, value: string) {
-		// Проверяем, что `arr` — это массив, иначе возвращаем `true` (чтобы избежать ошибки)
-		if (!Array.isArray(arr)) {
-			console.warn('notIn helper: первый аргумент не является массивом', arr);
-			return true;
-		}
-
-		return !arr.includes(value);
-	});
 };

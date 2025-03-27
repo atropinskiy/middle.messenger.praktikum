@@ -19,17 +19,21 @@ export const login = async (model: LoginRequestData): Promise<void | APIError> =
 		await authApi.login(model);
 		window.store.set({ isLogged: true });
 		await me();
-	} catch (responsError: any) {
-		try {
-			const errorData = JSON.parse(responsError.responseText);
-			if (errorData.reason === "User already in system") {
-				window.router.go(ROUTER.chat);
-				console.log('Юзер в системе, перенаправляем в чат')
-			} else {
-				window.store.set({errorLabel: errorData.reason})
+	} catch (responsError: unknown) {
+		if (responsError instanceof XMLHttpRequest) {
+			try {
+				const errorData = JSON.parse(responsError.responseText);
+				if (errorData.reason === "User already in system") {
+					window.router.go(ROUTER.chat);
+					console.log('Юзер в системе, перенаправляем в чат');
+				} else {
+					window.store.set({ errorLabel: errorData.reason });
+				}
+			} catch {
+				console.log('ОШИБКА:', responsError);
 			}
-		} catch {
-			console.log('ОШИБКА:', responsError);
+		} else {
+			console.log('Неизвестная ошибка:', responsError);
 		}
 	} finally {
 		window.store.set({ isLoading: false });
@@ -43,17 +47,22 @@ export const create = async (model: CreateUser): Promise<void | APIError> => {
 		window.store.set({ isLogged: true });
 		await me();
 		window.router.go(ROUTER.chat);
-	} catch (responsError: any) {
-		try {
-			const errorData = JSON.parse(responsError.responseText);
-			window.store.set({ errorLabel: errorData.reason });
-		} catch {
-			console.log('ОШИБКА:', responsError);
+	} catch (responsError: unknown) {
+		if (responsError instanceof XMLHttpRequest) {
+			try {
+				const errorData = JSON.parse(responsError.responseText);
+				window.store.set({ errorLabel: errorData.reason });
+			} catch {
+				console.log('ОШИБКА:', responsError);
+			}
+		} else {
+			console.log('Неизвестная ошибка:', responsError);
 		}
 	} finally {
 		window.store.set({ isLoading: false });
 	}
 };
+
 
 export const me = async (): Promise<void> => {
 	window.store.set({ isLoading: true });
