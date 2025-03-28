@@ -52,9 +52,9 @@ export class Router {
 	}
 
 	_onRoute(pathname: string) {
-		const isUserAuthorized = window.store.getState().isLogged
+		const isUserAuthorized = window.store.getState().isLogged;
 		const route = this.getRoute(pathname);
-		console.log('Флаг авторизации', authServices.loggedIn())
+		console.log('Флаг авторизации', authServices.loggedIn());
 
 		if (!route) {
 			console.warn(`Маршрут для ${pathname} не найден!`);
@@ -86,7 +86,7 @@ export class Router {
 	}
 
 	go(pathname: string) {
-		window.store.set({ errorLabel: ''})
+		window.store.set({ errorLabel: '' });
 		this.history?.pushState({}, '', pathname);
 		this._onRoute(pathname);
 	}

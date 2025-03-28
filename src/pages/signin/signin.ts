@@ -80,10 +80,10 @@ class SignIn extends Block<SignInProps, LoginRequestData> {
 			className: '',
 		});
 
-		const error = window.store.getState().errorLabel
+		const error = window.store.getState().errorLabel;
 		this.childrens.errorLabel = new ErrorLabel({
-			error: error
-		})
+			error: error,
+		});
 	}
 
 	private handleSubmit() {

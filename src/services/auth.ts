@@ -9,11 +9,13 @@ const profileApi = new ProfileApi();
 
 export const loggedIn = () => {
 	const store = window.store.getState();
-	console.log("Текущее состояние авторизации:", store.isLogged);
+	console.log('Текущее состояние авторизации:', store.isLogged);
 	return store.isLogged || null;
 };
 
-export const login = async (model: LoginRequestData): Promise<void | APIError> => {
+export const login = async (
+	model: LoginRequestData
+): Promise<void | APIError> => {
 	window.store.set({ isLoading: true });
 	try {
 		await authApi.login(model);
@@ -23,7 +25,7 @@ export const login = async (model: LoginRequestData): Promise<void | APIError> =
 		if (responsError instanceof XMLHttpRequest) {
 			try {
 				const errorData = JSON.parse(responsError.responseText);
-				if (errorData.reason === "User already in system") {
+				if (errorData.reason === 'User already in system') {
 					window.router.go(ROUTER.chat);
 					console.log('Юзер в системе, перенаправляем в чат');
 				} else {
@@ -62,7 +64,6 @@ export const create = async (model: CreateUser): Promise<void | APIError> => {
 		window.store.set({ isLoading: false });
 	}
 };
-
 
 export const me = async (): Promise<void> => {
 	window.store.set({ isLoading: true });
@@ -140,4 +141,3 @@ export const editProfile = async (model: UserDTO): Promise<void> => {
 		window.store.set({ isLoading: false });
 	}
 };
-

@@ -20,6 +20,7 @@ window.store = new Store({
 	currentChatUsers: [],
 	searchUsers: [],
 	avatar: 'img/avatar_mock.jpg',
+	currentChatName: '',
 });
 
 const APP_ROOT_ELEMNT = '#app';

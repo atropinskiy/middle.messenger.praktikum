@@ -17,6 +17,10 @@ type Options = {
 
 type OptionsWithoutMethod = Omit<Options, 'method'>;
 
+type HTTPMethod = <R = unknown>(
+	url: string,
+	options?: OptionsWithoutMethod
+) => Promise<R>;
 export class HTTPTransport {
 	private apiUrl: string = '';
 
@@ -24,10 +28,7 @@ export class HTTPTransport {
 		this.apiUrl = `${CONSTATNS.BASE_URL}${apiPath}`;
 	}
 
-	get<TResponse>(
-		url: string,
-		options: OptionsWithoutMethod = {}
-	): Promise<TResponse> {
+	get: HTTPMethod = (url, options = {}) => {
 		let fullUrl = `${this.apiUrl}${url}`;
 
 		if (options.data) {
@@ -37,51 +38,29 @@ export class HTTPTransport {
 			fullUrl += `?${params}`;
 		}
 
-		return this.request<TResponse>(fullUrl, {
+		return this.request(fullUrl, {
 			...options,
 			method: METHOD.GET,
 			data: undefined,
 		});
-	}
+	};
 
-	post<TResponse>(
-		url: string,
-		options: OptionsWithoutMethod = {}
-	): Promise<TResponse> {
-		return this.request<TResponse>(`${this.apiUrl}${url}`, {
-			...options,
-			method: METHOD.POST,
-		});
-	}
+	post: HTTPMethod = (url, options = {}) =>
+		this.request(`${this.apiUrl}${url}`, { ...options, method: METHOD.POST });
 
-	putFile<TResponse>(url: string, data: FormData): Promise<TResponse> {
-		return this.request<TResponse>(`${this.apiUrl}${url}`, {
+	put: HTTPMethod = (url, options = {}) =>
+		this.request(`${this.apiUrl}${url}`, { ...options, method: METHOD.PUT });
+
+	delete: HTTPMethod = (url, options = {}) =>
+		this.request(`${this.apiUrl}${url}`, { ...options, method: METHOD.DELETE });
+
+	putFile = <TResponse>(url: string, data: FormData): Promise<TResponse> =>
+		this.request<TResponse>(`${this.apiUrl}${url}`, {
 			method: METHOD.PUT,
 			data,
 		});
-	}
 
-	put<TResponse>(
-		url: string,
-		options: OptionsWithoutMethod = {}
-	): Promise<TResponse> {
-		return this.request<TResponse>(`${this.apiUrl}${url}`, {
-			...options,
-			method: METHOD.PUT,
-		});
-	}
-
-	delete<TResponse>(
-		url: string,
-		options: OptionsWithoutMethod = {}
-	): Promise<TResponse> {
-		return this.request<TResponse>(`${this.apiUrl}${url}`, {
-			...options,
-			method: METHOD.DELETE,
-		});
-	}
-
-	async request<TResponse>(
+	private async request<TResponse>(
 		url: string,
 		options: Options = { method: METHOD.GET }
 	): Promise<TResponse> {

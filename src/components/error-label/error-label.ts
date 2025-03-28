@@ -18,7 +18,7 @@ class ErrorLabel extends Block<ErrorLabelProps> {
 }
 
 const mapStateToProps = (state: ErrorLabelProps) => ({
-	errorLabel: state.errorLabel
+	errorLabel: state.errorLabel,
 });
 
 export default connect(mapStateToProps)(ErrorLabel);

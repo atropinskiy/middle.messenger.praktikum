@@ -19,7 +19,6 @@ import { SocketService } from '../../services/chat';
 
 interface ChatState {
 	currentDialog: string;
-	currentUser: string;
 	messages: MessageModel[];
 	loginError?: string;
 	openedModal?: string;
@@ -32,7 +31,6 @@ class Chat extends Block<Record<string, string | null>, ChatState> {
 		const initialChat = 'chat_1';
 		super(props, {
 			currentDialog: initialChat,
-			currentUser: 'ivanivanov',
 			messages: [],
 		});
 		this.socketService = new SocketService();
@@ -59,7 +57,6 @@ class Chat extends Block<Record<string, string | null>, ChatState> {
 
 		this.childrens.chatheader = new ChatHeader({
 			avatar_url: '',
-			name: this.state.currentUser,
 		});
 
 		this.childrens.messageInput = new MessageInput({
@@ -96,6 +93,9 @@ class Chat extends Block<Record<string, string | null>, ChatState> {
 
 	private handleChatClick(chatId: string) {
 		const user: string = String(window.store.getState().user?.id);
+		const chats = window.store.getState().chats;
+		const chat = chats.find((chat) => chat.id === Number(chatId));
+		window.store.set({ currentChatName: chat?.title });
 		window.store.set({ currentChatId: Number(chatId) });
 		getChatUsers();
 		this.socketService.setSocketConnection(user, chatId);

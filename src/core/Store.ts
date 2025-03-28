@@ -10,6 +10,7 @@ interface TState {
 	chats: IChatItem[];
 	currentMessages: IChatMessage[];
 	currentChatId: number;
+	currentChatName: string;
 	currentChatUsers: TChatUser[];
 	searchUsers: UserDTO[];
 	avatar: string;

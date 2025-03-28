@@ -10,10 +10,10 @@ import { TChatUser } from 'api/type';
 
 interface ChatHeaderProps {
 	avatar_url: string;
-	name: string;
 	openedModal?: 'createChat' | 'addUser' | false;
 	currentChatId: number;
 	currentChatUsers?: TChatUser[];
+	currentChatName?: string;
 }
 
 class ChatHeader extends Block<
@@ -104,6 +104,7 @@ const mapStateToProps = (state: ChatHeaderProps) => ({
 	openedModal: state.openedModal,
 	currentChatUsers: state.currentChatUsers,
 	currentChatId: state.currentChatId,
+	currentChatName: state.currentChatName,
 });
 
 export default connect(mapStateToProps)(ChatHeader);

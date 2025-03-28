@@ -35,22 +35,27 @@ export default class SocketConnection {
 		});
 
 		this.socket.addEventListener('message', (event) => {
-			const data = JSON.parse(event.data);
-			if (
-				data &&
-				data.type !== 'error' &&
-				data.type !== 'pong' &&
-				data.type !== 'user connected'
-			) {
-				const store = window.store;
-				if (Array.isArray(data)) {
-					const sortedData = sortMessage(data);
-					store.set({ currentMessages: sortedData });
-				} else {
-					window.store.set({
-						currentMessages: [...store.getState().currentMessages, data],
-					});
+			try {
+				const data = JSON.parse(event.data);
+
+				if (
+					data &&
+					data.type !== 'error' &&
+					data.type !== 'pong' &&
+					data.type !== 'user connected'
+				) {
+					const store = window.store;
+					if (Array.isArray(data)) {
+						const sortedData = sortMessage(data);
+						store.set({ currentMessages: sortedData });
+					} else {
+						window.store.set({
+							currentMessages: [...store.getState().currentMessages, data],
+						});
+					}
 				}
+			} catch (error) {
+				console.error('Ошибка парсинга JSON:', error, 'Данные:', event.data);
 			}
 		});
 
