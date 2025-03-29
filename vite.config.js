@@ -20,6 +20,9 @@ export default defineConfig({
       },
     },
     assetsDir: 'assets',
+    esbuild: {
+      target: 'es2022', // ✅ Разрешает Top-level await
+    },
   },
   css: {
     postcss: './postcss.config.js',

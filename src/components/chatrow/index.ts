@@ -1,2 +1,2 @@
 import './chatrow.pcss';
-export { ChatRow as ChatRow } from './chatrow';
+export { default as ChatRow } from './chatrow';

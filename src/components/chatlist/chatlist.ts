@@ -1,37 +1,52 @@
 import Block from '@core/block';
 import template from './chatlist.hbs?raw';
-import { ChatModel } from '@models/chat';
 import { ChatRow } from '@components/chatrow';
+import { connect } from '@utils/connect';
+import { IChatItem } from 'api/type';
 
 interface ChatListProps {
-  chats: ChatModel[];
-  onClick: (_chatId: string) => void;
+	onClick: (_chatId: string) => void;
+	chats?: IChatItem[];
 }
 
-export class ChatList extends Block<ChatListProps> {
-  private static readonly currentUser = 'ivanivanov';
+class ChatList extends Block<ChatListProps> {
+	constructor(props: ChatListProps) {
+		super(props);
+	}
 
-  constructor(props: ChatListProps) {
-    super(props);
-    this.initChildren();
-  }
+	protected initChildren() {
+		this.childrens = {};
+		const chats = window.store.getState().chats;
+		if (chats) {
+			chats.forEach((chat) => {
+				this.childrens[chat.id] = new ChatRow({
+					id: String(chat.id),
+					title: chat.title,
+					lastMessage: chat.last_message ? chat.last_message.content : null,
+					lastMessageTime: chat.last_message ? chat.last_message.time : null,
+					onClick: this.props.onClick,
+					messagesCount: chat.unread_count,
+					chatAvatar: chat.avatar,
+				});
+			});
+		}
+	}
 
-  protected initChildren() {
-    this.props.chats.forEach((chat) => {
-      console.log(chat)
-      const filteredMessages = chat.messages.filter(
-        (msg) => msg.from.login !== ChatList.currentUser
-      );
+	protected componentDidUpdate(): boolean {
+		this.initChildren();
+		return true;
+	}
 
-      this.childrens[chat.id] = new ChatRow({
-        id: chat.id,
-        onClick: this.props.onClick,
-        messagesCount: filteredMessages.length,
-      });
-    });
-  }
-
-  render() {
-    return this.compile(template, {});
-  }
+	render() {
+		console.log('Дети чата', this.childrens);
+		return this.compile(template, {});
+	}
 }
+
+const mapStateToProps = (state: ChatListProps) => {
+	return {
+		chats: state.chats,
+	};
+};
+
+export default connect(mapStateToProps)(ChatList);

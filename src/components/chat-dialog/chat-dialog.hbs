@@ -1,25 +1,32 @@
 <div class='w-100 mb-2 d-flex justify-end flex-grow flex-column chat-dialog'>
-  {{#if messages.length }}
-    {{#each messages }}
-      {{#if (eq from.login 'ivanivanov') }}
-        <div class='w-40 dialog-to-me justify-end'>
-          <div>{{from.login}}</div>
-          <div>{{message}}</div>
-          <div class='date-dialog w-100 d-flex justify-end'>
-            <div>12:43</div>
-          </div>
-        </div>
-      {{else}}
-        <div class='w-40 dialog-from-me justify-end'>
-          <div>{{from.login}}</div>
-          <div>{{message}}</div>
-          <div class='date-dialog w-100 d-flex justify-end'>
-            <div>12:43</div>
-          </div>
-        </div>
-      {{/if}}
-    {{/each}}
+  {{#if (eq isLoading true) }}
+  <div class="w-100 h-100 d-flex valign-center justify-center">
+    <img height="200px" width="200px" src="img/loader.gif" alt="">
+  </div>
+  
   {{else}}
-   {{{stub}}}
+  <div class="inner-message-div">
+    {{#if currentMessages.length }}
+      {{#each currentMessages }}
+        {{#if (eq @root.myUser user_id) }}
+          <div class='w-40 dialog-from-me justify-end'>
+            <div>{{content}}</div>
+            <div class='date-dialog w-100 d-flex justify-end'>
+              <div>{{formatTime time}}</div>
+            </div>
+          </div>
+        {{else}}
+          <div class='w-40 dialog-to-me justify-start'>
+            <div>{{content}}</div>
+            <div class='date-dialog w-100 d-flex justify-end'>
+              <div>{{formatTime time}}</div>
+            </div>
+          </div>
+        {{/if}}
+      {{/each}}
+    {{else}}
+      {{{stub}}}
+    {{/if}}
+  </div>
   {{/if}}
 </div>

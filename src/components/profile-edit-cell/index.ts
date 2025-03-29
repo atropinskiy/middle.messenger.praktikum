@@ -1,1 +1,1 @@
-export { ProfileEditCell as ProfileEditCell } from './profile-edit-cell'
+export { ProfileEditCell as ProfileEditCell } from './profile-edit-cell';

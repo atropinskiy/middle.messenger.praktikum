@@ -1,23 +1,28 @@
-import Block from "@core/block";
-import template from "./error.hbs?raw";
+import Block from '@core/block';
+import template from './error.hbs?raw';
+import { withRouter } from '@utils/withrouter';
+import { Link } from '@components/link';
 
-export class ErrorPage extends Block {
-  constructor() {
-    let error = "500";
-    let text = "Ошибка сервера";
+class ErrorPage extends Block {
+	constructor() {
+		const error = '404';
+		const text = 'Стриница не найдена';
+		super({ error, text });
+	}
 
-    if (window.location.hash.includes("error404")) {
-      error = "404";
-      text = "Страница не найдена";
-    } else if (window.location.hash.includes("error500")) {
-      error = "500";
-      text = "Ошибка сервера";
-    }
+	protected initChildren() {
+		this.childrens.backLink = new Link({
+			label: 'Назад',
+			onClick(e) {
+				e.preventDefault();
+				window.router.back();
+			},
+		});
+	}
 
-    super({ error, text });
-  }
-
-  render() {
-    return this.compile(template, { ...this.props });
-  }
+	render() {
+		return this.compile(template, { ...this.props });
+	}
 }
+
+export default withRouter(ErrorPage);

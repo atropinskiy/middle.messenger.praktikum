@@ -1,80 +1,116 @@
 import Block from '@core/block';
-import renderDOM from '@core/renderDom';
 import template from './signin.hbs?raw';
-import { Button, InputField, Link } from '@components/index';
+import { Button, ErrorLabel, InputField, Link } from '@components/index';
 import { validateLogin, validatePassword } from '@utils/validators';
-import { AuthModel } from '@models/auth';
+import { withRouter } from '@utils/withrouter';
+import { ROUTER } from '@utils/constants';
+import * as authServices from '../../services/auth';
+import { LoginRequestData } from 'api/type';
 
-export default class SignIn extends Block<object, AuthModel> {
-  constructor() {
-    super();
-    this.state = { login: '', password: '', isFormValid: false };
-  }
-  protected initChildren() {
-    this.childrens.button = new Button({
-      type: 'button',
-      name: 'login',
-      label: 'Логин',
-      className: 'button w-100',
-      onClick: () => {
-        if (this.state.isFormValid) {
-          console.log('Отправка данных:', this.state);
-          window.location.href = '/#chat';
-        } else {
-          console.log('Форма заполнена неверно');
-        }
-      },
-    });
-    this.childrens.input = new InputField({
-      placeholder: 'Login',
-      name: 'login',
-      error: '',
-      value: '',
-      parentClasses: 'signin-login-input',
-      onChange: (e) => {
-        
-        const input = e.target as HTMLInputElement;
-        const error = validateLogin(input.value);
-
-        this.childrens.input.setProps({ error, value: input.value });
-
-        this.setState({
-          login: input.value,
-          isFormValid: !error && !validatePassword(this.state.password),
-        });
-      },
-    });
-    this.childrens.input_password = new InputField({
-      placeholder: 'Password',
-      name: 'password',
-      value: '',
-      error: '',
-      parentClasses: 'signin-login-input',
-      type: 'password',
-      onChange: (e) => {
-        const input = e.target as HTMLInputElement;
-        const error = validatePassword(input.value);
-        this.childrens.input_password.setProps({ error, value: input.value });
-        this.setState({
-          password: input.value,
-          isFormValid: !error && !validateLogin(this.state.login),
-        });
-      },
-    });
-    this.childrens.register_link = new Link({
-      href: '#signup',
-      label: 'Зарегистрироваться',
-      className: '',
-    });
-  }
-
-  render() {
-    
-    return this.compile(template, {});
-  }
+interface SignInProps {
+	router?: TRouter; // Типизация роутера, если известна, можно уточнить
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const page = new SignIn();
-  renderDOM('#app', page);
-});
+const fields: LoginRequestData = {
+	login: '',
+	password: '',
+};
+
+class SignIn extends Block<SignInProps, LoginRequestData> {
+	constructor(props: SignInProps) {
+		super({ ...props });
+		this.state = { ...fields };
+	}
+
+	protected initChildren() {
+		this.childrens.button = new Button({
+			type: 'button',
+			name: 'login',
+			label: 'Логин',
+			className: 'button w-100',
+			onClick: () => {
+				this.handleSubmit();
+			},
+		});
+
+		this.childrens.input = new InputField({
+			placeholder: 'Login',
+			name: 'login',
+			error: '',
+			value: '', // Используем значение из хранилища
+			parentClasses: 'signin-login-input',
+			onChange: (e) => {
+				const input = e.target as HTMLInputElement;
+				const error = validateLogin(input.value);
+				this.childrens.input.setProps({ error, value: input.value });
+				if (!error) {
+					this.state.login = input.value;
+				}
+			},
+		}) as InputField;
+
+		this.childrens.input_password = new InputField({
+			placeholder: 'Password',
+			name: 'password',
+			value: '', // Используем значение из хранилища
+			error: '',
+			parentClasses: 'signin-login-input',
+			type: 'password',
+			onChange: (e) => {
+				const input = e.target as HTMLInputElement;
+				const error = validatePassword(input.value);
+				this.childrens.input_password.setProps({ error, value: input.value });
+				if (!error) {
+					this.state.password = input.value;
+				}
+			},
+		}) as InputField;
+
+		this.childrens.register_link = new Link({
+			onClick: (e) => {
+				e.preventDefault();
+				console.log(1234);
+				if (this.props.router) {
+					this.props.router.go(ROUTER.signUp);
+				} else {
+					console.error('Router не передан в SignIn');
+				}
+			},
+			label: 'Зарегистрироваться',
+			className: '',
+		});
+
+		const error = window.store.getState().errorLabel;
+		this.childrens.errorLabel = new ErrorLabel({
+			error: error,
+		});
+	}
+
+	private handleSubmit() {
+		const login = this.state.login; // Получаем значение из инпута логина
+		const password = this.state.password; // Получаем значение из инпута пароля
+
+		// Вы можете здесь передавать данные в сервис авторизации
+		const userData = { login, password };
+		console.log(userData);
+
+		authServices
+			.login(userData)
+			.then(() => {
+				// Успешная авторизация, редирект
+				if (this.props.router) {
+					// this.props.router.go(ROUTER.chat);
+				}
+			})
+			.catch((error) => {
+				console.error('Ошибка авторизации', error);
+				// Обработка ошибок
+			});
+	}
+
+	render() {
+		return this.compile(template, {});
+	}
+}
+
+export default withRouter(SignIn);

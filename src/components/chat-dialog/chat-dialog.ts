@@ -1,36 +1,51 @@
 import Block from '@core/block';
 import template from './chat-dialog.hbs?raw';
-import { MessageModel } from '@models/chat';
 import { Stub } from '@components/index';
+import { connect } from '@utils/connect';
+import { IChatMessage, UserDTO } from 'api/type';
 
 interface ChatDialogProps {
-  messages: MessageModel[];
+	currentMessages?: IChatMessage[];
+	isLoading?: boolean;
+	myUser?: number;
+	user?: UserDTO;
 }
 
-export class ChatDialog extends Block {
-  constructor(props: ChatDialogProps) {
-    super({
-      ...props,
-    });
-  }
+class ChatDialog extends Block {
+	constructor(props: ChatDialogProps) {
+		super({ ...props });
+	}
 
-  protected initChildren(): void {
-    this.childrens.stub = new Stub({
-      label: "Нет сообщений, начните диалог или выберите чат"
-    })  
-  }
+	protected initChildren(): void {
+		this.childrens.stub = new Stub({
+			label: 'Нет сообщений, начните диалог или выберите чат',
+		});
+	}
 
-  protected componentDidUpdate(oldProps: ChatDialogProps, newProps: ChatDialogProps) {
-    console.log("Перерисовк")
-    return oldProps.messages !== newProps.messages; 
-    
-  }
+	scrollToBottom() {
+		setTimeout(() => {
+			const messagesContainer = document.querySelector('.inner-message-div');
+			if (messagesContainer) {
+				messagesContainer.scrollTop = messagesContainer.scrollHeight;
+			}
+		}, 1);
+	}
 
-
-  render() {
-    return this.compile(template, { ...this.props });
-  }
+	render() {
+		const result = this.compile(template, this.props);
+		setTimeout(() => {
+			this.scrollToBottom();
+		}, 3);
+		return result;
+	}
 }
 
-export default ChatDialog;
+const mapStateToProps = (state: ChatDialogProps) => {
+	return {
+		currentMessages: state.currentMessages,
+		myUser: state.user ? state.user.id : {},
+		isLoading: state.isLoading,
+	};
+};
 
+export default connect(mapStateToProps)(ChatDialog);

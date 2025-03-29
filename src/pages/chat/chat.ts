@@ -1,125 +1,114 @@
 import Block from '@core/block';
 import template from './chat.hbs?raw';
-import { MockChats } from '../../mock-data/chat';
-import { ChatList, ChatDialog, ChatHeader, MessageInput, Stub } from '@components/index';
+import {
+	ChatList,
+	ChatDialog,
+	ChatHeader,
+	MessageInput,
+	Stub,
+	Link,
+	Modal,
+	Button,
+} from '@components/index';
 import { MessageModel } from '@models/chat';
+import { connect } from '@utils/connect';
+import { withRouter } from '@utils/withrouter';
+import { ROUTER } from '@utils/constants';
+import { createChat, getChats, getChatUsers } from '../../services/chat';
+import { SocketService } from '../../services/chat';
 
-export default class Chat extends Block<
-  Record<string, unknown>,
-  { currentDialog: string; currentUser: string; messages: MessageModel[] }
-> {
-  constructor() {
-    const initialChat = 'chat_1';
-
-    super(
-      {},
-      {
-        currentDialog: initialChat,
-        currentUser: 'ivanivanov',
-        messages: []
-      }
-    );
-  }
-
-  protected initChildren() {
-    this.childrens.chatlist = new ChatList({
-      chats: MockChats,
-      onClick: (chatId: string) => this.handleChatClick(chatId),
-    });
-
-    this.childrens.chatdialog = new ChatDialog({
-      messages: this.state.messages, 
-    });
-
-    this.childrens.chatheader = new ChatHeader({
-      avatar_url: this.getCompanion()?.avatar_url || '',
-      name: this.state.currentUser,
-    });
-
-    this.childrens.messageInput = new MessageInput({
-      onSendMessage: (message: string) => this.handleSendMessage(message),
-      message: ''
-    });
-
-    this.childrens.stub = new Stub({
-      label: "Выберите чат"
-    })
-  }
-
-  private getCurrentMessages() {
-    const currentChat = MockChats.find((chat) => chat.id === this.state.currentDialog);
-    return currentChat ? currentChat.messages : [];
-  }
-
-  private static getCompanion(chatId: string, currentUser: string) {
-    const currentChat = MockChats.find((chat) => chat.id === chatId);
-  
-    if (!currentChat) return null;
-  
-    console.log("currentChat:", currentChat);
-    console.log("Participants:", currentChat.participants);
-    console.log("currentUser:", currentUser);
-  
-    const companion = currentChat.participants.find(
-      (user) => user.login !== currentUser
-    );
-  
-    console.log("Found companion:", companion);
-  
-    return companion;
-  }
-  
-
-
-  private handleSendMessage(message: string) {
-    if (!message) return;
-  
-    const currentChat = MockChats.find((chat) => chat.id === this.state.currentDialog);
-    if (!currentChat) return;
-  
-    const companion = Chat.getCompanion(this.state.currentDialog, this.state.currentUser);
-  
-    currentChat.messages.push({
-      dateTime: new Date(),
-      from: { login: this.state.currentUser, avatar_url: '' },
-      to: { login: companion?.login || '', avatar_url: '' },
-      message: message,
-    });
-  
-    const updatedMessages = [...currentChat.messages];
-    this.setState({ messages: updatedMessages });
-  
-    this.childrens.chatdialog.setProps({ messages: updatedMessages });
-  
-    console.log("Updated messages:", updatedMessages);
-  }
-  
-  
-  
-
-  private getCompanion() {
-    return Chat.getCompanion(this.state.currentDialog, this.state.currentUser);
-  }
-
-  private handleChatClick(chatId: string) {
-    const companion = Chat.getCompanion(chatId, this.state.currentUser);
-    console.log(companion)
-    if (!companion) return;
-  
-    this.setState({
-      currentDialog: chatId,
-    });
-  
-    this.childrens.chatdialog.setProps({ messages: this.getCurrentMessages() });
-    this.childrens.chatheader.setProps({
-      avatar_url: companion.avatar_url || '',
-      name: companion.login,
-    });
-  }
-
-  render() {
-
-    console.log(this.getCompanion())
-    return this.compile(template, {});
-  }
+interface ChatState {
+	currentDialog: string;
+	messages: MessageModel[];
+	loginError?: string;
+	openedModal?: string;
 }
+
+class Chat extends Block<Record<string, string | null>, ChatState> {
+	private socketService: SocketService;
+
+	constructor(props: Record<string, string | null>) {
+		const initialChat = 'chat_1';
+		super(props, {
+			currentDialog: initialChat,
+			messages: [],
+		});
+		this.socketService = new SocketService();
+	}
+
+	protected initChildren() {
+		getChats();
+		const chats = this.props.chats;
+		this.childrens.chatList = new ChatList({
+			onClick: (chatId: string) => this.handleChatClick(chatId),
+			chats: chats,
+		});
+
+		this.childrens.profileLink = new Link({
+			label: 'Профиль ->',
+			className: 'profile-link',
+			onClick: (e) => {
+				e.preventDefault();
+				window.router.go(ROUTER.profile);
+			},
+		});
+
+		this.childrens.chatdialog = new ChatDialog();
+
+		this.childrens.chatheader = new ChatHeader({
+			avatar_url: '',
+		});
+
+		this.childrens.messageInput = new MessageInput({
+			onSendMessage: (message: string) => {
+				this.socketService.sendMessage(message);
+			},
+			message: '',
+		});
+
+		this.childrens.stub = new Stub({
+			label: 'Выберите чат',
+		});
+
+		this.childrens.modal = new Modal({
+			content: '123',
+			title: 'Создание чата',
+			inputSettings: { name: 'input', value: '' },
+			placeHolder: 'Название чата',
+			onOkClick: (chatName: string) => {
+				createChat(chatName);
+			},
+		});
+
+		this.childrens.createChatBtn = new Button({
+			name: 'createChat',
+			label: '+',
+			type: 'button',
+			className: 'create-chat-btn cursor-pointer',
+			onClick: () => {
+				window.store.set({ openedModal: 'createChat' });
+			},
+		});
+	}
+
+	private handleChatClick(chatId: string) {
+		const user: string = String(window.store.getState().user?.id);
+		const chats = window.store.getState().chats;
+		const chat = chats.find((chat) => chat.id === Number(chatId));
+		window.store.set({ currentChatName: chat?.title });
+		window.store.set({ currentChatId: Number(chatId) });
+		getChatUsers();
+		this.socketService.setSocketConnection(user, chatId);
+	}
+
+	render() {
+		return this.compile(template, { ...this.props }, { ...this.state });
+	}
+}
+
+const mapStateToProps = (state: ChatState) => ({
+	loginError: state.loginError,
+	openedModal: state.openedModal,
+});
+
+export default withRouter(connect(mapStateToProps)(Chat));

@@ -1,1 +1,1 @@
-export { Stub as Stub } from './stub'
+export { Stub as Stub } from './stub';

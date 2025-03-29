@@ -1,17 +1,16 @@
-import Block from "@core/block";
-import template from "./stub.hbs?raw"
+import Block from '@core/block';
+import template from './stub.hbs?raw';
 
 interface StubProps {
-  label: string
+	label: string;
 }
 
 export class Stub extends Block {
-  constructor(props: StubProps) {
-    super({...props})
-  }
+	constructor(props: StubProps) {
+		super({ ...props });
+	}
 
-  render() {
-    return this.compile(template, { ...this.props });
-  }
-
+	render() {
+		return this.compile(template, { ...this.props });
+	}
 }

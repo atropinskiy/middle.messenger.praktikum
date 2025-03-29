@@ -1,2 +1,2 @@
 import './avatar.pcss';
-export { Avatar } from './avatar';
+export { default as Avatar } from './avatar';

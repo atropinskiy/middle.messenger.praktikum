@@ -1,0 +1,27 @@
+<div class="modal-overlay">
+  <div class="modal">
+    {{{closeBtn}}}
+    <div class="modal-header">
+      <p>{{title}}</p>
+    </div>
+    <div class="modal-content p-2">
+      {{{searchList}}}
+      {{#if (neq openedModal 'uploadAvatar') }}
+        {{#if (neq openedModal 'chatAvatar') }}
+          {{{input}}}
+        {{/if}}
+      {{/if}}
+      {{#if (eq openedModal 'uploadAvatar') }}
+        {{{avatarUploadForm}}}
+      {{/if}}
+      {{#if (eq openedModal 'chatAvatar') }}
+        {{{chatAvatarUploadForm}}}
+      {{/if}}
+      {{#if (neq openedModal 'uploadAvatar') }}
+        {{#if (neq openedModal 'chatAvatar') }}
+          {{{createBtn}}}
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+</div>

@@ -1,14 +1,12 @@
 <main>
   <div class='d-flex h-100 w-100'>
     <div class='chats-block d-flex flex-column'>
-      <div class='header w-100 d-flex justify-end'>
-        <a class='profile-link' href='#profile'>Профиль ></a>
+      <div class='header w-100 d-flex justify-space-between'>
+        <div>{{{createChatBtn}}}</div>
+        {{{profileLink}}}
       </div>
-      <div class='search-div'></div>
-      <div class='chats-list-block'>
-        <table class='w-100'>
-          {{{chatlist}}}
-        </table>
+      <div class='chats-list-block h-100'>
+          {{{chatList}}}
       </div>
     </div>
     <div class='w-100 d-flex flex-column h-100 flex-grow messages-block'>
@@ -17,4 +15,7 @@
       {{{messageInput}}}
     </div>
   </div>
+  {{#if (eq openedModal 'createChat') }}
+  {{{modal}}}
+  {{/if}}
 </main>

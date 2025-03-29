@@ -2,3 +2,71 @@
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(234 234 234 / 100%);
 }
+
+.chat-menu-btn {
+  width: 25px;
+  height: 25px;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+  background-color: rgb(227 227 227);
+  border-radius: 50%;
+  user-select: none;
+}
+
+.menu-wrapper {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  z-index: 9999;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 210px;
+  padding-left: 15px;
+  background-color: white;
+  border: 1px solid rgb(0 0 0 / 14%);
+  border-width: 0;
+  border-radius: 12px;
+}
+
+.menu-wrapper.hidden {
+  display: none; /* Класс для скрытия */
+}
+
+.menu.visible {
+  display: block; /* Показываем меню */
+}
+
+.menu-wrapper ul li {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.chat-menu-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.chat-menu-icon-color-blue {
+  color: blue;
+  border: 2px solid blue;
+}
+
+.chat-menu-icon-color-red {
+  color: red;
+  border: 2px solid red;
+}
+
+.menu-text {
+  color: black;
+}

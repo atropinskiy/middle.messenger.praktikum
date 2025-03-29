@@ -1,2 +1,2 @@
 import './chatlist.pcss';
-export { ChatList as ChatList } from './chatlist';
+export { default as ChatList } from './chatlist';
