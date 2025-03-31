@@ -30,6 +30,10 @@
     "sourceMap": true,
     "strictNullChecks": true
   },
+  "ts-node": {
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true
+  },
   "include": ["src", "src/types", "src/types/hbs.d.ts"],
   "exclude": ["node_modules", "dist", ".eslintignore", ".git"]
 }
