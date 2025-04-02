@@ -8,14 +8,14 @@ export function queryStringify(
 	const keys = Object.keys(data);
 	return keys.length
 		? '?' +
-				keys
-					.map(
-						(key) =>
-							`${encodeURIComponent(key)}=${encodeURIComponent(
-								String(data[key])
-							)}`
-					)
-					.join('&')
+		keys
+			.map(
+				(key) =>
+					`${encodeURIComponent(key)}=${encodeURIComponent(
+						String(data[key])
+					)}`
+			)
+			.join('&')
 		: '';
 }
 
@@ -56,12 +56,7 @@ class HTTPTransport {
 	): Promise<XMLHttpRequest> {
 		const { headers = {}, method = METHODS.GET, data } = options;
 		const isGet = method === METHODS.GET;
-		const requestUrl =
-			isGet && data
-				? `${url}${queryStringify(
-						data as Record<string, string | number | boolean>
-				  )}`
-				: url;
+		const requestUrl = isGet && data ? `${url}${queryStringify(data as Record<string, string | number | boolean>)}`	: url;
 
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
