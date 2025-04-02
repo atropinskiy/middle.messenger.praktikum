@@ -37,11 +37,6 @@ class Route implements RouteInterface {
 
 	match(pathname: string) {
 		const isMatch = pathname === this.pathname;
-		console.log(
-			`Проверка совпадения пути: ${pathname} с ${this.pathname} — ${
-				isMatch ? 'Совпадает' : 'Не совпадает'
-			}`
-		);
 		return isMatch;
 	}
 

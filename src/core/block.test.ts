@@ -1,44 +1,86 @@
+/* eslint-disable */
+import Block from './block';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import Block from './block'; // Путь должен быть корректным
-
-// Простой тестовый компонент с явным определением метода componentDidMount
-class TestBlock extends Block<{ title: string }> {
-  render(): DocumentFragment {
-    const fragment = document.createElement('template');
-    fragment.innerHTML = `<div>${this.props.title}</div>`;
-    return fragment.content;
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount was called');
-  }
-}
 
 describe('Block', () => {
-  let instance: TestBlock;
+	const template = `<div><h1>Template</h1></div>`;
 
-  beforeEach(() => {
-    instance = new TestBlock({ title: 'Hello' });
-  });
+	interface TestBlockProps {
+		base: string;
+	}
 
-  it('должен корректно инициализироваться', () => {
-    expect(instance).to.be.an.instanceof(Block);
-  });
+	interface TestBlockState {
+		count: number;
+	}
 
-  it('должен устанавливать пропсы', () => {
-    instance.setProps({ title: 'New Title' });
-    expect(instance.getProps().title).to.equal('New Title');
-  });
+	class TestBlock extends Block<TestBlockProps, TestBlockState> {
+		constructor() {
+			super({ base: 'baseProp' });
+		}
 
-  it('должен вызывать componentDidMount при монтировании', () => {
-    const spy = sinon.spy(instance, 'componentDidMount');
-    instance.show();  // Здесь мы вызываем метод, который должен вызвать componentDidMount
-    expect(spy.calledOnce).to.be.true;
-  });
+		componentDidMount() {
+			super.componentDidMount(); // Вызов родительского метода (если нужен)
+		}
 
-  it('должен скрывать элемент при вызове hide()', () => {
-    instance.hide();
-    expect(instance.getContent()?.style.display).to.equal('none');
-  });
+		componentDidUpdate(oldProps: any, newProps: any): boolean {
+			return super.componentDidUpdate(oldProps, newProps); // Вызов родительского метода
+		}
+
+		render() {
+			return this.compile(template, {});
+		}
+	}
+
+	let block: TestBlock;
+
+	beforeEach(() => {
+		block = new TestBlock();
+	});
+
+	afterEach(() => {
+		sinon.restore();
+	});
+
+	it('должен корректно обновлять свойства через setProps', () => {
+		block.setProps({ base: 'newProp' });
+		expect(block.getProps().base).to.equal('newProp');
+	});
+
+	it('должен корректно обновлять состояние через setState', () => {
+		block.setState({ count: 1 });
+		expect(block.getState().count).to.equal(1); // Используем getState() для получения состояния
+	});
+
+	it('должен возвращать HTML элемент через getContent', () => {
+		expect(block.getContent()).to.be.instanceOf(HTMLElement);
+	});
+
+	it('должен скрывать элемент при вызове hide', () => {
+		block.hide();
+		expect(block.getContent()?.style.display).to.equal('none');
+	});
+
+	it('должен показывать элемент при вызове show', () => {
+		block.hide();
+		block.show();
+		expect(block.getContent()?.style.display).to.equal('flex');
+	});
+
+	it('должен вызывать componentDidMount при монтировании', () => {
+		const spy = sinon.spy(TestBlock.prototype, 'componentDidMount');
+		block = new TestBlock();
+		expect(spy.calledOnce).to.be.true;
+	});
+
+	it('должен корректно размонтироваться при componentWillUnmount', () => {
+		const spy = sinon.spy(block, 'componentWillUnmount');
+		block.componentWillUnmount();
+		expect(spy.calledOnce).to.be.true;
+	});
+
+	it('должен корректно компилировать шаблон', () => {
+		const compiled = block.render();
+		expect(compiled).to.be.instanceOf(DocumentFragment);
+	});
 });

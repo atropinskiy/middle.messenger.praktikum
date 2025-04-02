@@ -1,5 +1,5 @@
-import { CONSTATNS } from '@utils/constants';
-import { sortMessage } from '@utils/helpers/message-sorter';
+import { CONSTATNS } from '../utils/constants';
+import { sortMessage } from '../utils/helpers/message-sorter';
 
 export default class SocketConnection {
 	protected socket;
