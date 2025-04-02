@@ -1,4 +1,4 @@
-import SocketConnection from '@core/SocketConnection';
+import SocketConnection from '../core/SocketConnection';
 import ChatApi from '../api/chat';
 import {
 	APIError,

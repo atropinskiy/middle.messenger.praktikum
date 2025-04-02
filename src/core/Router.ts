@@ -1,7 +1,6 @@
 /* eslint-disable */
 import Route from './Route';
-import * as authServices from '../services/auth';
-import { ROUTER } from '@utils/constants';
+import { ROUTER } from '../utils/constants';
 
 export interface RouteInterface {
 	isProtected: boolean;
@@ -54,7 +53,6 @@ export class Router {
 	_onRoute(pathname: string) {
 		const isUserAuthorized = window.store.getState().isLogged;
 		const route = this.getRoute(pathname);
-		console.log('Флаг авторизации', authServices.loggedIn());
 
 		if (!route) {
 			console.warn(`Маршрут для ${pathname} не найден!`);
@@ -68,6 +66,8 @@ export class Router {
 			this.go(ROUTER.chat);
 			return;
 		}
+
+		console.log(route.isProtected, isUserAuthorized, '!!!');
 
 		if (route.isProtected && !isUserAuthorized) {
 			console.warn(`Доступ запрещён! Перенаправление на /signin`);
@@ -86,7 +86,9 @@ export class Router {
 	}
 
 	go(pathname: string) {
-		window.store.set({ errorLabel: '' });
+		if (window.store) {
+			window.store.set({ errorLabel: '' });
+		}
 		this.history?.pushState({}, '', pathname);
 		this._onRoute(pathname);
 	}

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 export function queryStringify(
 	data: Record<string, string | number | boolean>
 ): string {
@@ -8,14 +9,14 @@ export function queryStringify(
 	const keys = Object.keys(data);
 	return keys.length
 		? '?' +
-		keys
-			.map(
-				(key) =>
-					`${encodeURIComponent(key)}=${encodeURIComponent(
-						String(data[key])
-					)}`
-			)
-			.join('&')
+				keys
+					.map(
+						(key) =>
+							`${encodeURIComponent(key)}=${encodeURIComponent(
+								String(data[key])
+							)}`
+					)
+					.join('&')
 		: '';
 }
 
@@ -59,8 +60,8 @@ class HTTPTransport {
 		const requestUrl =
 			isGet && data
 				? `${url}${queryStringify(
-					data as Record<string, string | number | boolean>
-				)}`
+						data as Record<string, string | number | boolean>
+				  )}`
 				: url;
 
 		return new Promise((resolve, reject) => {

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { CONSTATNS } from '@utils/constants';
+import { CONSTATNS } from '../utils/constants';
 
 enum METHOD {
 	GET = 'GET',

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import isEqual from '@utils/isEqual';
+import isEqual from '../utils/isEqual';
 import EventBus from './eventBus';
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
@@ -81,6 +81,10 @@ class Block<
 
 	public getProps(): TProps {
 		return this.props;
+	}
+
+	public getState(): TState {
+		return this.state;
 	}
 
 	public setProps = (nextProps: any) => {
